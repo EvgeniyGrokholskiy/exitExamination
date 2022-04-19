@@ -1,10 +1,12 @@
 import React, {useState} from "react"
 import stales from "./login.module.scss"
 import {Navigate} from "react-router-dom";
+import LoginForm from "./LoginForm/LoginForm";
+import SignUpForm from "./SignUpForm/SignUpForm";
 
 interface ILoginProps {
-    isLogin: boolean
-    login: () => void
+    isLogin: boolean | undefined
+    login: (valueObj: { email: string, password: string }) => void
 }
 
 const Login: React.FC<ILoginProps> = ({isLogin, login}) => {
@@ -19,20 +21,11 @@ const Login: React.FC<ILoginProps> = ({isLogin, login}) => {
             <div className={`${!showLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
                  onClick={() => setShowLogin(false)}>Регистрация
             </div>
-            <label className={stales.login}>Логин:
-                <input name={"login"}/>
-            </label>
-            <label className={stales.password}>Пароль:
-                <input name={"password"}/>
-            </label>
-
-            <button className={stales.button} onClick={login}>
+            <div className={stales.formContainer}>
                 {
-                    showLogin
-                        ? "Вход"
-                        : "Регистрация"
+                    showLogin ? <LoginForm login={login}/> : <SignUpForm login={login}/>
                 }
-            </button>
+            </div>
             {
                 isLogin && <Navigate to={"/"}/>
             }

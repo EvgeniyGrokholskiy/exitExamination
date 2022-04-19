@@ -1,14 +1,15 @@
 .wrapper {
   display: grid;
   grid-template-areas: "login        signIn"
-                       "loginForm loginForm"
-                       "password   password"
-                       "button       button";
+                       "loginForm loginForm";
   border: 2px solid darkgray;
   width: 50%;
 }
 
 .tab_login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: gray;
   grid-area: login;
   height: 50px;
@@ -25,14 +26,6 @@
   }
 }
 
-.login {
+.formContainer {
   grid-area: loginForm;
-}
-
-.password {
-  grid-area: password;
-}
-
-.button {
-  grid-area: button;
 }
