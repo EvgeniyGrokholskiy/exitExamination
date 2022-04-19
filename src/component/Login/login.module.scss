@@ -1,0 +1,38 @@
+.wrapper {
+  display: grid;
+  grid-template-areas: "login        signIn"
+                       "loginForm loginForm"
+                       "password   password"
+                       "button       button";
+  border: 2px solid darkgray;
+  width: 50%;
+}
+
+.tab_login {
+  background-color: gray;
+  grid-area: login;
+  height: 50px;
+  &__active {
+    background-color: white;
+  }
+}
+
+.tab_signIn {
+  @extend .tab_login;
+  grid-area: signIn;
+  &__active {
+    background-color: white;
+  }
+}
+
+.login {
+  grid-area: loginForm;
+}
+
+.password {
+  grid-area: password;
+}
+
+.button {
+  grid-area: button;
+}

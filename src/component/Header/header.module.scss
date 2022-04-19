@@ -1,0 +1,27 @@
+.wrapper {
+  background-color: gray;
+  margin: 0 auto;
+  height: 70px;
+}
+
+.menu {
+  display: flex;
+}
+
+.menu_item {
+  list-style: none;
+}
+
+.link {
+  color: black;
+  text-decoration: none;
+
+  &:hover, &__active:hover {
+    text-decoration: underline;
+  }
+
+  &__active {
+    color: red;
+    text-decoration: none;
+  }
+}
