@@ -1,1 +1,1 @@
-# exitExamination
+# Exit examination in SkillFactory
