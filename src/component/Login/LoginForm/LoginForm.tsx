@@ -1,5 +1,6 @@
-import React, {FormEvent, useState} from "react"
+import React, {useState} from "react"
 import styles from "./loginForm.module.scss"
+import FormInput from "../../FormComponet/FormInput/FormInput";
 
 interface ILoginFormProps {
     login: (valueObj: { email: string, password: string }) => void
@@ -12,7 +13,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({login}) => {
         password: ""
     })
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setFormState(((prevState) => {
             return {
                 ...prevState, [event.target.name]: event.target.value
@@ -21,16 +22,16 @@ const LoginForm: React.FC<ILoginFormProps> = ({login}) => {
     }
 
     return (
-        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e)=>{
+        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e) => {
             e.preventDefault()
             login(formState)
         }}>
-            <label className={styles.label}>Электронная почта:
-                <input className={styles.input} name={"email"} type={"email"} value={formState.email} required={true} onChange={handleChange}/>
-            </label>
-            <label className={styles.label}>Пароль:
-                <input className={styles.input} name={"password"} type={"password"} value={formState.password} required={true} onChange={handleChange}/>
-            </label>
+            <FormInput label={"Электронная почта:"} type={"email"} name={"email"} required={true}
+                       value={formState.email}
+                       callback={handleChange}/>
+            <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
+                       value={formState.password}
+                       callback={handleChange}/>
             <button>Войти</button>
         </form>
     )

@@ -1,12 +1,16 @@
 import React from "react"
 import styles from "./main.module.scss"
 import {NavLink} from "react-router-dom"
+import photo from "./../../assets/img/bike_theft.jpg"
 
 const Main = () => {
     return (
         <div>
-            main
-            <NavLink className={styles.navButton} to={"/report"}>Сообщить о краже</NavLink>
+            <h1>Сервис для сообщения о кражах велосипедах сданных в прокат.</h1>
+            <p>Вы пролюбили наш велик, сообщите об обстоятельствах, для этого перейдите по ссылке и заполните
+                анкету: <NavLink
+                    className={styles.navButton} to={"/report"}>Сообщить о краже</NavLink></p>
+            <img src={photo} alt={"Вор крадет велик"}/>
         </div>
     )
 }

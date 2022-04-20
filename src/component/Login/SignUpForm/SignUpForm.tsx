@@ -1,5 +1,6 @@
 import React, {FormEvent, useState} from "react"
 import styles from "./signUpForm.module.scss"
+import FormInput from "../../FormComponet/FormInput/FormInput";
 
 interface ISignUpFormProps {
     login: (valueObj: { firstName: string, lastName: string, email: string, password: string }) => void
@@ -14,7 +15,7 @@ const SignUpForm: React.FC<ISignUpFormProps> = ({login}) => {
         password: "",
     })
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
         setFormState((prevState => {
             return {
                 ...prevState, [event.target.name]: event.target.value
@@ -28,23 +29,18 @@ const SignUpForm: React.FC<ISignUpFormProps> = ({login}) => {
             event.preventDefault()
             login(formState)
         }}>
-            <label className={styles.label}>Имя:
-                <input className={styles.input} name={"firstName"} type={"text"} value={formState.firstName}
-                       required={true}
-                       onChange={handleChange}/>
-            </label>
-            <label className={styles.label}>Фамилия:
-                <input className={styles.input} name={"lastName"} type={"text"} value={formState.lastName}
-                       required={true} onChange={handleChange}/>
-            </label>
-            <label className={styles.label}>Почта:
-                <input className={styles.input} name={"email"} type={"email"} value={formState.email} required={true}
-                       onChange={handleChange}/>
-            </label>
-            <label className={styles.label}>Пароль:
-                <input className={styles.input} name={"password"} type={"password"} value={formState.password}
-                       required={true} onChange={handleChange}/>
-            </label>
+            <FormInput label={"Имя:"} type={"text"} name={"firstName"} required={true}
+                       value={formState.firstName}
+                       callback={handleChange}/>
+            <FormInput label={"Фамилия:"} type={"text"} name={"lastName"} required={true}
+                       value={formState.lastName}
+                       callback={handleChange}/>
+            <FormInput label={"Почта:"} type={"email"} name={"email"} required={true}
+                       value={formState.email}
+                       callback={handleChange}/>
+            <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
+                       value={formState.password}
+                       callback={handleChange}/>
             <button>Зарегистрироваться</button>
         </form>
     )

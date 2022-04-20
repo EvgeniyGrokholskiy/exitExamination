@@ -1,0 +1,21 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 1fr 2fr 1fr 5fr 1fr;
+}
+
+.items {
+  border: 1px solid gray;
+  display: block;
+  margin: 0;
+  width: 100%;
+}
+
+.closeIcon {
+  cursor: pointer;
+  text-align: center;
+}
+
+.closeIcon:hover {
+  font-weight: bold;
+  text-decoration: underline;
+}
