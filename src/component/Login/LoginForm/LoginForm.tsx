@@ -1,6 +1,8 @@
-import React, {useState} from "react"
+import React, {FormEvent} from "react"
 import styles from "./loginForm.module.scss"
 import FormInput from "../../FormComponet/FormInput/FormInput";
+import {useAppSelector} from "../../redux/hooks";
+import {changeValue} from "../../redux/authReducer";
 
 interface ILoginFormProps {
     login: (valueObj: { email: string, password: string }) => void
@@ -8,30 +10,21 @@ interface ILoginFormProps {
 
 const LoginForm: React.FC<ILoginFormProps> = ({login}) => {
 
-    const [formState, setFormState] = useState({
-        email: "",
-        password: ""
-    })
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        setFormState(((prevState) => {
-            return {
-                ...prevState, [event.target.name]: event.target.value
-            }
-        }))
-    }
+    const {email, password} = useAppSelector(state => state.auth)
 
     return (
-        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e) => {
+        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
-            login(formState)
+            login({email, password})
         }}>
             <FormInput label={"Электронная почта:"} type={"email"} name={"email"} required={true}
-                       value={formState.email}
-                       callback={handleChange}/>
+                       value={email}
+                       action={changeValue}
+            />
             <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
-                       value={formState.password}
-                       callback={handleChange}/>
+                       value={password}
+                       action={changeValue}
+            />
             <button>Войти</button>
         </form>
     )

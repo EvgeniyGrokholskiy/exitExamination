@@ -1,5 +1,7 @@
 import React from "react"
 import styles from "./formInput.module.scss"
+import {useAppDispatch} from "../../redux/hooks"
+import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
 interface IFormInputProps {
     label: string
@@ -7,15 +9,31 @@ interface IFormInputProps {
     name: string
     required: boolean
     value: string
-    callback: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
+    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string }, string>
 }
 
-const FormInput: React.FC<IFormInputProps> = ({label, type, name, required, value, callback}) => {
+const FormInput: React.FC<IFormInputProps> = ({
+                                                  label,
+                                                  type,
+                                                  name,
+                                                  required,
+                                                  value,
+                                                  callback,
+                                                  action = ({fieldName, value}) => ({type: "", payload: {fieldName, value}})
+                                              }) => {
+
+    const dispatch = useAppDispatch()
+
     return (
         <label className={styles.label}>{label}
             <input className={styles.input} type={type} name={name} value={value}
                    required={required}
-                   onChange={callback}/>
+                   onChange={callback ? callback : (e) => {
+                       const fieldName = e.target.name
+                       const value = e.target.value
+                       dispatch(action({fieldName, value}))
+                   }}/>
         </label>
     )
 }
