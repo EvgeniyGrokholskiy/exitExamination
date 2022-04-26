@@ -1,21 +1,28 @@
 import styles from "./signUpForm.module.scss"
-import React, {FormEvent, useState} from "react"
+import React, {FormEvent} from "react"
 import FormInput from "../../FormComponet/FormInput/FormInput";
-import {useAppSelector} from "../../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {changeValue} from "../../redux/authReducer";
+import {auth} from "../../../api/api";
 
 interface ISignUpFormProps {
-    login: (valueObj: { firstName: string, lastName: string, email: string, password: string }) => void
+    setShowLogin:  React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const SignUpForm: React.FC<ISignUpFormProps> = ({login}) => {
+const SignUpForm: React.FC<ISignUpFormProps> = ({setShowLogin}) => {
 
     const {firstName, lastName, email, password} = useAppSelector(state => state.auth)
+    const dispatch = useAppDispatch()
 
     return (
         <form className={styles.form_wrapper} onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
-            //login(formState)
+            auth.signUp(firstName, lastName, email, password).then((data) => {
+                if (data.status === 200) {
+                    console.log("200")
+                    setShowLogin(true)
+                }
+            })
         }}>
             <FormInput label={"Имя:"} type={"text"} name={"firstName"} required={true}
                        value={firstName}

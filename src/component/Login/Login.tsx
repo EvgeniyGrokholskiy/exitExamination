@@ -3,10 +3,11 @@ import stales from "./login.module.scss"
 import {Navigate} from "react-router-dom"
 import LoginForm from "./LoginForm/LoginForm"
 import SignUpForm from "./SignUpForm/SignUpForm"
+import {useAppDispatch} from "../redux/hooks";
 
 interface ILoginProps {
     isLogin: boolean | undefined
-    login: (valueObj: { email: string, password: string }) => void
+    login: () => void
 }
 
 const Login: React.FC<ILoginProps> = ({isLogin, login}) => {
@@ -23,7 +24,7 @@ const Login: React.FC<ILoginProps> = ({isLogin, login}) => {
             </div>
             <div className={stales.formContainer}>
                 {
-                    showLogin ? <LoginForm login={login}/> : <SignUpForm login={login}/>
+                    showLogin ? <LoginForm login={login}/> : <SignUpForm setShowLogin={setShowLogin}/>
                 }
             </div>
             {

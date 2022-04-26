@@ -9,9 +9,9 @@ interface IReportDetailsProps {
 
 const ReportDetailsContainer: React.FC<IReportDetailsProps> = ({state}) => {
 
-    const params = useParams()["*"]
+    const idFromUrl = useParams()["*"]
 
-    const report = state.filter((item) => item.licenseNumber === params)
+    const report = state.filter((item) => item.licenseNumber === idFromUrl)
 
     return (
         <div>

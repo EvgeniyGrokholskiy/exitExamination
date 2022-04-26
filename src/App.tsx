@@ -4,26 +4,28 @@ import Login from "./component/Login/Login"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
 import React, {useEffect, useState} from "react"
+import {setIsLogin} from "./component/redux/authReducer"
 import ReportForm from "./component/ReportForm/ReportForm"
-import ReportsList, {IReportItem} from "./component/ReportsList/ReportsList"
 import EmployeesList from "./component/EmployeesList/EmployeesList"
+import {useAppDispatch, useAppSelector} from "./component/redux/hooks"
+import ReportsList, {IReportItem} from "./component/ReportsList/ReportsList"
 import EmployeesDetails from "./component/EmployeesDetails/EmployeesDetails"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
 
 function App() {
 
-    const [isLogin, setIsLogin] = useState<boolean>()
+    const {isLogin} = useAppSelector(state => state.auth)
+    const dispatch = useAppDispatch()
 
-    const login = (valueObj: { email: string, password: string }) => {
-        setIsLogin(true)
-        console.log(valueObj)
+    const login = () => {
+        dispatch(setIsLogin(true))
     }
 
     const logout = () => {
-        setIsLogin(false)
+        dispatch(setIsLogin(false))
     }
 
-    const [state, setState] = useState([
+    const [state2, setState2] = useState([
         {
             licenseNumber: "1",
             ownerFullName: "Иванов Иван Иванович",
@@ -57,23 +59,23 @@ function App() {
     )
 
     const handleDelete = (licenseNumber: string) => {
-        const newArray = state.filter((item) => {
+        const newArray = state2.filter((item) => {
             return item.licenseNumber !== licenseNumber
         })
-        setState(newArray)
+        setState2(newArray)
     }
 
     const addNewReport = (report: IReportItem) => {
-        const newArray = state.concat(report)
-        setState(newArray)
+        const newArray = state2.concat(report)
+        setState2(newArray)
     }
 
     useEffect(() => {
         const value = localStorage.getItem("isLogin")
         if (value && value === "true") {
-            setIsLogin(true)
+            dispatch(setIsLogin(true))
         } else if (value && value === "false") {
-            setIsLogin(false)
+            dispatch(setIsLogin(false))
         } else {
             return
         }
@@ -94,8 +96,8 @@ function App() {
                     <Route path={"/"} element={<Main/>}/>
                     <Route path={"/login"} element={<Login login={login} isLogin={isLogin}/>}/>
                     <Route path={"/report"} element={<ReportForm isLogin={isLogin} addNewReport={addNewReport}/>}/>
-                    <Route path={"/reports-list"} element={<ReportsList state={state} handleDelete={handleDelete}/>}/>
-                    <Route path={"/reports-list/*"} element={<ReportDetailsContainer state={state}/>}/>
+                    <Route path={"/reports-list"} element={<ReportsList state={state2} handleDelete={handleDelete}/>}/>
+                    <Route path={"/reports-list/*"} element={<ReportDetailsContainer state={state2}/>}/>
                     <Route path={"/employees-list"} element={<EmployeesList/>}/>
                     <Route path={"/employees/*"} element={<EmployeesDetails/>}/>
                 </Routes>
