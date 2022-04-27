@@ -1,12 +1,12 @@
-import styles from "./signUpForm.module.scss"
+import {auth} from "../../../api/api"
 import React, {FormEvent} from "react"
-import FormInput from "../../FormComponet/FormInput/FormInput";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {changeValue} from "../../redux/authReducer";
-import {auth} from "../../../api/api";
+import styles from "./signUpForm.module.scss"
+import {changeValue} from "../../redux/authReducer"
+import FormInput from "../../FormComponet/FormInput/FormInput"
+import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 
 interface ISignUpFormProps {
-    setShowLogin:  React.Dispatch<React.SetStateAction<boolean>>
+    setShowLogin: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const SignUpForm: React.FC<ISignUpFormProps> = ({setShowLogin}) => {

@@ -22,16 +22,16 @@ const initialState: IInitialState = {
     password: ""
 }
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
     name: "auth",
     initialState: initialState as IInitialState,
     reducers: {
-        changeValue: ((state: IInitialState, action: PayloadAction<{ fieldName: string, value: string }>) => {
+        changeValue(state: IInitialState, action: PayloadAction<{ fieldName: string, value: string }>) {
             state[action.payload.fieldName] = action.payload.value
-        }),
-        setIsLogin: ((state: IInitialState, action: PayloadAction<boolean>) => {
+        },
+        setIsLogin(state: IInitialState, action: PayloadAction<boolean>) {
             state.isLogin = action.payload
-        })
+        }
     }
 })
 
