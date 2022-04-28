@@ -4,7 +4,7 @@ import Login from "./component/Login/Login"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
 import React, {useEffect, useState} from "react"
-import {setIsLogin} from "./component/redux/authReducer"
+import {setIsLogin, setNewUser} from "./component/redux/authSlice"
 import ReportForm from "./component/ReportForm/ReportForm"
 import EmployeesList from "./component/EmployeesList/EmployeesList"
 import {useAppDispatch, useAppSelector} from "./component/redux/hooks"
@@ -17,12 +17,9 @@ function App() {
     const {isLogin} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
-    const login = () => {
-        dispatch(setIsLogin(true))
-    }
-
     const logout = () => {
         dispatch(setIsLogin(false))
+        dispatch(setNewUser(false))
     }
 
     const [state2, setState2] = useState([
@@ -79,7 +76,7 @@ function App() {
         } else {
             return
         }
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         localStorage.setItem("isLogin", String(isLogin))
@@ -94,7 +91,7 @@ function App() {
             <main>
                 <Routes>
                     <Route path={"/"} element={<Main/>}/>
-                    <Route path={"/login"} element={<Login login={login} isLogin={isLogin}/>}/>
+                    <Route path={"/login"} element={<Login isLogin={isLogin}/>}/>
                     <Route path={"/report"} element={<ReportForm isLogin={isLogin} addNewReport={addNewReport}/>}/>
                     <Route path={"/reports-list"} element={<ReportsList state={state2} handleDelete={handleDelete}/>}/>
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer state={state2}/>}/>

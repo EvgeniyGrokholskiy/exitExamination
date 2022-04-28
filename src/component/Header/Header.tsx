@@ -8,6 +8,7 @@ interface IHeaderProps {
 }
 
 const Header: React.FC<IHeaderProps> = ({isLogin, logout}) => {
+
     return (
         <div className={styles.wrapper}>
             <ul className={styles.menu}>
@@ -17,7 +18,8 @@ const Header: React.FC<IHeaderProps> = ({isLogin, logout}) => {
                 </li>
                 <li className={styles.menu_item}>
                     <NavLink to={"/report"}
-                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>Сообщить о
+                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>Сообщить
+                        о
                         краже</NavLink>
                 </li>
                 {
@@ -37,8 +39,9 @@ const Header: React.FC<IHeaderProps> = ({isLogin, logout}) => {
                 }
                 {
                     !isLogin && <li className={styles.menu_item}>
-                        <NavLink className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}
-                                 to={"login"}>LogIn</NavLink>
+                        <NavLink
+                            className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}
+                            to={"login"}>LogIn</NavLink>
                     </li>
                 }
                 {

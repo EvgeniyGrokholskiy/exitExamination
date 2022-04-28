@@ -1,29 +1,32 @@
-import React, {useState} from "react"
+import React from "react"
 import stales from "./login.module.scss"
 import {Navigate} from "react-router-dom"
 import LoginForm from "./LoginForm/LoginForm"
 import SignUpForm from "./SignUpForm/SignUpForm"
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
+import {getAppData} from "../redux/selectors";
+import {showLogin} from "../redux/appSlice";
 
 interface ILoginProps {
     isLogin: boolean | undefined
-    login: () => void
 }
 
-const Login: React.FC<ILoginProps> = ({isLogin, login}) => {
+const Login: React.FC<ILoginProps> = ({isLogin}) => {
 
-    const [showLogin, setShowLogin] = useState(true)
+    const {isShowLogin} = useAppSelector(getAppData)
+    const dispatch = useAppDispatch()
 
     return (
         <div className={stales.wrapper}>
-            <div className={`${showLogin && stales.tab_login__active} ${stales.tab_login}`}
-                 onClick={() => setShowLogin(true)}>Авторизация
+            <div className={`${isShowLogin && stales.tab_login__active} ${stales.tab_login}`}
+                 onClick={() => dispatch(showLogin(true))}>Авторизация
             </div>
-            <div className={`${!showLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
-                 onClick={() => setShowLogin(false)}>Регистрация
+            <div className={`${!isShowLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
+                 onClick={() => dispatch(showLogin(false))}>Регистрация
             </div>
             <div className={stales.formContainer}>
                 {
-                    showLogin ? <LoginForm login={login}/> : <SignUpForm setShowLogin={setShowLogin}/>
+                    isShowLogin ? <LoginForm/> : <SignUpForm/>
                 }
             </div>
             {

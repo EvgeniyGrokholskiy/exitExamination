@@ -1,31 +1,26 @@
 import React, {FormEvent} from "react"
 import styles from "./loginForm.module.scss"
-import FormInput from "../../FormComponet/FormInput/FormInput";
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {changeValue, setIsLogin} from "../../redux/authReducer";
-import {auth} from "../../../api/api";
+import {changeValue, signIn} from "../../redux/authSlice"
+import FormInput from "../../FormComponet/FormInput/FormInput"
+import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 
 interface ILoginFormProps {
-    login: () => void
 }
 
-const LoginForm: React.FC<ILoginFormProps> = ({login}) => {
+const LoginForm: React.FC<ILoginFormProps> = () => {
 
-    const {email, password} = useAppSelector(state => state.auth)
+    const {email, password, isNewUser} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     return (
         <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
-            auth.signIn(email, password).then((response) => {
-                if (response.status === 200) {
-                    debugger
-                    dispatch(changeValue({fieldName:"bearer",value:response.data.data.token}))
-                    dispatch(setIsLogin(true))
-                }
-            })
-            //login()
+            // @ts-ignore
+            dispatch(signIn({email, password}))
         }}>
+            {
+                isNewUser && <h3>Успешно создан новый пользователь. <br/> Вы можете войти с новыми данными.</h3>
+            }
             <FormInput label={"Электронная почта:"} type={"email"} name={"email"} required={true}
                        value={email}
                        action={changeValue}
