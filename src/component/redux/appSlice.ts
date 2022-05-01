@@ -20,5 +20,5 @@ const appSlice = createSlice({
     }
 })
 
-export default appSlice.reducer
+export const appReducer = appSlice.reducer
 export const {showLogin} = appSlice.actions

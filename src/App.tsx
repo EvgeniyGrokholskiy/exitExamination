@@ -4,17 +4,17 @@ import Login from "./component/Login/Login"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
 import React, {useEffect, useState} from "react"
-import {setIsLogin, setNewUser} from "./component/redux/authSlice"
+import {changeAuthValue, setIsLogin, setNewUser, tokenVerification} from "./component/redux/authSlice"
 import ReportForm from "./component/ReportForm/ReportForm"
 import EmployeesList from "./component/EmployeesList/EmployeesList"
 import {useAppDispatch, useAppSelector} from "./component/redux/hooks"
-import ReportsList, {IReportItem} from "./component/ReportsList/ReportsList"
+import ReportsList from "./component/ReportsList/ReportsList"
 import EmployeesDetails from "./component/EmployeesDetails/EmployeesDetails"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
 
 function App() {
 
-    const {isLogin} = useAppSelector(state => state.auth)
+    const {isLogin, bearer} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     const logout = () => {
@@ -62,13 +62,11 @@ function App() {
         setState2(newArray)
     }
 
-    const addNewReport = (report: IReportItem) => {
-        const newArray = state2.concat(report)
-        setState2(newArray)
-    }
-
     useEffect(() => {
+        debugger
         const value = localStorage.getItem("isLogin")
+        const bearer = localStorage.getItem("bearer")
+        bearer && dispatch(changeAuthValue({fieldName: "bearer", value: bearer}))
         if (value && value === "true") {
             dispatch(setIsLogin(true))
         } else if (value && value === "false") {
@@ -76,11 +74,18 @@ function App() {
         } else {
             return
         }
-    }, [dispatch])
+    }, [])
 
     useEffect(() => {
         localStorage.setItem("isLogin", String(isLogin))
     }, [isLogin])
+    useEffect(()=>{
+        localStorage.setItem("bearer", String(bearer))
+    },[bearer])
+
+    useEffect(() => {
+        dispatch(tokenVerification())
+    }, [])
 
 
     return (
@@ -92,7 +97,7 @@ function App() {
                 <Routes>
                     <Route path={"/"} element={<Main/>}/>
                     <Route path={"/login"} element={<Login isLogin={isLogin}/>}/>
-                    <Route path={"/report"} element={<ReportForm isLogin={isLogin} addNewReport={addNewReport}/>}/>
+                    <Route path={"/report"} element={<ReportForm/>}/>
                     <Route path={"/reports-list"} element={<ReportsList state={state2} handleDelete={handleDelete}/>}/>
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer state={state2}/>}/>
                     <Route path={"/employees-list"} element={<EmployeesList/>}/>

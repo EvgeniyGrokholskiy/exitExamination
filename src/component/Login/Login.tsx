@@ -6,6 +6,7 @@ import SignUpForm from "./SignUpForm/SignUpForm"
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {getAppData} from "../redux/selectors";
 import {showLogin} from "../redux/appSlice";
+import {changeAuthValue} from "../redux/authSlice";
 
 interface ILoginProps {
     isLogin: boolean | undefined
@@ -19,10 +20,16 @@ const Login: React.FC<ILoginProps> = ({isLogin}) => {
     return (
         <div className={stales.wrapper}>
             <div className={`${isShowLogin && stales.tab_login__active} ${stales.tab_login}`}
-                 onClick={() => dispatch(showLogin(true))}>Авторизация
+                 onClick={() => {
+                     dispatch(showLogin(true))
+                     dispatch(changeAuthValue({fieldName: "error", value: ""}))
+                 }}>Авторизация
             </div>
             <div className={`${!isShowLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
-                 onClick={() => dispatch(showLogin(false))}>Регистрация
+                 onClick={() => {
+                     dispatch(showLogin(false))
+                     dispatch(changeAuthValue({fieldName: "error", value: ""}))
+                 }}>Регистрация
             </div>
             <div className={stales.formContainer}>
                 {

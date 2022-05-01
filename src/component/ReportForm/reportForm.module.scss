@@ -1,8 +1,16 @@
 .formWrapper {
+  position: relative;
   border: 2px solid gray;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 25px;
   width: 50%;
+}
+
+
+
+.error {
+  color: red;
+  text-align: center;
 }

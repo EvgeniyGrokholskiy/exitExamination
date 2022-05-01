@@ -1,6 +1,7 @@
 import React, {FormEvent} from "react"
+import Loader from "../../Loader/Loader"
 import styles from "./loginForm.module.scss"
-import {changeValue, signIn} from "../../redux/authSlice"
+import {changeAuthValue, signIn} from "../../redux/authSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 
@@ -9,27 +10,32 @@ interface ILoginFormProps {
 
 const LoginForm: React.FC<ILoginFormProps> = () => {
 
-    const {email, password, isNewUser} = useAppSelector(state => state.auth)
+    const {error, status, email, password, isNewUser} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     return (
         <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e: FormEvent<HTMLFormElement>) => {
             e.preventDefault()
-            // @ts-ignore
             dispatch(signIn({email, password}))
         }}>
             {
                 isNewUser && <h3>Успешно создан новый пользователь. <br/> Вы можете войти с новыми данными.</h3>
             }
+            {
+                status === "loading" && <Loader/>
+            }
             <FormInput label={"Электронная почта:"} type={"email"} name={"email"} required={true}
                        value={email}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
                        value={password}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <button>Войти</button>
+            {
+                error && <h2 className={styles.error}>{error}</h2>
+            }
         </form>
     )
 }

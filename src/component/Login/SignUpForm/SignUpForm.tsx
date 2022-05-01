@@ -1,6 +1,6 @@
 import React, {FormEvent} from "react"
 import styles from "./signUpForm.module.scss"
-import {changeValue, signUp} from "../../redux/authSlice"
+import {changeAuthValue, signUp} from "../../redux/authSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 import {getAuthData} from "../../redux/selectors";
@@ -17,25 +17,24 @@ const SignUpForm: React.FC<ISignUpFormProps> = () => {
     return (
         <form className={styles.form_wrapper} onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
-            // @ts-ignore
             dispatch(signUp({firstName, lastName, email, password}))
             dispatch(showLogin(true))
         }}>
             <FormInput label={"Имя:"} type={"text"} name={"firstName"} required={false}
                        value={firstName}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <FormInput label={"Фамилия:"} type={"text"} name={"lastName"} required={false}
                        value={lastName}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <FormInput label={"Почта:"} type={"email"} name={"email"} required={true}
                        value={email}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
                        value={password}
-                       action={changeValue}
+                       action={changeAuthValue}
             />
             <button>Зарегистрироваться</button>
             {

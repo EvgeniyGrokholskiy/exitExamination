@@ -10,7 +10,7 @@ interface IFormInputProps {
     required: boolean
     value: string
     callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string }, string>
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean}, string>
 }
 
 const FormInput: React.FC<IFormInputProps> = ({
