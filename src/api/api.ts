@@ -1,32 +1,26 @@
 import axios, {AxiosInstance, AxiosResponse} from "axios"
+import {ICaseState} from "../component/redux/casesSlice";
 
 const clientId: string = "d98c4028-aa32-4106-9804-27f373e9f774"
 
 const instance: AxiosInstance = axios.create({
-    baseURL: "https://sf-final-project.herokuapp.com/api/",
-    headers: {
-        "Authorization": "Bearer <token>"
-    },
+    baseURL: "https://sf-final-project.herokuapp.com/api/"
 })
-
-interface ISignInResponse {
-
-}
 
 export const authApi = {
     signUp(firstName: string, lastName: string, email: string, password: string) {
         return instance.post<AxiosResponse<{ status: string }>>("auth/sign_up", {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
+            firstName,
+            lastName,
+            email,
+            password,
             clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
         })
     },
     signIn(email: string, password: string) {
         return instance.post<AxiosResponse<any>>("auth/sign_in", {
-            email: email,
-            password: password,
+            email,
+            password,
             clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
         })
     },
@@ -56,5 +50,23 @@ export const casesApi = {
             date,
             description
         }, {headers: {Authorization: `Bearer ${bearer}`}})
+    },
+    editCase(bearer: string, id: string, payload: ICaseState) {
+        return instance.put<AxiosResponse<any>>(`cases/${id}`, {payload}, {headers: {Authorization: `Bearer ${bearer}`}}).then((response) => response.data)
+    },
+    deleteCase(bearer: string, id: string) {
+        return instance.delete(`/cases/${id}`, {headers: {Authorization: `Bearer ${bearer}`}})
+    },
+    getAllCases(bearer: string) {
+        return instance.get("cases/", {headers: {Authorization: `Bearer ${bearer}`}})
+    },
+    getOneCase(bearer: string, id: string) {
+        return instance.get(`cases/${id}`, {headers: {Authorization: `Bearer ${bearer}`}})
+    }
+}
+
+export const officerApi = {
+    getAllOfficers(bearer: string) {
+        return instance.get<AxiosResponse<any>>("officers/", {headers: {Authorization: `Bearer ${bearer}`}})
     }
 }

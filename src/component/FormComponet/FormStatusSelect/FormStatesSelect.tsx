@@ -3,7 +3,7 @@ import {useAppDispatch} from "../../redux/hooks"
 import styles from "../FormInput/formInput.module.scss"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
-interface IFormSelectProps {
+interface IFormStateSelect {
     label: string
     value: string
     name: string
@@ -11,13 +11,7 @@ interface IFormSelectProps {
     action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean }, string>
 }
 
-const FormSelect: React.FC<IFormSelectProps> = ({
-                                                    label,
-                                                    value,
-                                                    name,
-                                                    callback,
-                                                    action
-                                                }) => {
+const FormStatesSelect: React.FC<IFormStateSelect> = ({label, value, name, callback, action}) => {
 
     const dispatch = useAppDispatch()
 
@@ -28,11 +22,12 @@ const FormSelect: React.FC<IFormSelectProps> = ({
                 const value = e.target.value
                 action && dispatch(action({fieldName, value}))
             }}>
-                <option value={"sport"}>Sport</option>
-                <option value={"general"}>General</option>
+                <option value={"new"}>Новое</option>
+                <option value={"in_progress"}>В процессе</option>
+                <option value={"done"}>Закрыто</option>
             </select>
         </label>
     )
 }
 
-export default FormSelect
+export default FormStatesSelect;

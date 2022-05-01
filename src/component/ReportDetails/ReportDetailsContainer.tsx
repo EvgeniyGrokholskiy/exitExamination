@@ -1,22 +1,39 @@
-import React from "react"
+import Loader from "../Loader/Loader"
+import React, {useEffect} from "react"
 import {useParams} from "react-router-dom"
-import {IReportItem} from "../ReportsList/ReportsList";
-import ReportDetails from "./ReportDetails";
+import ReportDetails from "./ReportDetails"
+import {useAppDispatch, useAppSelector} from "../redux/hooks"
+import {getAllCases, getCasesArray, getLoadingStatus, setCaseToEdit} from "../redux/casesSlice"
 
 interface IReportDetailsProps {
-    state: Array<IReportItem>
 }
 
-const ReportDetailsContainer: React.FC<IReportDetailsProps> = ({state}) => {
+const ReportDetailsContainer: React.FC<IReportDetailsProps> = () => {
 
     const idFromUrl = useParams()["*"]
+    const isLoading = useAppSelector(getLoadingStatus)
+    const allCases = useAppSelector(getCasesArray)
+    const editCase = useAppSelector(state => state.cases.editCase)
+    const dispatch = useAppDispatch()
 
-    const report = state.filter((item) => item.licenseNumber === idFromUrl)
+    useEffect(() => {
+        idFromUrl && dispatch(getAllCases())
+    }, [dispatch, idFromUrl])
+
+    const report = allCases.filter((item) => item._id === idFromUrl)
+
+    report[0] && dispatch(setCaseToEdit(report[0]))
 
     return (
         <div>
-            report details
-            <ReportDetails report={report[0]}/>
+            {
+                isLoading && <Loader/>
+            }
+            <h2>Детали отчета</h2>
+            {
+                report && <ReportDetails report={editCase}/>
+            }
+
         </div>
     )
 }

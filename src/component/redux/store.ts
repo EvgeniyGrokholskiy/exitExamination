@@ -3,12 +3,14 @@ import {combineReducers} from "redux"
 import {authReducer} from "./authSlice"
 import {casesReducer} from "./casesSlice"
 import {configureStore} from "@reduxjs/toolkit"
+import {officersReducer} from "./oficersSllice"
 
 
 const RootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
-    cases: casesReducer
+    cases: casesReducer,
+    officers: officersReducer
 })
 
 const store = configureStore({

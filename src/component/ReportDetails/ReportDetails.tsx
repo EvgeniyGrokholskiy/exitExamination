@@ -1,25 +1,45 @@
-import React, {useState} from "react"
+import React from "react"
+import {getIsEdit, ICaseState, setEditMode} from "../redux/casesSlice"
 import styles from "./reportDetails.module.scss"
-import {IReportItem} from "../ReportsList/ReportsList"
+import Report from "./Report/Report";
+import {useAppDispatch, useAppSelector} from "../redux/hooks";
+import ReportEdit from "./ReportEdit/ReportEdit";
+import {casesApi} from "../../api/api";
 
 interface IReportDetailsProps {
-    report: IReportItem
+    report: ICaseState
 }
 
 const ReportDetails: React.FC<IReportDetailsProps> = ({report}) => {
 
-    const [isEdit, setIsEdit] = useState(false)
+    const isEdit = useAppSelector(getIsEdit)
+    const dispatch = useAppDispatch()
+
+    const handleChangeClick = () => {
+        const bearer = localStorage.getItem("bearer")
+        !isEdit && dispatch(setEditMode(true))
+        if (isEdit) {
+            dispatch(setEditMode(false))
+            bearer && casesApi.editCase(bearer, report._id, report).then((response) => console.log(response))
+        }
+        /*isEdit && dispatch(setEditMode(false))*/
+    }
 
     return (
         <div className={styles.wrapper}>
-            <p className={styles.item}>{report.date}</p>
-            <p className={styles.item}>{report.licenseNumber}</p>
-            <p className={styles.item}>{report.ownerFullName}</p>
-            <p className={styles.item}>{report.color}</p>
-            <p className={styles.item}>{report.officer}</p>
-            <p className={styles.item}>{report.description}</p>
-            <p className={styles.item}>solution</p>
-            <p className={styles.item}>status</p>
+            {
+                <button onClick={handleChangeClick}>
+                    {
+                        isEdit ? "Сохранить" : "Редактировать"
+                    }
+                </button>
+            }
+            {
+                isEdit
+                    ? <ReportEdit report={report}/>
+                    : <Report report={report}/>
+            }
+
         </div>
     )
 }

@@ -15,9 +15,7 @@ const ReportForm: React.FC<IPublicReportFormProps> = () => {
     const {
         error,
         isCreated,
-        isLoading,
         licenseNumber,
-        officer,
         ownerFullName,
         type,
         color,
@@ -53,8 +51,7 @@ const ReportForm: React.FC<IPublicReportFormProps> = () => {
                 <FormInput label={"ФИО арендатора*:"} type={"text"} name={"ownerFullName"} required={true}
                            value={ownerFullName}
                            action={changeCaseValue}/>
-                <FormSelect label={"Тип велосипеда*:"} type={"text"} name={"type"} required={true} value={type}
-                            action={changeCaseValue}/>
+                <FormSelect label={"Тип велосипеда*:"} name={"type"} value={type} action={changeCaseValue}/>
                 {/*{
                     isLogin && <FormInput label={"Идентификационный номер сотрудника:"} type={"text"} name={"officer"}
                                           required={false}
