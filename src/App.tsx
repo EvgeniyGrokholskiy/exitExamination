@@ -9,9 +9,9 @@ import ReportForm from "./component/ReportForm/ReportForm"
 import ReportsList from "./component/ReportsList/ReportsList"
 import {useAppDispatch, useAppSelector} from "./component/Redux/hooks"
 import OfficersList from "./component/Officers/OfficersList/OfficersList"
-import EmployeesDetails from "./component/EmployeesDetails/EmployeesDetails"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
 import {changeAuthValue, setIsLogin, setNewUser, tokenVerification} from "./component/Redux/authSlice"
+import OfficersDetails from "./component/Officers/OfficerDetail/OfficersDetails";
 
 function App() {
 
@@ -61,7 +61,7 @@ function App() {
                     <Route path={"/reports-list"} element={<ReportsList/>}/>
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer/>}/>
                     <Route path={"/employees-list"} element={<OfficersList/>}/>
-                    <Route path={"/employees/*"} element={<EmployeesDetails/>}/>
+                    <Route path={"/employees/*"} element={<OfficersDetails/>}/>
                 </Routes>
             </main>
             <footer>
@@ -71,4 +71,4 @@ function App() {
     )
 }
 
-export default App;
+export default App
