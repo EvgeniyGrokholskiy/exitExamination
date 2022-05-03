@@ -3,10 +3,10 @@ import stales from "./login.module.scss"
 import {Navigate} from "react-router-dom"
 import LoginForm from "./LoginForm/LoginForm"
 import SignUpForm from "./SignUpForm/SignUpForm"
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {getAppData} from "../redux/selectors";
-import {showLogin} from "../redux/appSlice";
-import {changeAuthValue} from "../redux/authSlice";
+import {useAppDispatch, useAppSelector} from "../Redux/hooks";
+import {getAppData} from "../Redux/selectors";
+import {showLogin} from "../Redux/appSlice";
+import {changeAuthValue} from "../Redux/authSlice";
 
 interface ILoginProps {
     isLogin: boolean | undefined

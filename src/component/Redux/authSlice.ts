@@ -3,10 +3,8 @@ import {showLogin} from "./appSlice"
 import {authApi} from "../../api/api"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 
-const clientId = "d98c4028-aa32-4106-9804-27f373e9f774"
-
 export interface IInitialAuthState {
-    [key: string]: string | boolean
+    [key: string]: string | boolean | null
 
     bearer: string
     isLogin: boolean
@@ -35,7 +33,7 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: initialState as IInitialAuthState,
     reducers: {
-        changeAuthValue(state: IInitialAuthState, action: PayloadAction<{ fieldName: string, value: string | boolean }>) {
+        changeAuthValue(state: IInitialAuthState, action: PayloadAction<{ fieldName: string, value: string | boolean | null}>) {
             state[action.payload.fieldName] = action.payload.value
             state.error = ""
         },
@@ -142,6 +140,7 @@ export const tokenVerification = createAsyncThunk<any, void, { state: RootState 
 }) => {
     const bearer = getState().auth.bearer
     return authApi.tokenVerification(bearer).then((response) => {
+        process.env.BEARER = response.data.data.token
         return response.data
     }).catch((error) => {
         return error.response.data

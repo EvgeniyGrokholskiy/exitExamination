@@ -1,10 +1,10 @@
 import React, {FormEvent} from "react"
 import styles from "./signUpForm.module.scss"
-import {changeAuthValue, signUp} from "../../redux/authSlice"
+import {changeAuthValue, signUp} from "../../Redux/authSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../../redux/hooks"
-import {getAuthData} from "../../redux/selectors";
-import {showLogin} from "../../redux/appSlice";
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {getAuthData} from "../../Redux/selectors";
+import {showLogin} from "../../Redux/appSlice";
 
 interface ISignUpFormProps {
 }

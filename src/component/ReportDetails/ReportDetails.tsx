@@ -1,10 +1,11 @@
 import React from "react"
-import {getIsEdit, ICaseState, setEditMode} from "../redux/casesSlice"
+import Report from "./Report/Report"
+import {NavLink} from "react-router-dom"
+import {setEditMode} from "../Redux/appSlice"
 import styles from "./reportDetails.module.scss"
-import Report from "./Report/Report";
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import ReportEdit from "./ReportEdit/ReportEdit";
-import {casesApi} from "../../api/api";
+import ReportEdit from "./ReportEdit/ReportEdit"
+import {ICaseState, saveEditedCase} from "../Redux/casesSlice"
+import {useAppDispatch, useAppSelector} from "../Redux/hooks"
 
 interface IReportDetailsProps {
     report: ICaseState
@@ -12,27 +13,21 @@ interface IReportDetailsProps {
 
 const ReportDetails: React.FC<IReportDetailsProps> = ({report}) => {
 
-    const isEdit = useAppSelector(getIsEdit)
+    const isEdit = useAppSelector(state => state.app.isEdit)
     const dispatch = useAppDispatch()
 
     const handleChangeClick = () => {
-        const bearer = localStorage.getItem("bearer")
         !isEdit && dispatch(setEditMode(true))
         if (isEdit) {
-            dispatch(setEditMode(false))
-            bearer && casesApi.editCase(bearer, report._id, report).then((response) => console.log(response))
+
         }
-        /*isEdit && dispatch(setEditMode(false))*/
     }
 
     return (
         <div className={styles.wrapper}>
+            <NavLink className={styles.back_button} to={"/reports-list"}>Назад</NavLink>
             {
-                <button onClick={handleChangeClick}>
-                    {
-                        isEdit ? "Сохранить" : "Редактировать"
-                    }
-                </button>
+                !isEdit && <button onClick={handleChangeClick}>Редактировать</button>
             }
             {
                 isEdit

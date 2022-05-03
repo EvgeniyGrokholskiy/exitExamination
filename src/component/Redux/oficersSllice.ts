@@ -1,6 +1,7 @@
+import {RootState} from "./store"
+import {officerApi} from "../../api/api"
+import {changeEditCaseValue} from "./casesSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {officerApi} from "../../api/api";
-import {RootState} from "./store";
 
 export interface IOfficerState {
     [key: string]: string | boolean | null
@@ -72,7 +73,9 @@ export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootStat
 }) => {
     const bearer = localStorage.getItem("bearer")
     return bearer && officerApi.getAllOfficers(bearer)
-        .then((response) => response.data)
+        .then((response) => {
+            return response.data
+        })
         .catch((error) => rejectWithValue(error.response.data))
 })
 

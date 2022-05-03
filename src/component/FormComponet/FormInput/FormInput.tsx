@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./formInput.module.scss"
-import {useAppDispatch} from "../../redux/hooks"
+import {useAppDispatch} from "../../Redux/hooks"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
 interface IFormInputProps {
@@ -10,7 +10,7 @@ interface IFormInputProps {
     required: boolean
     value: string
     callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean}, string>
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
 }
 
 const FormInput: React.FC<IFormInputProps> = ({

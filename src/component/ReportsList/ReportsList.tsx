@@ -2,8 +2,10 @@ import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
 import styles from "./reportList.module.scss"
 import ReportListItem from "./ReportListItem/ReportListItem"
-import {useAppDispatch, useAppSelector} from "../redux/hooks"
-import {deleteCase, getAllCases, getCasesArray, getLoadingStatus, ICaseState} from "../redux/casesSlice"
+import {useAppDispatch, useAppSelector} from "../Redux/hooks"
+import {deleteCase, getAllCases, getCasesArray, getLoadingStatus, ICaseState} from "../Redux/casesSlice"
+import {getOfficerName} from "../Helpers/Helpers";
+import {getAllOfficersArray} from "../Redux/oficersSllice";
 
 export interface IReportItem {
     licenseNumber: string
@@ -24,10 +26,12 @@ const ReportsList: React.FC<IReportsListProps> = () => {
 
     const isLoading = useAppSelector(getLoadingStatus)
     const casesArray = useAppSelector(getCasesArray)
+    const officersArray = useAppSelector(state => state.officers.officersArray)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(getAllCases())
+        dispatch(getAllCases(""))
+        dispatch(getAllOfficersArray())
     }, [dispatch])
 
     return (
@@ -58,9 +62,9 @@ const ReportsList: React.FC<IReportsListProps> = () => {
                     casesArray.map((item: ICaseState) => {
                         return <ReportListItem key={item._id} status={item.status} licenseNumber={item.licenseNumber}
                                                ownerFullName={item.ownerFullName}
-                                               type={item.type} createdAt={item.createdAt} updateAt={item.updateAt}
+                                               type={item.type} createdAt={item.createdAt} updatedAt={item.updatedAt}
                                                color={item.color}
-                                               date={item.date} officer={item.officer}
+                                               date={item.date} officer={getOfficerName(officersArray, item.officer)}
                                                description={item.description}
                                                resolution={item.resolution}
                                                handleLinkToDetails={() => {

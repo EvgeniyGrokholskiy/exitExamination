@@ -1,18 +1,21 @@
 import {RootState} from "./store"
 import {casesApi} from "../../api/api"
+import {setEditMode} from "./appSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 
+const CLIENT_ID = process.env.CLIENT_ID
+
 export interface ICaseState {
-    [key: string]: string | boolean
+    [key: string]: string | boolean | null | undefined
 
     _id: string
     status: string
     licenseNumber: string
     type: "general" | "sport"
     ownerFullName: string
-    clientId: "d98c4028-aa32-4106-9804-27f373e9f774"
+    clientId: string | undefined
     createdAt: string
-    updateAt: string
+    updatedAt: string
     color: string
     date: string
     officer: string
@@ -21,17 +24,16 @@ export interface ICaseState {
 }
 
 export interface IInitialCasesState {
-    [key: string]: string | boolean | Array<ICaseState> | ICaseState
+    [key: string]: string | boolean | Array<ICaseState> | ICaseState | null | undefined
 
     isLoading: boolean
     isCreated: boolean
-    isEdit: boolean
     error: string
     status: string
     licenseNumber: string,
     ownerFullName: string
     type: "general" | "sport",
-    clientId: "d98c4028-aa32-4106-9804-27f373e9f774"
+    clientId: string | undefined
     color: string
     date: string
     officer: string
@@ -44,13 +46,12 @@ export interface IInitialCasesState {
 const initialState: IInitialCasesState = {
     isLoading: false,
     isCreated: false,
-    isEdit: false,
     error: "",
     status: "",
     licenseNumber: "",
     ownerFullName: "",
     type: "general",
-    clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
+    clientId: CLIENT_ID,
     color: "",
     date: "",
     officer: "",
@@ -63,9 +64,9 @@ const initialState: IInitialCasesState = {
         licenseNumber: "",
         type: "general",
         ownerFullName: "",
-        clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
+        clientId: CLIENT_ID,
         createdAt: "",
-        updateAt: "",
+        updatedAt: "",
         color: "",
         date: "",
         officer: "",
@@ -78,7 +79,7 @@ const casesSlice = createSlice({
     name: "cases",
     initialState: initialState as IInitialCasesState,
     reducers: {
-        changeCaseValue(state: IInitialCasesState, action: PayloadAction<{ fieldName: string, value: string | boolean }>) {
+        changeCaseValue(state: IInitialCasesState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state[action.payload.fieldName] = action.payload.value
         },
         clearCaseForm(state: IInitialCasesState, action: PayloadAction<void>) {
@@ -90,13 +91,10 @@ const casesSlice = createSlice({
             state.officer = ""
             state.description = ""
         },
-        setEditMode(state: IInitialCasesState, action: PayloadAction<boolean>) {
-            state.isEdit = action.payload
-        },
         setCaseToEdit(state: IInitialCasesState, action: PayloadAction<ICaseState>) {
             state.editCase = action.payload
         },
-        changeEditCaseValue(state: IInitialCasesState, action: PayloadAction<{ fieldName: string, value: string | boolean }>) {
+        changeEditCaseValue(state: IInitialCasesState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state.editCase[action.payload.fieldName] = action.payload.value
         },
     },
@@ -186,24 +184,30 @@ export const createAuthorisedCase = createAsyncThunk<any, void, { state: RootSta
 
 })
 
-export const getAllCases = createAsyncThunk<any, void, { state: RootState }>("cases/getAllCases", (_, {
+export const getAllCases = createAsyncThunk<any, string, { state: RootState }>("cases/getAllCases", (id, {
     dispatch,
     getState,
     rejectWithValue
 }) => {
     const bearer = localStorage.getItem("bearer")
     return bearer && casesApi.getAllCases(bearer)
-        .then((response) => response.data)
+        .then((response) => {
+            if (id) {
+                const report = response.data.data.filter((item: ICaseState) => item._id === id)
+                dispatch(setCaseToEdit(report[0]))
+            }
+            return response.data
+        })
         .catch((error) => rejectWithValue(error.response.data))
 })
-
+//не работает санка!!!!! как и почему не понятно!!!!! при вызове сразу перекидывает в getOneCase.reject, при этом не происходит запрос
 export const getOneCase = createAsyncThunk<any, string, { state: RootState }>("cases/getOneCase", (id, {
     dispatch,
     getState,
     rejectWithValue
 }) => {
-    const bearer = localStorage.getItem("bearer")
-    return bearer && casesApi.getOneCase(bearer, id)
+    const bearer = getState().auth.bearer
+    return casesApi.getOneCase(bearer, id)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))
 })
@@ -213,10 +217,25 @@ export const deleteCase = createAsyncThunk<any, string, { state: RootState }>("c
     getState,
     rejectWithValue
 }) => {
-    const bearer = localStorage.getItem("bearer")
-    return bearer && casesApi.deleteCase(bearer, id)
+    const bearer = getState().auth.bearer
+    return casesApi.deleteCase(bearer, id)
         .then((response) => response.data)
-        .then(() => dispatch(getAllCases()))
+        .then(() => dispatch(getAllCases('')))
+        .catch((error) => rejectWithValue(error.response.data))
+})
+
+export const saveEditedCase = createAsyncThunk<any, string, { state: RootState }>("cases/saveEditedCase", (id, {
+    dispatch,
+    getState,
+    rejectWithValue
+}) => {
+    const editedCase = getState().cases.editCase
+    const bearer = getState().auth.bearer
+    return casesApi.editCase(bearer, id, editedCase)
+        .then((response) => {
+            dispatch(setEditMode(false))
+            return response.data
+        })
         .catch((error) => rejectWithValue(error.response.data))
 })
 
@@ -226,5 +245,5 @@ export const getOneCaseItem = (state: RootState) => state.cases.oneCase
 export const getCasesArray = (state: RootState) => state.cases.allCases
 export const getLoadingStatus = (state: RootState) => state.cases.isLoading
 
-export const {changeCaseValue, clearCaseForm, setEditMode, setCaseToEdit, changeEditCaseValue} = casesSlice.actions
+export const {changeCaseValue, clearCaseForm, setCaseToEdit, changeEditCaseValue} = casesSlice.actions
 export const casesReducer = casesSlice.reducer

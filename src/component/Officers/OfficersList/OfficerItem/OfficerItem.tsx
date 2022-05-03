@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "./officersItem.module.scss"
 import ListItem from "../../../ListComponents/ListItem"
-import {IOfficerState} from "../../../redux/oficersSllice"
+import {IOfficerState} from "../../../Redux/oficersSllice"
 
 interface IOfficerItemProps {
     officer: IOfficerState

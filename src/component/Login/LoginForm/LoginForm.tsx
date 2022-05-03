@@ -1,9 +1,9 @@
 import React, {FormEvent} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./loginForm.module.scss"
-import {changeAuthValue, signIn} from "../../redux/authSlice"
+import {changeAuthValue, signIn} from "../../Redux/authSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../../redux/hooks"
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 
 interface ILoginFormProps {
 }

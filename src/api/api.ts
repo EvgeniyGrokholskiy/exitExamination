@@ -1,11 +1,22 @@
+import {ICaseState} from "../component/Redux/casesSlice"
 import axios, {AxiosInstance, AxiosResponse} from "axios"
-import {ICaseState} from "../component/redux/casesSlice";
-
-const clientId: string = "d98c4028-aa32-4106-9804-27f373e9f774"
+import {IOfficerState} from "../component/Redux/oficersSllice"
 
 const instance: AxiosInstance = axios.create({
     baseURL: "https://sf-final-project.herokuapp.com/api/"
 })
+
+export const localStorageApi = {
+    setValue<T>(fieldName: string, value: T) {
+        localStorage.setItem(fieldName, String(value))
+    },
+    getValue(fieldName: string) {
+        const getValue: string | null = localStorage.getItem(fieldName)
+        return getValue && getValue
+    }
+
+
+}
 
 export const authApi = {
     signUp(firstName: string, lastName: string, email: string, password: string) {
@@ -14,14 +25,14 @@ export const authApi = {
             lastName,
             email,
             password,
-            clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
+            clientId: process.env.CLIENT_ID,
         })
     },
     signIn(email: string, password: string) {
         return instance.post<AxiosResponse<any>>("auth/sign_in", {
             email,
             password,
-            clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
+            clientId: process.env.CLIENT_ID,
         })
     },
     tokenVerification(bearer:string){
@@ -51,8 +62,8 @@ export const casesApi = {
             description
         }, {headers: {Authorization: `Bearer ${bearer}`}})
     },
-    editCase(bearer: string, id: string, payload: ICaseState) {
-        return instance.put<AxiosResponse<any>>(`cases/${id}`, {payload}, {headers: {Authorization: `Bearer ${bearer}`}}).then((response) => response.data)
+    editCase(bearer: string, id: string, editedCase: ICaseState) {
+        return instance.put<AxiosResponse<any>>(`cases/${id}`, editedCase, {headers: {Authorization: `Bearer ${bearer}`}})
     },
     deleteCase(bearer: string, id: string) {
         return instance.delete(`/cases/${id}`, {headers: {Authorization: `Bearer ${bearer}`}})
@@ -67,6 +78,6 @@ export const casesApi = {
 
 export const officerApi = {
     getAllOfficers(bearer: string) {
-        return instance.get<AxiosResponse<any>>("officers/", {headers: {Authorization: `Bearer ${bearer}`}})
+        return instance.get<{ officers: Array<IOfficerState> }>("officers/", {headers: {Authorization: `Bearer ${bearer}`}})
     }
 }

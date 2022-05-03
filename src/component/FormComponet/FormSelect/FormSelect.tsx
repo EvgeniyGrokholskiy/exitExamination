@@ -1,5 +1,5 @@
 import React from "react"
-import {useAppDispatch} from "../../redux/hooks"
+import {useAppDispatch} from "../../Redux/hooks"
 import styles from "../FormInput/formInput.module.scss"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
@@ -8,7 +8,7 @@ interface IFormSelectProps {
     value: string
     name: string
     callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean }, string>
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
 }
 
 const FormSelect: React.FC<IFormSelectProps> = ({

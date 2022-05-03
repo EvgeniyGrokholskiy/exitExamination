@@ -2,8 +2,8 @@ import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
 import {useParams} from "react-router-dom"
 import ReportDetails from "./ReportDetails"
-import {useAppDispatch, useAppSelector} from "../redux/hooks"
-import {getAllCases, getCasesArray, getLoadingStatus, setCaseToEdit} from "../redux/casesSlice"
+import {useAppDispatch, useAppSelector} from "../Redux/hooks"
+import {getAllCases, getLoadingStatus} from "../Redux/casesSlice"
 
 interface IReportDetailsProps {
 }
@@ -12,17 +12,12 @@ const ReportDetailsContainer: React.FC<IReportDetailsProps> = () => {
 
     const idFromUrl = useParams()["*"]
     const isLoading = useAppSelector(getLoadingStatus)
-    const allCases = useAppSelector(getCasesArray)
     const editCase = useAppSelector(state => state.cases.editCase)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        idFromUrl && dispatch(getAllCases())
+        idFromUrl && dispatch(getAllCases(idFromUrl))
     }, [dispatch, idFromUrl])
-
-    const report = allCases.filter((item) => item._id === idFromUrl)
-
-    report[0] && dispatch(setCaseToEdit(report[0]))
 
     return (
         <div>
@@ -30,10 +25,7 @@ const ReportDetailsContainer: React.FC<IReportDetailsProps> = () => {
                 isLoading && <Loader/>
             }
             <h2>Детали отчета</h2>
-            {
-                report && <ReportDetails report={editCase}/>
-            }
-
+            <ReportDetails report={editCase}/>
         </div>
     )
 }

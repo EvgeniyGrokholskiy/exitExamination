@@ -1,16 +1,17 @@
 import "./App.css"
 import React, {useEffect} from "react"
 import Main from "./component/Main/Main"
+import {localStorageApi} from "./api/api"
 import Login from "./component/Login/Login"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
 import ReportForm from "./component/ReportForm/ReportForm"
 import ReportsList from "./component/ReportsList/ReportsList"
-import {useAppDispatch, useAppSelector} from "./component/redux/hooks"
+import {useAppDispatch, useAppSelector} from "./component/Redux/hooks"
 import OfficersList from "./component/Officers/OfficersList/OfficersList"
 import EmployeesDetails from "./component/EmployeesDetails/EmployeesDetails"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
-import {changeAuthValue, setIsLogin, setNewUser, tokenVerification} from "./component/redux/authSlice"
+import {changeAuthValue, setIsLogin, setNewUser, tokenVerification} from "./component/Redux/authSlice"
 
 function App() {
 
@@ -23,8 +24,8 @@ function App() {
     }
 
     useEffect(() => {
-        const value = localStorage.getItem("isLogin")
-        const bearer = localStorage.getItem("bearer")
+        const value = localStorageApi.getValue("isLogin")
+        const bearer = localStorageApi.getValue("bearer")
         bearer && dispatch(changeAuthValue({fieldName: "bearer", value: bearer}))
         if (value && value === "true") {
             dispatch(setIsLogin(true))
@@ -36,11 +37,11 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        localStorage.setItem("isLogin", String(isLogin))
+        localStorageApi.setValue<boolean>("isLogin", isLogin)
     }, [isLogin])
 
     useEffect(()=>{
-        localStorage.setItem("bearer", String(bearer))
+        localStorageApi.setValue<string>("bearer", bearer)
     },[bearer])
 
     useEffect(() => {
@@ -67,7 +68,7 @@ function App() {
 
             </footer>
         </div>
-    );
+    )
 }
 
 export default App;

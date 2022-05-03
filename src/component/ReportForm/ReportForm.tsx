@@ -1,11 +1,11 @@
 import React, {FormEvent} from "react"
 import styles from "./reportForm.module.scss"
 import FormInput from "../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../redux/hooks"
+import {useAppDispatch, useAppSelector} from "../Redux/hooks"
 import FormSelect from "../FormComponet/FormSelect/FormSelect"
 import FormTextarea from "../FormComponet/FormTextarea/FormTextarea"
 import SendMessageModal from "../FormComponet/SendMessageModal/SendMessageModal"
-import {changeCaseValue, clearCaseForm, createAuthorisedCase, createPublicCase, getCase} from "../redux/casesSlice"
+import {changeCaseValue, clearCaseForm, createAuthorisedCase, createPublicCase, getCase} from "../Redux/casesSlice"
 
 interface IPublicReportFormProps {
 }

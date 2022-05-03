@@ -2,8 +2,8 @@ import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./officersList.module.scss"
 import OfficerItem from "./OfficerItem/OfficerItem"
-import {getAllOfficersArray} from "../../redux/oficersSllice"
-import {useAppDispatch, useAppSelector} from "../../redux/hooks"
+import {getAllOfficersArray} from "../../Redux/oficersSllice"
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 
 const OfficersList = () => {
 
