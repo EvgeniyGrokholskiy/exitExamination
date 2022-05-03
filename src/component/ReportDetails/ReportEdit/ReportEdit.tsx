@@ -1,5 +1,6 @@
 import React, {FormEvent} from "react"
 import {NavLink} from "react-router-dom"
+import {getCase} from "../../Redux/selectors"
 import styles from "../../ReportForm/reportForm.module.scss"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
@@ -7,7 +8,7 @@ import FormSelect from "../../FormComponet/FormSelect/FormSelect"
 import FormTextarea from "../../FormComponet/FormTextarea/FormTextarea"
 import FormOfficersList from "../../FormComponet/FormOfficersList/FormOfficersList"
 import FormStatesSelect from "../../FormComponet/FormStatusSelect/FormStatesSelect"
-import {changeEditCaseValue, getCase, ICaseState, saveEditedCase} from "../../Redux/casesSlice"
+import {changeEditCaseValue, ICaseState, saveEditedCase} from "../../Redux/casesSlice"
 
 interface IReportEditProps {
     report: ICaseState

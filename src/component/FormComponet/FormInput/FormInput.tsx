@@ -8,7 +8,8 @@ interface IFormInputProps {
     type: string
     name: string
     required: boolean
-    value: string
+    checked?: boolean
+    value?: string | null
     callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
     action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
 }
@@ -18,22 +19,40 @@ const FormInput: React.FC<IFormInputProps> = ({
                                                   type,
                                                   name,
                                                   required,
+                                                  checked,
                                                   value,
                                                   callback,
-                                                  action = ({fieldName, value}) => ({type: "", payload: {fieldName, value}})
+                                                  action = ({fieldName, value}) => ({
+                                                      type: "",
+                                                      payload: {fieldName, value}
+                                                  })
                                               }) => {
 
     const dispatch = useAppDispatch()
 
+    const conditionalValue = value ? value : ""
+
     return (
         <label className={styles.label}>{label}
-            <input className={styles.input} type={type} name={name} value={value}
-                   required={required}
-                   onChange={callback ? callback : (e) => {
-                       const fieldName = e.target.name
-                       const value = e.target.value
-                       dispatch(action({fieldName, value}))
-                   }}/>
+            {
+                checked === undefined && <input className={styles.input} type={type} checked={checked} name={name} value={conditionalValue}
+                                                required={required}
+                                                onChange={callback ? callback : (e) => {
+                                                    const fieldName = e.target.name
+                                                    const value = e.target.value
+                                                    dispatch(action({fieldName, value}))
+                                                }}/>
+            }
+            {
+                checked !== undefined && <input className={styles.input} type={type} checked={checked} name={name}
+                                                required={required}
+                                                onChange={callback ? callback : (e) => {
+                                                    const fieldName = e.target.name
+                                                    const value = e.target.checked
+                                                    dispatch(action({fieldName, value}))
+                                                }}/>
+            }
+
         </label>
     )
 }

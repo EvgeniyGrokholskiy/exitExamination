@@ -2,8 +2,9 @@ import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
 import {useParams} from "react-router-dom"
 import ReportDetails from "./ReportDetails"
+import {getAllCases} from "../Redux/casesSlice"
+import {getLoadingStatus} from "../Redux/selectors"
 import {useAppDispatch, useAppSelector} from "../Redux/hooks"
-import {getAllCases, getLoadingStatus} from "../Redux/casesSlice"
 
 interface IReportDetailsProps {
 }

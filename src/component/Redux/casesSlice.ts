@@ -1,6 +1,6 @@
 import {RootState} from "./store"
 import {casesApi} from "../../api/api"
-import {setEditMode} from "./appSlice"
+import {setCaseEditMode} from "./appSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 
 const CLIENT_ID = process.env.CLIENT_ID
@@ -82,7 +82,7 @@ const casesSlice = createSlice({
         changeCaseValue(state: IInitialCasesState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state[action.payload.fieldName] = action.payload.value
         },
-        clearCaseForm(state: IInitialCasesState, action: PayloadAction<void>) {
+        clearCaseForm(state: IInitialCasesState) {
             state.date = ""
             state.color = ""
             state.licenseNumber = ""
@@ -99,12 +99,12 @@ const casesSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(createPublicCase.pending, (state, action: PayloadAction<void>) => {
+        builder.addCase(createPublicCase.pending, (state) => {
             state.isLoading = true
             state.error = ""
             state.isCreated = false
         })
-        builder.addCase(createPublicCase.fulfilled, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(createPublicCase.fulfilled, (state: IInitialCasesState) => {
             state.isLoading = false
             state.isCreated = true
         })
@@ -112,12 +112,12 @@ const casesSlice = createSlice({
             state.isLoading = false
             state.error = action.payload.message
         })
-        builder.addCase(createAuthorisedCase.pending, (state: IInitialCasesState, action: PayloadAction<void>) => {
+        builder.addCase(createAuthorisedCase.pending, (state: IInitialCasesState) => {
             state.isLoading = true
             state.error = ""
             state.isCreated = false
         })
-        builder.addCase(createAuthorisedCase.fulfilled, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(createAuthorisedCase.fulfilled, (state: IInitialCasesState) => {
             state.isLoading = false
             state.isCreated = true
         })
@@ -125,7 +125,7 @@ const casesSlice = createSlice({
             state.isLoading = false
             state.error = action.payload.message
         })
-        builder.addCase(getAllCases.pending, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(getAllCases.pending, (state: IInitialCasesState) => {
             state.isLoading = true
             state.error = ""
         })
@@ -141,16 +141,16 @@ const casesSlice = createSlice({
             state.isLoading = true
             state.oneCase = action.payload.data
         })
-        builder.addCase(getOneCase.fulfilled, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(getOneCase.fulfilled, (state: IInitialCasesState) => {
             state.isLoading = false
         })
         builder.addCase(getOneCase.rejected, (state: IInitialCasesState, action: PayloadAction<any>) => {
             state.error = action.payload.message
         })
-        builder.addCase(deleteCase.pending, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(deleteCase.pending, (state: IInitialCasesState) => {
             state.isLoading = true
         })
-        builder.addCase(deleteCase.fulfilled, (state: IInitialCasesState, action: PayloadAction<any>) => {
+        builder.addCase(deleteCase.fulfilled, (state: IInitialCasesState) => {
             state.isLoading = false
         })
         builder.addCase(deleteCase.rejected, (state: IInitialCasesState, action: PayloadAction<any>) => {
@@ -160,7 +160,6 @@ const casesSlice = createSlice({
 })
 
 export const createPublicCase = createAsyncThunk<any, void, { state: RootState }>("cases/createPublicCase", (_, {
-    dispatch,
     getState,
     rejectWithValue
 }) => {
@@ -172,7 +171,6 @@ export const createPublicCase = createAsyncThunk<any, void, { state: RootState }
 })
 
 export const createAuthorisedCase = createAsyncThunk<any, void, { state: RootState }>("cases/createAuthorisedCase", (_, {
-    dispatch,
     getState,
     rejectWithValue
 }) => {
@@ -186,7 +184,6 @@ export const createAuthorisedCase = createAsyncThunk<any, void, { state: RootSta
 
 export const getAllCases = createAsyncThunk<any, string, { state: RootState }>("cases/getAllCases", (id, {
     dispatch,
-    getState,
     rejectWithValue
 }) => {
     const bearer = localStorage.getItem("bearer")
@@ -202,7 +199,6 @@ export const getAllCases = createAsyncThunk<any, string, { state: RootState }>("
 })
 //не работает санка!!!!! как и почему не понятно!!!!! при вызове сразу перекидывает в getOneCase.reject, при этом не происходит запрос
 export const getOneCase = createAsyncThunk<any, string, { state: RootState }>("cases/getOneCase", (id, {
-    dispatch,
     getState,
     rejectWithValue
 }) => {
@@ -233,17 +229,13 @@ export const saveEditedCase = createAsyncThunk<any, string, { state: RootState }
     const bearer = getState().auth.bearer
     return casesApi.editCase(bearer, id, editedCase)
         .then((response) => {
-            dispatch(setEditMode(false))
+            dispatch(setCaseEditMode(false))
             return response.data
         })
         .catch((error) => rejectWithValue(error.response.data))
 })
 
-export const getCase = (state: RootState) => state.cases
-export const getIsEdit = (state: RootState) => state.cases.isEdit
-export const getOneCaseItem = (state: RootState) => state.cases.oneCase
-export const getCasesArray = (state: RootState) => state.cases.allCases
-export const getLoadingStatus = (state: RootState) => state.cases.isLoading
+
 
 export const {changeCaseValue, clearCaseForm, setCaseToEdit, changeEditCaseValue} = casesSlice.actions
 export const casesReducer = casesSlice.reducer

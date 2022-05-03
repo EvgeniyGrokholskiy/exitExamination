@@ -45,11 +45,11 @@ export const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(signUp.pending, (state: IInitialAuthState, action: PayloadAction<void>) => {
+        builder.addCase(signUp.pending, (state: IInitialAuthState) => {
             state.status = "loading"
             state.error = ""
         })
-        builder.addCase(signUp.fulfilled, (state: IInitialAuthState, action: PayloadAction<any>) => {
+        builder.addCase(signUp.fulfilled, (state: IInitialAuthState) => {
             state.email = ""
             state.password = ""
             state.isNewUser = true
@@ -63,7 +63,7 @@ export const authSlice = createSlice({
 
             state.error = action.payload.message
         })
-        builder.addCase(signIn.pending, (state: IInitialAuthState, action: PayloadAction<void>) => {
+        builder.addCase(signIn.pending, (state: IInitialAuthState) => {
             state.status = "loading"
             state.error = ""
         })
@@ -79,7 +79,7 @@ export const authSlice = createSlice({
             state.isLogin = false
             state.error = action.payload.message
         })
-        builder.addCase(tokenVerification.pending, (state: IInitialAuthState, action: PayloadAction<any>) => {
+        builder.addCase(tokenVerification.pending, (state: IInitialAuthState) => {
             state.status = "loading"
         })
         builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action: PayloadAction<any>) => {
@@ -100,9 +100,9 @@ interface ISignUpProps {
     password: string
 }
 
-export const signUp = createAsyncThunk(
+export const signUp = createAsyncThunk<any, ISignUpProps, {state:RootState}>(
     "aunt/signUp",
-    ({firstName, lastName, email, password}: ISignUpProps, {dispatch, getState, rejectWithValue}) => {
+    ({firstName, lastName, email, password}: ISignUpProps, {dispatch, rejectWithValue}) => {
         return authApi.signUp(firstName, lastName, email, password)
             .then((response) => {
                 dispatch(showLogin(true))
@@ -122,7 +122,7 @@ interface ISignInProps {
 
 export const signIn = createAsyncThunk(
     "aunt/signIn",
-    ({email, password}: ISignInProps, {dispatch, getState, rejectWithValue}) => {
+    ({email, password}: ISignInProps, {rejectWithValue}) => {
         return authApi.signIn(email, password)
             .then((response) => {
                 return response.data
@@ -134,7 +134,6 @@ export const signIn = createAsyncThunk(
 )
 
 export const tokenVerification = createAsyncThunk<any, void, { state: RootState }>("auth/tokenVerification", (_, {
-    dispatch,
     getState,
     rejectWithValue
 }) => {
@@ -143,7 +142,7 @@ export const tokenVerification = createAsyncThunk<any, void, { state: RootState 
         process.env.BEARER = response.data.data.token
         return response.data
     }).catch((error) => {
-        return error.response.data
+        return rejectWithValue(error.response.data)
     })
 })
 

@@ -77,7 +77,20 @@ export const casesApi = {
 }
 
 export const officerApi = {
+    createOfficer(bearer: string, newOfficer:IOfficerState){
+        return instance.post("officers",newOfficer,{headers: {Authorization: `Bearer ${bearer}`}})
+    },
+    editOfficer(bearer: string, id: string, officer: IOfficerState) {
+        return instance.put(`officers/${id}`, officer, {headers: {Authorization: `Bearer ${bearer}`}})
+    },
+    deleteOfficer(bearer: string, id: string) {
+        return instance.delete(`officers/${id}`,{headers: {Authorization: `Bearer ${bearer}`}})
+    },
     getAllOfficers(bearer: string) {
         return instance.get<{ officers: Array<IOfficerState> }>("officers/", {headers: {Authorization: `Bearer ${bearer}`}})
-    }
+    },
+    getOneOfficer(bearer: string, id: string) {
+        return instance.get(`officers/${id}`, {headers: {Authorization: `Bearer ${bearer}`}})
+    },
+
 }

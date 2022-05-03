@@ -1,7 +1,7 @@
 import {RootState} from "./store"
-import {officerApi} from "../../api/api"
-import {changeEditCaseValue} from "./casesSlice"
+import {localStorageApi, officerApi} from "../../api/api"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {setOfficerEditMode} from "./appSlice"
 
 export interface IOfficerState {
     [key: string]: string | boolean | null
@@ -10,36 +10,39 @@ export interface IOfficerState {
     email: string
     firstName: string | null
     lastName: string | null
-    password: string
     clientId: string
     approved: boolean
 }
 
 export interface IInitialOfficersState {
-    [key: string]: string | boolean | null | Array<IOfficerState>
+    [key: string]: string | boolean | null | Array<IOfficerState> | IOfficerState
 
     isLoading: boolean
     error: string
-    _id: string
-    email: string
-    firstName: string | null
-    lastName: string | null
-    password: string
-    clientId: string
-    approved: boolean
+    newOfficer: IOfficerState
+    oneOfficer: IOfficerState
     officersArray: Array<IOfficerState>
 }
 
 const initialOfficersState: IInitialOfficersState = {
     isLoading: false,
     error: "",
-    _id: "",
-    email: "",
-    firstName: null,
-    lastName: null,
-    password: "",
-    clientId: "",
-    approved: false,
+    newOfficer: {
+        _id: "",
+        email: "",
+        firstName: null,
+        lastName: null,
+        clientId: "",
+        approved: false
+    },
+    oneOfficer: {
+        _id: "",
+        email: "",
+        firstName: null,
+        lastName: null,
+        clientId: "",
+        approved: false
+    },
     officersArray: []
 }
 
@@ -47,12 +50,49 @@ export const officersSlice = createSlice({
     name: "officers",
     initialState: initialOfficersState as IInitialOfficersState,
     reducers: {
-        changeOfficersValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string }>) {
+        changeOfficersValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state[action.payload.fieldName] = action.payload.value
+        },
+        changeOneOfficerValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
+            state.oneOfficer[action.payload.fieldName] = action.payload.value
         }
     },
     extraReducers: (builder => {
-        builder.addCase(getAllOfficersArray.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+        builder.addCase(createOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+            state.error = ""
+            state.isLoading = true
+        })
+        builder.addCase(createOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+        })
+        builder.addCase(createOfficer.rejected, (state:IInitialOfficersState, action:PayloadAction<any>)=>{
+            state.isLoading = false
+            state.error = action.payload.message
+        })
+        builder.addCase(updateOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+            state.error = ""
+            state.isLoading = true
+        })
+        builder.addCase(updateOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+        })
+        builder.addCase(updateOfficer.rejected, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.error = action.payload.message
+        })
+        builder.addCase(deleteOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+            state.error = ""
+            state.isLoading = true
+        })
+        builder.addCase(deleteOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+            state.isLoading = false
+        })
+        builder.addCase(deleteOfficer.rejected, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.error = action.payload.message
+        })
+        builder.addCase(getAllOfficersArray.pending, (state: IInitialOfficersState) => {
+            state.error = ""
             state.isLoading = true
         })
         builder.addCase(getAllOfficersArray.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
@@ -63,22 +103,88 @@ export const officersSlice = createSlice({
             state.isLoading = false
             state.error = action.payload.message
         })
+        builder.addCase(getOneOfficer.pending, (state: IInitialOfficersState) => {
+            state.error = ""
+            state.isLoading = true
+        })
+        builder.addCase(getOneOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.oneOfficer._id = action.payload.data._id
+            state.oneOfficer.email = action.payload.data.email
+            state.oneOfficer.firstName = action.payload.data.firstName
+            state.oneOfficer.lastName = action.payload.data.lastName
+            state.oneOfficer.clientId = action.payload.data.clientId
+            state.oneOfficer.approved = action.payload.data.approved
+        })
+        builder.addCase(getOneOfficer.rejected, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.error = action.payload.message
+        })
     })
 })
 
-export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootState }>("officers/getAllOfficers", (_, {
+export const createOfficer = createAsyncThunk<any, IOfficerState, { state: RootState }>("officer/createOfficer", (officer: IOfficerState, {
     dispatch,
     getState,
     rejectWithValue
 }) => {
-    const bearer = localStorage.getItem("bearer")
-    return bearer && officerApi.getAllOfficers(bearer)
+    const newOfficer = getState().officers.newOfficer
+    const bearer = localStorageApi.getValue("bearer")
+    return bearer && officerApi.createOfficer(bearer, newOfficer)
+        .then((response) => response.data)
+        .catch((error) => rejectWithValue(error.response.data))
+})
+
+export const updateOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/updateOfficer", (
+    id
+    , {
+        dispatch,
+        getState,
+        rejectWithValue
+    }) => {
+    const bearer = localStorageApi.getValue("bearer")
+    const officer = getState().officers.oneOfficer
+    return bearer && officerApi.editOfficer(bearer, id, officer)
         .then((response) => {
+            dispatch(setOfficerEditMode(false))
+            dispatch(getAllOfficersArray())
             return response.data
         })
         .catch((error) => rejectWithValue(error.response.data))
 })
 
 
-export const {changeOfficersValue} = officersSlice.actions
+export const deleteOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/deleteOfficer", (id, {
+    dispatch,
+    getState,
+    rejectWithValue
+}) => {
+    const bearer = localStorageApi.getValue("bearer")
+    return bearer && officerApi.deleteOfficer(bearer, id)
+        .then((response) => {
+            dispatch(getAllOfficersArray())
+            return response.data
+        })
+        .catch((error) => rejectWithValue(error.response.data))
+
+})
+
+export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootState }>("officers/getAllOfficers", (_, {
+    rejectWithValue
+}) => {
+    const bearer = localStorageApi.getValue("bearer")
+    return bearer && officerApi.getAllOfficers(bearer)
+        .then((response) => response.data)
+        .catch((error) => rejectWithValue(error.response.data))
+})
+
+export const getOneOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/getOneOfficer", (id, {rejectWithValue}) => {
+    const bearer = localStorageApi.getValue("bearer")
+    return bearer && officerApi.getOneOfficer(bearer, id)
+        .then((response) => response.data)
+        .catch((error) => rejectWithValue(error.response.data))
+})
+
+
+export const {changeOfficersValue, changeOneOfficerValue} = officersSlice.actions
 export const officersReducer = officersSlice.reducer

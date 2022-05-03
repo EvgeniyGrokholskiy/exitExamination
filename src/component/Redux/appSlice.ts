@@ -3,12 +3,14 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 export interface IInitialAppState {
     [key: string]: string | boolean
 
-    isEdit: boolean
+    isCaseEdit: boolean
+    isOfficerEdit: boolean
     isShowLogin: boolean
 }
 
 const initialState: IInitialAppState = {
-    isEdit: false,
+    isCaseEdit: false,
+    isOfficerEdit: false,
     isShowLogin: true
 }
 
@@ -19,11 +21,14 @@ const appSlice = createSlice({
         showLogin(state: IInitialAppState, action: PayloadAction<boolean>) {
             state.isShowLogin = action.payload
         },
-        setEditMode(state: IInitialAppState, action: PayloadAction<boolean>) {
-            state.isEdit = action.payload
+        setCaseEditMode(state: IInitialAppState, action: PayloadAction<boolean>) {
+            state.isCaseEdit = action.payload
         },
+        setOfficerEditMode(state: IInitialAppState, action: PayloadAction<boolean>) {
+            state.isOfficerEdit = action.payload
+        }
     }
 })
 
 export const appReducer = appSlice.reducer
-export const {showLogin, setEditMode} = appSlice.actions
+export const {showLogin, setCaseEditMode, setOfficerEditMode} = appSlice.actions

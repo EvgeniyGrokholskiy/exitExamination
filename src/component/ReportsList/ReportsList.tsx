@@ -1,11 +1,12 @@
 import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
 import styles from "./reportList.module.scss"
+import {getOfficerName} from "../Helpers/Helpers"
+import {getAllOfficersArray} from "../Redux/oficersSllice"
 import ReportListItem from "./ReportListItem/ReportListItem"
 import {useAppDispatch, useAppSelector} from "../Redux/hooks"
-import {deleteCase, getAllCases, getCasesArray, getLoadingStatus, ICaseState} from "../Redux/casesSlice"
-import {getOfficerName} from "../Helpers/Helpers";
-import {getAllOfficersArray} from "../Redux/oficersSllice";
+import {getCasesArray, getLoadingStatus} from "../Redux/selectors"
+import {deleteCase, getAllCases, ICaseState} from "../Redux/casesSlice"
 
 export interface IReportItem {
     licenseNumber: string
