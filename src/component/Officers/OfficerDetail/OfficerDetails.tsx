@@ -1,20 +1,21 @@
 import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
-import {NavLink, useParams} from "react-router-dom"
 import styles from "./officerDetails.module.scss"
+import {NavLink, useParams} from "react-router-dom"
 import OfficersEdit from "../OfficersEdit/OfficersEdit"
-import {getOneOfficer} from "../../Redux/oficersSllice"
-import {setOfficerEditMode} from "../../Redux/appSlice"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {getOneOfficer} from "../../../Redux/oficersSllice"
+import {setOfficerEditMode} from "../../../Redux/appSlice"
 import OfficerItem from "../OfficersList/OfficerItem/OfficerItem"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import {getIsOfficerEdit, getOfficer, getOfficerIsLoading} from "../../../Redux/selectors"
 
 const OfficerDetails = () => {
 
     const dispatch = useAppDispatch()
     const idFromURL = useParams()["*"]
-    const isLoading = useAppSelector(state => state.officers.isLoading)
-    const officer = useAppSelector(state => state.officers.oneOfficer)
-    const isOfficerEdit = useAppSelector(state => state.app.isOfficerEdit)
+    const officer = useAppSelector(getOfficer)
+    const isLoading = useAppSelector(getOfficerIsLoading)
+    const isOfficerEdit = useAppSelector(getIsOfficerEdit)
 
     useEffect(() => {
         idFromURL && dispatch(getOneOfficer(idFromURL))
@@ -39,4 +40,4 @@ const OfficerDetails = () => {
     )
 }
 
-export default OfficerDetails;
+export default OfficerDetails

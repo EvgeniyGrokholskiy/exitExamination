@@ -1,20 +1,18 @@
 import React, {FormEvent} from "react"
 import {NavLink} from "react-router-dom"
-import {getCase} from "../../Redux/selectors"
+import {getCase} from "../../../Redux/selectors"
+import { IReportInProps } from "../../../types/types"
 import styles from "../../ReportForm/reportForm.module.scss"
 import FormInput from "../../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import FormSelect from "../../FormComponet/FormSelect/FormSelect"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import FormTextarea from "../../FormComponet/FormTextarea/FormTextarea"
+import {changeEditCaseValue, saveEditedCase} from "../../../Redux/casesSlice"
 import FormOfficersList from "../../FormComponet/FormOfficersList/FormOfficersList"
 import FormStatesSelect from "../../FormComponet/FormStatusSelect/FormStatesSelect"
-import {changeEditCaseValue, ICaseState, saveEditedCase} from "../../Redux/casesSlice"
 
-interface IReportEditProps {
-    report: ICaseState
-}
 
-const ReportEdit: React.FC<IReportEditProps> = ({report}) => {
+const ReportEdit: React.FC<IReportInProps> = ({report}) => {
 
     const {
         createdAt,
@@ -40,7 +38,7 @@ const ReportEdit: React.FC<IReportEditProps> = ({report}) => {
                       dispatch(saveEditedCase(report._id))
                   })}>
                 <FormInput label={"Дата создания сообщения:"} type={"text"} name={"createdAt"} required={true}
-                           value={`${createdAt?.slice(0,10)} ${createdAt.slice(11,19)}`}
+                           value={`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 19)}`}
                            action={changeEditCaseValue}/>
                 <FormStatesSelect label={"Статус сообщения:"} name={"status"} value={status} action={changeEditCaseValue}/>
                 <FormInput label={"Номер лицензии:"} type={"text"} name={"licenseNumber"} required={true}
@@ -67,11 +65,10 @@ const ReportEdit: React.FC<IReportEditProps> = ({report}) => {
                 {
                     error && <h2 className={styles.error}>{error}</h2>
                 }
-
             </form>
             <NavLink className={styles.cancel_button} to={"/reports-list"}>Отмена</NavLink>
         </>
-    );
-};
+    )
+}
 
-export default ReportEdit;
+export default ReportEdit

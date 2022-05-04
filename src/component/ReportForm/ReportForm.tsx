@@ -1,17 +1,15 @@
 import React, {FormEvent} from "react"
-import {getCase} from "../Redux/selectors"
 import styles from "./reportForm.module.scss"
 import FormInput from "../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../Redux/hooks"
+import {getAuthIsLogin, getCase} from "../../Redux/selectors"
 import FormSelect from "../FormComponet/FormSelect/FormSelect"
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import FormTextarea from "../FormComponet/FormTextarea/FormTextarea"
 import SendMessageModal from "../FormComponet/SendMessageModal/SendMessageModal"
-import {changeCaseValue, clearCaseForm, createAuthorisedCase, createPublicCase} from "../Redux/casesSlice"
+import {changeCaseValue, clearCaseForm, createAuthorisedCase, createPublicCase} from "../../Redux/casesSlice"
 
-interface IPublicReportFormProps {
-}
 
-const ReportForm: React.FC<IPublicReportFormProps> = () => {
+const ReportForm: React.FC = () => {
 
     const {
         error,
@@ -23,12 +21,11 @@ const ReportForm: React.FC<IPublicReportFormProps> = () => {
         date,
         description
     } = useAppSelector(getCase)
-    const isLogin = useAppSelector(state => state.auth.isLogin)
+    const isLogin = useAppSelector(getAuthIsLogin)
     const dispatch = useAppDispatch()
 
 
     return (
-
         <>
             {
                 isCreated && <SendMessageModal action={changeCaseValue}/>
@@ -53,13 +50,6 @@ const ReportForm: React.FC<IPublicReportFormProps> = () => {
                            value={ownerFullName}
                            action={changeCaseValue}/>
                 <FormSelect label={"Тип велосипеда*:"} name={"type"} value={type} action={changeCaseValue}/>
-                {/*{
-                    isLogin && <FormInput label={"Идентификационный номер сотрудника:"} type={"text"} name={"officer"}
-                                          required={false}
-                                          value={officer}
-                                          action={changeCaseValue}/>
-                }*/}
-
                 <FormInput label={"Цвет:"} type={"text"} name={"color"} required={false} value={color}
                            action={changeCaseValue}/>
                 <FormInput label={"Дата происшествия:"} type={"date"} name={"date"} required={false}
@@ -78,4 +68,4 @@ const ReportForm: React.FC<IPublicReportFormProps> = () => {
     )
 }
 
-export default ReportForm;
+export default ReportForm

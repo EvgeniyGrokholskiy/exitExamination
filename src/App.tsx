@@ -6,26 +6,26 @@ import Login from "./component/Login/Login"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
 import ReportForm from "./component/ReportForm/ReportForm"
-import ReportsList from "./component/ReportsList/ReportsList"
-import {useAppDispatch, useAppSelector} from "./component/Redux/hooks"
+import {getAuthIsLogin, getBearer} from "./Redux/selectors"
+import {useAppDispatch, useAppSelector} from "./Redux/hooks"
+import ReportCardList from "./component/ReportsList/ReportCardList"
 import OfficersList from "./component/Officers/OfficersList/OfficersList"
+import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
+import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
-import {changeAuthValue, setIsLogin, setNewUser, tokenVerification} from "./component/Redux/authSlice"
-import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails";
+import Page404 from "./component/404/Page404"
+
 
 function App() {
 
-    const {isLogin, bearer} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
+    const bearer = useAppSelector(getBearer)
+    const isLogin = useAppSelector(getAuthIsLogin)
 
-    const logout = () => {
-        dispatch(setIsLogin(false))
-        dispatch(setNewUser(false))
-    }
 
     useEffect(() => {
-        const value = localStorageApi.getValue("isLogin")
-        const bearer = localStorageApi.getValue("bearer")
+        const value = localStorageApi.getIsLogin()
+        const bearer = localStorageApi.getBearer()
         bearer && dispatch(changeAuthValue({fieldName: "bearer", value: bearer}))
         if (value && value === "true") {
             dispatch(setIsLogin(true))
@@ -37,11 +37,11 @@ function App() {
     }, [dispatch])
 
     useEffect(() => {
-        localStorageApi.setValue<boolean>("isLogin", isLogin)
+        localStorageApi.setIsLogin(isLogin)
     }, [isLogin])
 
     useEffect(()=>{
-        localStorageApi.setValue<string>("bearer", bearer)
+        localStorageApi.setBearer(bearer)
     },[bearer])
 
     useEffect(() => {
@@ -51,17 +51,18 @@ function App() {
     return (
         <div className="App">
             <header>
-                <Header isLogin={isLogin} logout={logout}/>
+                <Header/>
             </header>
             <main>
                 <Routes>
                     <Route path={"/"} element={<Main/>}/>
-                    <Route path={"/login"} element={<Login isLogin={isLogin}/>}/>
+                    <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/report"} element={<ReportForm/>}/>
-                    <Route path={"/reports-list"} element={<ReportsList/>}/>
+                    <Route path={"/reports-list"} element={<ReportCardList/>}/>
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer/>}/>
                     <Route path={"/employees-list"} element={<OfficersList/>}/>
                     <Route path={"/employees-list/*"} element={<OfficerDetails/>}/>
+                    <Route path={"*"} element={<Page404/>}/>
                 </Routes>
             </main>
             <footer>

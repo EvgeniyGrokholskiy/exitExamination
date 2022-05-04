@@ -1,21 +1,9 @@
 import {RootState} from "./store"
+import {authApi} from "../api/api"
 import {showLogin} from "./appSlice"
-import {authApi} from "../../api/api"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {IInitialAuthState, ISignInProps, ISignUpProps, responseWithData, UserData} from "../types/types"
 
-export interface IInitialAuthState {
-    [key: string]: string | boolean | null
-
-    bearer: string
-    isLogin: boolean
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    status: "idle" | "loading" | "success" | "failed"
-    error: string
-    isNewUser: boolean
-}
 
 const initialState: IInitialAuthState = {
     bearer: "",
@@ -26,14 +14,22 @@ const initialState: IInitialAuthState = {
     password: "",
     status: "idle",
     error: "",
-    isNewUser: false
+    isNewUser: false,
+    loginUser: {
+        _id: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        approved: false
+    }
 }
 
 export const authSlice = createSlice({
     name: "auth",
     initialState: initialState as IInitialAuthState,
     reducers: {
-        changeAuthValue(state: IInitialAuthState, action: PayloadAction<{ fieldName: string, value: string | boolean | null}>) {
+        changeAuthValue(state: IInitialAuthState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state[action.payload.fieldName] = action.payload.value
             state.error = ""
         },
@@ -54,15 +50,14 @@ export const authSlice = createSlice({
             state.password = ""
             state.isNewUser = true
             state.status = "success"
-
         })
         builder.addCase(signUp.rejected, (state: IInitialAuthState, action: PayloadAction<any>) => {
             state.isLogin = false
             state.status = "failed"
             state.isNewUser = false
-
             state.error = action.payload.message
         })
+
         builder.addCase(signIn.pending, (state: IInitialAuthState) => {
             state.status = "loading"
             state.error = ""
@@ -73,18 +68,21 @@ export const authSlice = createSlice({
             state.isLogin = true
             state.status = "success"
             state.bearer = action.payload.data.token
+            state.loginUser = action.payload.data.user
         })
         builder.addCase(signIn.rejected, (state: IInitialAuthState, action: PayloadAction<any>) => {
             state.status = "failed"
             state.isLogin = false
             state.error = action.payload.message
         })
+
         builder.addCase(tokenVerification.pending, (state: IInitialAuthState) => {
             state.status = "loading"
         })
         builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action: PayloadAction<any>) => {
             state.status = "success"
             state.bearer = action.payload.data?.token
+            state.loginUser = action.payload.data.user
         })
         builder.addCase(tokenVerification.rejected, (state: IInitialAuthState, action: PayloadAction<any>) => {
             state.status = "failed"
@@ -93,14 +91,8 @@ export const authSlice = createSlice({
     }
 })
 
-interface ISignUpProps {
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-}
 
-export const signUp = createAsyncThunk<any, ISignUpProps, {state:RootState}>(
+export const signUp = createAsyncThunk<responseWithData<void>, ISignUpProps, { state: RootState }>(
     "aunt/signUp",
     ({firstName, lastName, email, password}: ISignUpProps, {dispatch, rejectWithValue}) => {
         return authApi.signUp(firstName, lastName, email, password)
@@ -115,12 +107,8 @@ export const signUp = createAsyncThunk<any, ISignUpProps, {state:RootState}>(
     }
 )
 
-interface ISignInProps {
-    email: string,
-    password: string
-}
 
-export const signIn = createAsyncThunk(
+export const signIn = createAsyncThunk<responseWithData<UserData>, ISignInProps, { state: RootState }>(
     "aunt/signIn",
     ({email, password}: ISignInProps, {rejectWithValue}) => {
         return authApi.signIn(email, password)
@@ -133,18 +121,18 @@ export const signIn = createAsyncThunk(
     }
 )
 
-export const tokenVerification = createAsyncThunk<any, void, { state: RootState }>("auth/tokenVerification", (_, {
+export const tokenVerification = createAsyncThunk<responseWithData<UserData>, void, { state: RootState }>("auth/tokenVerification", (_, {
     getState,
     rejectWithValue
 }) => {
     const bearer = getState().auth.bearer
     return authApi.tokenVerification(bearer).then((response) => {
-        process.env.BEARER = response.data.data.token
         return response.data
     }).catch((error) => {
         return rejectWithValue(error.response.data)
     })
 })
+
 
 export const {changeAuthValue, setIsLogin, setNewUser} = authSlice.actions
 export const authReducer = authSlice.reducer

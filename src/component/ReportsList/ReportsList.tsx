@@ -1,33 +1,20 @@
 import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
 import styles from "./reportList.module.scss"
+import { ICaseState } from "../../types/types"
 import {getOfficerName} from "../Helpers/Helpers"
-import {getAllOfficersArray} from "../Redux/oficersSllice"
 import ReportListItem from "./ReportListItem/ReportListItem"
-import {useAppDispatch, useAppSelector} from "../Redux/hooks"
-import {getCasesArray, getLoadingStatus} from "../Redux/selectors"
-import {deleteCase, getAllCases, ICaseState} from "../Redux/casesSlice"
+import {getAllOfficersArray} from "../../Redux/oficersSllice"
+import {deleteCase, getAllCases} from "../../Redux/casesSlice"
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {getAllOfficers, getCasesArray, getLoadingStatus} from "../../Redux/selectors"
 
-export interface IReportItem {
-    licenseNumber: string
-    ownerFullName: string
-    type: string
-    clientId: string
-    color: string
-    date: string
-    officer: string
-    description: string
-}
 
-interface IReportsListProps {
-
-}
-
-const ReportsList: React.FC<IReportsListProps> = () => {
+const ReportsList: React.FC = () => {
 
     const isLoading = useAppSelector(getLoadingStatus)
     const casesArray = useAppSelector(getCasesArray)
-    const officersArray = useAppSelector(state => state.officers.officersArray)
+    const officersArray = useAppSelector(getAllOfficers)
     const dispatch = useAppDispatch()
 
     useEffect(() => {

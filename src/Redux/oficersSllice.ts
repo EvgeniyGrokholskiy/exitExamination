@@ -1,28 +1,9 @@
 import {RootState} from "./store"
-import {localStorageApi, officerApi} from "../../api/api"
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {setOfficerEditMode} from "./appSlice"
+import {localStorageApi, officerApi} from "../api/api"
+import {IInitialOfficersState, IOfficerState} from "../types/types"
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 
-export interface IOfficerState {
-    [key: string]: string | boolean | null
-
-    _id: string
-    email: string
-    firstName: string | null
-    lastName: string | null
-    clientId: string
-    approved: boolean
-}
-
-export interface IInitialOfficersState {
-    [key: string]: string | boolean | null | Array<IOfficerState> | IOfficerState
-
-    isLoading: boolean
-    error: string
-    newOfficer: IOfficerState
-    oneOfficer: IOfficerState
-    officersArray: Array<IOfficerState>
-}
 
 const initialOfficersState: IInitialOfficersState = {
     isLoading: false,
@@ -129,7 +110,7 @@ export const createOfficer = createAsyncThunk<any, IOfficerState, { state: RootS
     rejectWithValue
 }) => {
     const newOfficer = getState().officers.newOfficer
-    const bearer = localStorageApi.getValue("bearer")
+    const bearer = localStorageApi.getBearer()
     return bearer && officerApi.createOfficer(bearer, newOfficer)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))
@@ -142,7 +123,7 @@ export const updateOfficer = createAsyncThunk<any, string, { state: RootState }>
         getState,
         rejectWithValue
     }) => {
-    const bearer = localStorageApi.getValue("bearer")
+    const bearer = localStorageApi.getBearer()
     const officer = getState().officers.oneOfficer
     return bearer && officerApi.editOfficer(bearer, id, officer)
         .then((response) => {
@@ -159,7 +140,7 @@ export const deleteOfficer = createAsyncThunk<any, string, { state: RootState }>
     getState,
     rejectWithValue
 }) => {
-    const bearer = localStorageApi.getValue("bearer")
+    const bearer = localStorageApi.getBearer()
     return bearer && officerApi.deleteOfficer(bearer, id)
         .then((response) => {
             dispatch(getAllOfficersArray())
@@ -172,14 +153,14 @@ export const deleteOfficer = createAsyncThunk<any, string, { state: RootState }>
 export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootState }>("officers/getAllOfficers", (_, {
     rejectWithValue
 }) => {
-    const bearer = localStorageApi.getValue("bearer")
+    const bearer = localStorageApi.getBearer()
     return bearer && officerApi.getAllOfficers(bearer)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))
 })
 
 export const getOneOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/getOneOfficer", (id, {rejectWithValue}) => {
-    const bearer = localStorageApi.getValue("bearer")
+    const bearer = localStorageApi.getBearer()
     return bearer && officerApi.getOneOfficer(bearer, id)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))

@@ -1,17 +1,15 @@
 import React, {FormEvent} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./loginForm.module.scss"
-import {changeAuthValue, signIn} from "../../Redux/authSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {changeAuthValue, signIn} from "../../../Redux/authSlice"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 
-interface ILoginFormProps {
-}
 
-const LoginForm: React.FC<ILoginFormProps> = () => {
+const LoginForm: React.FC = () => {
 
-    const {error, status, email, password, isNewUser} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
+    const {error, status, email, password, isNewUser} = useAppSelector(state => state.auth)
 
     return (
         <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e: FormEvent<HTMLFormElement>) => {

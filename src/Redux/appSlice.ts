@@ -1,14 +1,7 @@
+import {IInitialAppState} from "../types/types"
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 
-export interface IInitialAppState {
-    [key: string]: string | boolean
-
-    isCaseEdit: boolean
-    isOfficerEdit: boolean
-    isShowLogin: boolean
-}
-
-const initialState: IInitialAppState = {
+export const initialState: IInitialAppState = {
     isCaseEdit: false,
     isOfficerEdit: false,
     isShowLogin: true

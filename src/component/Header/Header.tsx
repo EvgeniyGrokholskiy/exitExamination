@@ -1,13 +1,20 @@
 import React from "react"
 import {NavLink} from "react-router-dom"
 import styles from "./header.module.scss"
+import {getAuthIsLogin} from "../../Redux/selectors"
+import {setIsLogin, setNewUser} from "../../Redux/authSlice"
+import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 
-interface IHeaderProps {
-    isLogin: boolean | undefined
-    logout: () => void
-}
 
-const Header: React.FC<IHeaderProps> = ({isLogin, logout}) => {
+const Header: React.FC = () => {
+
+    const dispatch = useAppDispatch()
+    const isLogin = useAppSelector(getAuthIsLogin)
+
+    const logout = () => {
+        dispatch(setIsLogin(false))
+        dispatch(setNewUser(false))
+    }
 
     return (
         <div className={styles.wrapper}>

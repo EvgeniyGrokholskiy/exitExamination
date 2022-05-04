@@ -6,8 +6,8 @@ interface IReportListItemProps {
     licenseNumber: string
     ownerFullName: string
     type: string
-    createdAt: string
-    updatedAt: string
+    createdAt: string | null
+    updatedAt: string | null
     color: string
     date: string
     officer: string

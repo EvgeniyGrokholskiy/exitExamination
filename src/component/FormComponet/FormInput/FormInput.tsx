@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./formInput.module.scss"
-import {useAppDispatch} from "../../Redux/hooks"
+import {useAppDispatch} from "../../../Redux/hooks"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
 interface IFormInputProps {

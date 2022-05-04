@@ -1,7 +1,7 @@
 import React from "react"
 import styles from "../FormInput/formInput.module.scss"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
-import {useAppDispatch} from "../../Redux/hooks";
+import {useAppDispatch} from "../../../Redux/hooks";
 
 interface IFormTextareaProps {
     label: string

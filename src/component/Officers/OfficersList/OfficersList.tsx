@@ -2,19 +2,20 @@ import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./officersList.module.scss"
 import OfficerItem from "./OfficerItem/OfficerItem"
-import {getAllOfficersArray} from "../../Redux/oficersSllice"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {getAllOfficersArray} from "../../../Redux/oficersSllice"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import {getAllOfficers, getOfficerIsLoading} from "../../../Redux/selectors"
+
 
 const OfficersList = () => {
 
-    const isLoading = useAppSelector(state => state.officers.isLoading)
     const dispatch = useAppDispatch()
+    const officersArray = useAppSelector(getAllOfficers)
+    const isLoading = useAppSelector(getOfficerIsLoading)
 
     useEffect(() => {
         dispatch(getAllOfficersArray())
     }, [dispatch])
-
-    const officersArray = useAppSelector(state => state.officers.officersArray)
 
     return (
         <>
@@ -23,11 +24,11 @@ const OfficersList = () => {
             }
             <div className={styles.wrapper}>
                 {
-                    officersArray.map((officer) => <OfficerItem officer={officer}/>)
+                    officersArray.map((officer) => <OfficerItem key={officer._id} officer={officer}/>)
                 }
             </div>
         </>
-    );
-};
+    )
+}
 
-export default OfficersList;
+export default OfficersList

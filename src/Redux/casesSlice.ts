@@ -1,47 +1,11 @@
 import {RootState} from "./store"
-import {casesApi} from "../../api/api"
+import {casesApi} from "../api/api"
 import {setCaseEditMode} from "./appSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {ICaseState, IInitialCasesState, responseWithData} from "../types/types"
+
 
 const CLIENT_ID = process.env.CLIENT_ID
-
-export interface ICaseState {
-    [key: string]: string | boolean | null | undefined
-
-    _id: string
-    status: string
-    licenseNumber: string
-    type: "general" | "sport"
-    ownerFullName: string
-    clientId: string | undefined
-    createdAt: string
-    updatedAt: string
-    color: string
-    date: string
-    officer: string
-    description: string
-    resolution: string
-}
-
-export interface IInitialCasesState {
-    [key: string]: string | boolean | Array<ICaseState> | ICaseState | null | undefined
-
-    isLoading: boolean
-    isCreated: boolean
-    error: string
-    status: string
-    licenseNumber: string,
-    ownerFullName: string
-    type: "general" | "sport",
-    clientId: string | undefined
-    color: string
-    date: string
-    officer: string
-    description: string
-    oneCase: ICaseState | ""
-    allCases: Array<ICaseState>,
-    editCase: ICaseState
-}
 
 const initialState: IInitialCasesState = {
     isLoading: false,
@@ -159,18 +123,20 @@ const casesSlice = createSlice({
     }
 })
 
-export const createPublicCase = createAsyncThunk<any, void, { state: RootState }>("cases/createPublicCase", (_, {
+export const createPublicCase = createAsyncThunk<responseWithData<ICaseState>, void, { state: RootState }>("cases/createPublicCase", (_, {
     getState,
     rejectWithValue
 }) => {
     const {licenseNumber, ownerFullName, type, clientId, color, date, description} = getState().cases
     return casesApi.createPublic(licenseNumber, ownerFullName, type, clientId, color, date, description)
-        .then((response) => response.data)
+        .then((response) => {
+            return response.data
+        })
         .catch((error) => rejectWithValue(error.response.data))
 
 })
 
-export const createAuthorisedCase = createAsyncThunk<any, void, { state: RootState }>("cases/createAuthorisedCase", (_, {
+export const createAuthorisedCase = createAsyncThunk<responseWithData<ICaseState>, void, { state: RootState }>("cases/createAuthorisedCase", (_, {
     getState,
     rejectWithValue
 }) => {
@@ -198,7 +164,7 @@ export const getAllCases = createAsyncThunk<any, string, { state: RootState }>("
         .catch((error) => rejectWithValue(error.response.data))
 })
 //не работает санка!!!!! как и почему не понятно!!!!! при вызове сразу перекидывает в getOneCase.reject, при этом не происходит запрос
-export const getOneCase = createAsyncThunk<any, string, { state: RootState }>("cases/getOneCase", (id, {
+export const getOneCase = createAsyncThunk<responseWithData<ICaseState>, string, { state: RootState }>("cases/getOneCase", (id, {
     getState,
     rejectWithValue
 }) => {
@@ -220,7 +186,7 @@ export const deleteCase = createAsyncThunk<any, string, { state: RootState }>("c
         .catch((error) => rejectWithValue(error.response.data))
 })
 
-export const saveEditedCase = createAsyncThunk<any, string, { state: RootState }>("cases/saveEditedCase", (id, {
+export const saveEditedCase = createAsyncThunk<responseWithData<ICaseState>, string, { state: RootState }>("cases/saveEditedCase", (id, {
     dispatch,
     getState,
     rejectWithValue

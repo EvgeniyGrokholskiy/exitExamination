@@ -1,12 +1,16 @@
 .wrapper {
   border: 2px solid gray;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 10px;
   cursor: pointer;
+  padding: 25px;
   transition: all 0.2s ease-in;
 }
 
 .wrapper:hover {
+  box-shadow: 2px 2px 2px black;
   transform: scale(1.01);
-  box-shadow: 3px 3px 3px black;
+}
+.label {
+  font-weight: bold;
+  padding-right: 20px;
 }

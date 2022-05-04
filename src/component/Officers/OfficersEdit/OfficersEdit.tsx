@@ -1,18 +1,18 @@
-import React from 'react';
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import React from "react"
+import {getOfficer} from "../../../Redux/selectors"
 import FormInput from "../../FormComponet/FormInput/FormInput"
-import {changeOneOfficerValue, updateOfficer} from "../../Redux/oficersSllice"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import {changeOneOfficerValue, updateOfficer} from "../../../Redux/oficersSllice"
 
 
 const OfficersEdit: React.FC = () => {
 
-    const {_id,firstName, lastName, email, approved} = useAppSelector(state => state.officers.oneOfficer)
     const dispatch = useAppDispatch()
+    const {_id,firstName, lastName, email, approved} = useAppSelector(getOfficer)
 
     return (
         <form onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
             event.preventDefault()
-
         }}>
             <button onClick={()=> dispatch(updateOfficer(_id))}>Сохранить</button>
             <FormInput label={"Имя"} type={"text"} name={"firstName"} required={false} value={firstName}
@@ -23,9 +23,8 @@ const OfficersEdit: React.FC = () => {
                        action={changeOneOfficerValue}/>
             <FormInput label={"Доверенный сотрудник"} type={"checkbox"} name={"approved"} required={false}
                        checked={approved} action={changeOneOfficerValue}/>
-
         </form>
-    );
-};
+    )
+}
 
-export default OfficersEdit;
+export default OfficersEdit

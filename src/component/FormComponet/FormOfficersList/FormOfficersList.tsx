@@ -1,21 +1,22 @@
 import React from "react"
 import styles from "./formOfficersList.module.scss"
+import {getAllOfficers} from "../../../Redux/selectors"
 import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 
 interface IFormOfficersListProps {
     label: string
     value: string
     name: string
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null}, string>
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
     callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, callback, action}) => {
 
-    const officersArray = useAppSelector(state => state.officers.officersArray)
-    const approvedOfficers = officersArray.filter((officer) => officer.approved)
     const dispatch = useAppDispatch()
+    const officersArray = useAppSelector(getAllOfficers)
+    const approvedOfficers = officersArray.filter((officer) => officer.approved)
 
     return (
         <label className={styles.label}>{label}
