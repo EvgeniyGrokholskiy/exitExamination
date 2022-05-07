@@ -1,8 +1,8 @@
 import {RootState} from "./store"
 import {setOfficerEditMode} from "./appSlice"
 import {localStorageApi, officerApi} from "../api/api"
-import {IInitialOfficersState, IOfficerState} from "../types/types"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
+import {IInitialOfficersState, IOfficerState, RejectWithValue, responseWithData} from "../types/types"
 
 
 const initialOfficersState: IInitialOfficersState = {
@@ -39,33 +39,33 @@ export const officersSlice = createSlice({
         }
     },
     extraReducers: (builder => {
-        builder.addCase(createOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+        builder.addCase(createOfficer.pending, (state: IInitialOfficersState) => {
             state.error = ""
             state.isLoading = true
         })
-        builder.addCase(createOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+        builder.addCase(createOfficer.fulfilled, (state: IInitialOfficersState) => {
             state.isLoading = false
         })
         builder.addCase(createOfficer.rejected, (state:IInitialOfficersState, action:PayloadAction<any>)=>{
             state.isLoading = false
             state.error = action.payload.message
         })
-        builder.addCase(updateOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+        builder.addCase(updateOfficer.pending, (state: IInitialOfficersState) => {
             state.error = ""
             state.isLoading = true
         })
-        builder.addCase(updateOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<any>) => {
+        builder.addCase(updateOfficer.fulfilled, (state: IInitialOfficersState) => {
             state.isLoading = false
         })
         builder.addCase(updateOfficer.rejected, (state: IInitialOfficersState, action: PayloadAction<any>) => {
             state.isLoading = false
             state.error = action.payload.message
         })
-        builder.addCase(deleteOfficer.pending, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+        builder.addCase(deleteOfficer.pending, (state: IInitialOfficersState) => {
             state.error = ""
             state.isLoading = true
         })
-        builder.addCase(deleteOfficer.fulfilled, (state: IInitialOfficersState, action: PayloadAction<void>) => {
+        builder.addCase(deleteOfficer.fulfilled, (state) => {
             state.isLoading = false
         })
         builder.addCase(deleteOfficer.rejected, (state: IInitialOfficersState, action: PayloadAction<any>) => {
@@ -104,8 +104,7 @@ export const officersSlice = createSlice({
     })
 })
 
-export const createOfficer = createAsyncThunk<any, IOfficerState, { state: RootState }>("officer/createOfficer", (officer: IOfficerState, {
-    dispatch,
+export const createOfficer = createAsyncThunk< "" | Promise<responseWithData<IOfficerState> | RejectWithValue<string, string>> | null, IOfficerState, { state: RootState }>("officer/createOfficer", (officer: IOfficerState, {
     getState,
     rejectWithValue
 }) => {
@@ -116,7 +115,7 @@ export const createOfficer = createAsyncThunk<any, IOfficerState, { state: RootS
         .catch((error) => rejectWithValue(error.response.data))
 })
 
-export const updateOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/updateOfficer", (
+export const updateOfficer = createAsyncThunk<"" | Promise<responseWithData<IOfficerState> | RejectWithValue<unknown, unknown>> | null, string, { state: RootState }>("officers/updateOfficer", (
     id
     , {
         dispatch,
@@ -135,9 +134,8 @@ export const updateOfficer = createAsyncThunk<any, string, { state: RootState }>
 })
 
 
-export const deleteOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/deleteOfficer", (id, {
+export const deleteOfficer = createAsyncThunk<"" | Promise<responseWithData<IOfficerState> | RejectWithValue<unknown, unknown>> | null, string, { state: RootState }>("officers/deleteOfficer", (id, {
     dispatch,
-    getState,
     rejectWithValue
 }) => {
     const bearer = localStorageApi.getBearer()
@@ -150,7 +148,7 @@ export const deleteOfficer = createAsyncThunk<any, string, { state: RootState }>
 
 })
 
-export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootState }>("officers/getAllOfficers", (_, {
+export const getAllOfficersArray = createAsyncThunk<"" | Promise<responseWithData<IOfficerState> | RejectWithValue<unknown, unknown>> | null, void, { state: RootState }>("officers/getAllOfficers", (_, {
     rejectWithValue
 }) => {
     const bearer = localStorageApi.getBearer()
@@ -159,7 +157,7 @@ export const getAllOfficersArray = createAsyncThunk<any, void, { state: RootStat
         .catch((error) => rejectWithValue(error.response.data))
 })
 
-export const getOneOfficer = createAsyncThunk<any, string, { state: RootState }>("officers/getOneOfficer", (id, {rejectWithValue}) => {
+export const getOneOfficer = createAsyncThunk<"" | Promise<responseWithData<IOfficerState> | RejectWithValue<unknown, unknown>> | null, string, { state: RootState }>("officers/getOneOfficer", (id, {rejectWithValue}) => {
     const bearer = localStorageApi.getBearer()
     return bearer && officerApi.getOneOfficer(bearer, id)
         .then((response) => response.data)

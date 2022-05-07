@@ -2,7 +2,7 @@ import {RootState} from "./store"
 import {casesApi} from "../api/api"
 import {setCaseEditMode} from "./appSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {ICaseState, IInitialCasesState, responseWithData} from "../types/types"
+import {ICaseState, IInitialCasesState, RejectWithValue, responseWithData} from "../types/types"
 
 
 const CLIENT_ID = process.env.CLIENT_ID
@@ -148,22 +148,23 @@ export const createAuthorisedCase = createAsyncThunk<responseWithData<ICaseState
 
 })
 
-export const getAllCases = createAsyncThunk<any, string, { state: RootState }>("cases/getAllCases", (id, {
+export const getAllCases = createAsyncThunk<"" | Promise<RejectWithValue<unknown, unknown> | responseWithData<ICaseState[]>> | null, string, { state: RootState }>("cases/getAllCases", (id, {
     dispatch,
-    rejectWithValue
+    rejectWithValue,
+    fulfillWithValue
 }) => {
     const bearer = localStorage.getItem("bearer")
     return bearer && casesApi.getAllCases(bearer)
         .then((response) => {
-            if (id) {
+            if (id) {// имитация не работающего getOneCase
                 const report = response.data.data.filter((item: ICaseState) => item._id === id)
                 dispatch(setCaseToEdit(report[0]))
             }
-            return response.data
+            return response.data as responseWithData<ICaseState[]>
         })
-        .catch((error) => rejectWithValue(error.response.data))
+        .catch((error:{response:{data:string}}) => rejectWithValue(error.response.data))
 })
-//не работает санка!!!!! как и почему не понятно!!!!! при вызове сразу перекидывает в getOneCase.reject, при этом не происходит запрос
+//не работает санка!!!!! как и почему не понятно!!!!! при вызове сразу перекидывает в getOneCase.reject, запрос не происходит
 export const getOneCase = createAsyncThunk<responseWithData<ICaseState>, string, { state: RootState }>("cases/getOneCase", (id, {
     getState,
     rejectWithValue

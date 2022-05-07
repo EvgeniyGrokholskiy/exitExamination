@@ -127,6 +127,9 @@ export interface IInitialOfficersState {
     officersArray: Array<IOfficerState>
 }
 
+export class RejectWithValue<T, U> {
+}
+
 /****Component props****/
 
 export interface IReportsCardProps {
