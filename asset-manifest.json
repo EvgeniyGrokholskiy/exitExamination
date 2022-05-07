@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/exitExamination/static/css/main.9f200142.css",
+    "main.js": "/exitExamination/static/js/main.55162133.js",
+    "static/js/787.01708710.chunk.js": "/exitExamination/static/js/787.01708710.chunk.js",
+    "static/media/loader.gif": "/exitExamination/static/media/loader.46872f70c2cf202fdaf2.gif",
+    "static/media/Page404.png": "/exitExamination/static/media/Page404.21880690bd94035c0d7e.png",
+    "static/media/bike_theft.jpg": "/exitExamination/static/media/bike_theft.cb976505a69c11ed1dff.jpg",
+    "index.html": "/exitExamination/index.html",
+    "main.9f200142.css.map": "/exitExamination/static/css/main.9f200142.css.map",
+    "main.55162133.js.map": "/exitExamination/static/js/main.55162133.js.map",
+    "787.01708710.chunk.js.map": "/exitExamination/static/js/787.01708710.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9f200142.css",
+    "static/js/main.55162133.js"
+  ]
+}
