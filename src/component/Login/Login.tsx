@@ -15,7 +15,7 @@ const Login: React.FC = () => {
     const isLogin = useAppSelector(getAuthIsLogin)
     const isShowLogin = useAppSelector(getIsShowLogin)
 
-    const tabToggle = (event: React.MouseEvent<HTMLDivElement>) => {
+    const tabToggle = () => {
         dispatch(showLogin(!isShowLogin))
         dispatch(changeAuthValue({fieldName: "error", value: ""}))
     }

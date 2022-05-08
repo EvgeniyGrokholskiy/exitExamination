@@ -1,11 +1,8 @@
 import React from "react"
 import styles from "./sendMessage.module.scss"
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
-import {useAppDispatch} from "../../../Redux/hooks";
+import {useAppDispatch} from "../../../Redux/hooks"
+import {ISendMessageModalProps} from "../../../types/types";
 
-interface ISendMessageModalProps {
-    action: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }>
-}
 
 const SendMessageModal: React.FC<ISendMessageModalProps> = ({action}) => {
 

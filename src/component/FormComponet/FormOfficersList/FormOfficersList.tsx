@@ -1,18 +1,11 @@
 import React from "react"
 import styles from "./formOfficersList.module.scss"
 import {getAllOfficers} from "../../../Redux/selectors"
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import { IFormOfficersListProps } from "../../../types/types"
 
-interface IFormOfficersListProps {
-    label: string
-    value: string
-    name: string
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
-    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
-}
 
-const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, callback, action}) => {
+const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, callback, action, required}) => {
 
     const dispatch = useAppDispatch()
     const officersArray = useAppSelector(getAllOfficers)
@@ -20,7 +13,7 @@ const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name,
 
     return (
         <label className={styles.label}>{label}
-            <select className={styles.select} required={true} value={value} onChange={callback ? callback : (event) => {
+            <select className={styles.select} required={required} value={value} onChange={callback ? callback : (event) => {
                 const fieldName = name
                 const value = event.target.value ? event.target.value : null
                 action && dispatch(action({fieldName, value}))

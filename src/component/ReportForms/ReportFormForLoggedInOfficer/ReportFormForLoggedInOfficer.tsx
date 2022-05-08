@@ -1,23 +1,19 @@
 import React, {FormEvent} from "react"
 import {NavLink} from "react-router-dom"
-import MyButton from "../../MyButton/MyButton";
+import MyButton from "../../MyButton/MyButton"
 import {getCase} from "../../../Redux/selectors"
-import { IReportInProps } from "../../../types/types"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import FormSelect from "../../FormComponet/FormSelect/FormSelect"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import styles from "../ReportFormPublic/reportFormPublic.module.scss"
 import FormTextarea from "../../FormComponet/FormTextarea/FormTextarea"
-import {changeEditCaseValue, saveEditedCase} from "../../../Redux/casesSlice"
 import FormOfficersList from "../../FormComponet/FormOfficersList/FormOfficersList"
-import FormStatesSelect from "../../FormComponet/FormStatusSelect/FormStatesSelect"
-import styles from "../../ReportForms/ReportFormPublic/reportFormPublic.module.scss"
+import {changeCaseValue, clearCaseForm, createAuthorisedCase} from "../../../Redux/casesSlice"
 
 
-const ReportEdit: React.FC<IReportInProps> = ({report}) => {
+const ReportFormForLoggedInOfficer = () => {
 
     const {
-        createdAt,
-        status,
         licenseNumber,
         type,
         ownerFullName,
@@ -26,7 +22,7 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
         officer,
         description,
         resolution
-    } = report
+    } = useAppSelector(getCase)
 
     const dispatch = useAppDispatch()
     const {error} = useAppSelector(getCase)
@@ -36,33 +32,31 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
             <form className={`${styles.formWrapper} ${styles.extra_width}`}
                   onSubmit={((event: FormEvent<HTMLFormElement>) => {
                       event.preventDefault()
-                      dispatch(saveEditedCase(report._id))
+                      dispatch(createAuthorisedCase())
+                      dispatch(clearCaseForm())
                   })}>
-                <FormInput label={"Дата создания сообщения:"} type={"text"} name={"createdAt"} required={true}
-                           value={`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 19)}`}
-                           action={changeEditCaseValue}/>
-                <FormStatesSelect label={"Статус сообщения:"} name={"status"} value={status} action={changeEditCaseValue} required={false}/>
-                <FormInput label={"Номер лицензии:"} type={"text"} name={"licenseNumber"} required={true}
+                <FormInput label={"Номер лицензии*:"} type={"text"} name={"licenseNumber"} required={true}
                            value={licenseNumber}
-                           action={changeEditCaseValue}/>
-                <FormSelect label={"Тип велосипеда:"} name={"type"} required={true} value={type} action={changeEditCaseValue}/>
-                <FormInput label={"ФИО арендатора:"} type={"text"} name={"ownerFullName"} required={true}
+                           action={changeCaseValue}/>
+                <FormSelect label={"Тип велосипеда*:"} name={"type"} required={true} value={type}
+                            action={changeCaseValue}/>
+                <FormInput label={"ФИО арендатора*:"} type={"text"} name={"ownerFullName"} required={true}
                            value={ownerFullName}
-                           action={changeEditCaseValue}/>
+                           action={changeCaseValue}/>
                 <FormInput label={"Цвет велосипеда:"} type={"text"} name={"color"} required={false} value={color}
-                           action={changeEditCaseValue}/>
+                           action={changeCaseValue}/>
                 <FormInput label={"Дата кражи:"} type={"date"} name={"date"} required={false}
-                           value={`${date?.slice(0,10)}`}
-                           action={changeEditCaseValue}/>
+                           value={`${date?.slice(0, 10)}`}
+                           action={changeCaseValue}/>
                 <FormOfficersList label={"Ответственный сотрудник:"} name={"officer"} value={officer} required={false}
-                                  action={changeEditCaseValue}/>
+                                  action={changeCaseValue}/>
                 <FormTextarea label={"Дополнительный комментарий:"} name={"description"} required={false}
                               value={description}
-                              action={changeEditCaseValue}/>
+                              action={changeCaseValue}/>
                 <FormTextarea label={"Завершающий комментарий:"} name={"resolution"} required={false}
                               value={resolution}
-                              action={changeEditCaseValue}/>
-                <MyButton>Сохранить</MyButton>
+                              action={changeCaseValue}/>
+                <MyButton>Отправить</MyButton>
                 {
                     error && <h2 className={styles.error}>{error}</h2>
                 }
@@ -72,4 +66,4 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
     )
 }
 
-export default ReportEdit
+export default ReportFormForLoggedInOfficer

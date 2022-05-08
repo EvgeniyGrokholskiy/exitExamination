@@ -20,6 +20,7 @@ const initialState: IInitialCasesState = {
     date: "",
     officer: "",
     description: "",
+    resolution: "",
     oneCase: "",
     allCases: [],
     editCase: {
@@ -141,8 +142,8 @@ export const createAuthorisedCase = createAsyncThunk<responseWithData<ICaseState
     rejectWithValue
 }) => {
     const bearer = getState().auth.bearer
-    const {licenseNumber, ownerFullName, type, color, date, description} = getState().cases
-    return casesApi.createAuthorise(bearer, licenseNumber, ownerFullName, type, color, date, description)
+    const {licenseNumber,ownerFullName, type, color, officer, date, description, resolution} = getState().cases
+    return casesApi.createAuthorise(bearer, licenseNumber, ownerFullName, type, color, officer,date, description, resolution)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))
 

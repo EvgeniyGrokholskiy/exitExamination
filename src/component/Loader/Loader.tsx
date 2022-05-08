@@ -4,7 +4,7 @@ import loader from "../../assets/img/loader.gif"
 
 const Loader = () => {
     return (
-        <img className={styles.image} src={loader}/>
+        <img className={styles.image} src={loader} alt={"Индикатор загрузки"}/>
     )
 }
 

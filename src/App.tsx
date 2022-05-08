@@ -3,17 +3,17 @@ import React, {useEffect} from "react"
 import Main from "./component/Main/Main"
 import {localStorageApi} from "./api/api"
 import Login from "./component/Login/Login"
+import Page404 from "./component/404/Page404"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
-import ReportForm from "./component/ReportForm/ReportForm"
 import {getAuthIsLogin, getBearer} from "./Redux/selectors"
 import {useAppDispatch, useAppSelector} from "./Redux/hooks"
 import ReportCardList from "./component/ReportsList/ReportCardList"
 import OfficersList from "./component/Officers/OfficersList/OfficersList"
+import ReportFormWrapper from "./component/ReportForms/ReportFormWrapper";
 import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
 import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
-import Page404 from "./component/404/Page404"
 
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
     const dispatch = useAppDispatch()
     const bearer = useAppSelector(getBearer)
     const isLogin = useAppSelector(getAuthIsLogin)
-
 
     useEffect(() => {
         const value = localStorageApi.getIsLogin()
@@ -57,7 +56,7 @@ function App() {
                 <Routes>
                     <Route path={"/"} element={<Main/>}/>
                     <Route path={"/login"} element={<Login/>}/>
-                    <Route path={"/report"} element={<ReportForm/>}/>
+                    <Route path={"/report"} element={<ReportFormWrapper/>}/>
                     <Route path={"/reports-list"} element={<ReportCardList/>}/>
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer/>}/>
                     <Route path={"/employees-list"} element={<OfficersList/>}/>

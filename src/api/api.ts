@@ -58,14 +58,16 @@ export const casesApi = {
             description,
         })
     },
-    createAuthorise(bearer: string, licenseNumber: string, ownerFullName: string, type: string, color: string, date: string, description: string) {
+    createAuthorise(bearer: string, licenseNumber: string, ownerFullName: string, type: string, color: string, officer: string, date: string, description: string, resolution: string) {
         return instance.post<responseWithData<ICaseState>>("cases/", {
             licenseNumber,
             ownerFullName,
             type,
             color,
+            officer,
             date,
-            description
+            description,
+            resolution
         }, {headers: {Authorization: `Bearer ${bearer}`}})
     },
     editCase(bearer: string, id: string, editedCase: ICaseState) {

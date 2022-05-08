@@ -44,6 +44,9 @@ const Header: React.FC = () => {
                             сотрудников</NavLink>
                     </li>
                 }
+
+            </ul>
+            <div className={styles.auth_block}>
                 {
                     !isLogin && <li className={styles.menu_item}>
                         <NavLink
@@ -53,11 +56,10 @@ const Header: React.FC = () => {
                 }
                 {
                     isLogin && <li className={styles.menu_item}>
-                        <button onClick={logout}>LogOut</button>
+                        <NavLink className={styles.logout_button} to={"/"} onClick={logout}>LogOut</NavLink>
                     </li>
                 }
-            </ul>
-
+            </div>
         </div>
     )
 }

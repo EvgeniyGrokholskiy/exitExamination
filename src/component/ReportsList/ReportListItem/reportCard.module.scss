@@ -4,13 +4,44 @@
   cursor: pointer;
   padding: 25px;
   transition: all 0.2s ease-in;
+  width: 49%;
 }
 
 .wrapper:hover {
   box-shadow: 2px 2px 2px black;
   transform: scale(1.01);
 }
+
 .label {
+  display: inline-block;
   font-weight: bold;
   padding-right: 20px;
+  width: 20em;
+}
+
+@media screen and (max-width: 1100px) {
+  .wrapper {
+    width: 100%;
+  }
+  .label {
+    width: 25em;
+  }
+}
+
+@media screen and (max-width: 740px){
+  .label {
+    font-size: 14px;
+    width: 16em;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .wrapper {
+    justify-content: center;
+  }
+  .text_block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }

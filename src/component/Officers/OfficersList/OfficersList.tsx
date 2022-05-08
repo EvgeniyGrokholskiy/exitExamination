@@ -4,7 +4,12 @@ import styles from "./officersList.module.scss"
 import OfficerItem from "./OfficerItem/OfficerItem"
 import {getAllOfficersArray} from "../../../Redux/oficersSllice"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
-import {getAllOfficers, getOfficerIsLoading} from "../../../Redux/selectors"
+import {
+    getAllOfficers,
+    getIsLoggedInUserApproved,
+    getLoggedInUserId,
+    getOfficerIsLoading
+} from "../../../Redux/selectors"
 
 
 const OfficersList = () => {
@@ -12,6 +17,8 @@ const OfficersList = () => {
     const dispatch = useAppDispatch()
     const officersArray = useAppSelector(getAllOfficers)
     const isLoading = useAppSelector(getOfficerIsLoading)
+    const loggedInUserId = useAppSelector(getLoggedInUserId)
+    const isLoggedInUserApproved = useAppSelector(getIsLoggedInUserApproved)
 
     useEffect(() => {
         dispatch(getAllOfficersArray())
@@ -24,7 +31,18 @@ const OfficersList = () => {
             }
             <div className={styles.wrapper}>
                 {
-                    officersArray.map((officer) => <OfficerItem key={officer._id} officer={officer}/>)
+                    isLoggedInUserApproved && officersArray.map((officer) => <OfficerItem key={officer._id}
+                                                                                          officer={officer}
+                                                                                          loggedInUserId={loggedInUserId}
+                                                                                          isOnlyCard={false}
+                                                                                          isLoggedInUserApproved={isLoggedInUserApproved}/>)
+                }
+                {
+                    !isLoggedInUserApproved && officersArray.map((officer) => <OfficerItem key={officer._id}
+                                                                                           isOnlyCard={true}
+                                                                                           officer={officer}
+                                                                                           loggedInUserId={loggedInUserId}
+                                                                                           isLoggedInUserApproved={isLoggedInUserApproved}/>)
                 }
             </div>
         </>

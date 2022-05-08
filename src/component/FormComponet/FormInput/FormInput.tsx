@@ -1,18 +1,8 @@
 import React from "react"
 import styles from "./formInput.module.scss"
 import {useAppDispatch} from "../../../Redux/hooks"
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
+import {IFormInputProps} from "../../../types/types"
 
-interface IFormInputProps {
-    label: string
-    type: string
-    name: string
-    required: boolean
-    checked?: boolean
-    value?: string | null
-    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
-}
 
 const FormInput: React.FC<IFormInputProps> = ({
                                                   label,

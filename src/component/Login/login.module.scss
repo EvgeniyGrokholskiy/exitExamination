@@ -8,6 +8,7 @@
 
 .tab_login {
   border-bottom: 2px solid gray;
+  color: darkgrey;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,6 +17,7 @@
   height: 50px;
   &__active {
     background-color: white;
+    color: black;
   }
 }
 
@@ -24,6 +26,7 @@
   grid-area: signIn;
   &__active {
     background-color: white;
+    color: black;
   }
 }
 

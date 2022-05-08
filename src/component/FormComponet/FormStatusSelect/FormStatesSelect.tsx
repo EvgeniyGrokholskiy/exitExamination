@@ -1,15 +1,8 @@
 import React from "react"
 import {useAppDispatch} from "../../../Redux/hooks"
+import { IFormStateSelect } from "../../../types/types"
 import styles from "../FormInput/formInput.module.scss"
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit"
 
-interface IFormStateSelect {
-    label: string
-    value: string
-    name: string
-    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
-}
 
 const FormStatesSelect: React.FC<IFormStateSelect> = ({label, value, name, callback, action}) => {
 

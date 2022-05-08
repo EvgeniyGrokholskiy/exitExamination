@@ -1,10 +1,11 @@
 import React from "react";
+import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
 /**Api types and interfaces**/
 
 export interface UserData {
     token: string
-    user: IUser
+    user: IUserFromAuth
 }
 
 export interface responseWithData<T> {
@@ -37,6 +38,15 @@ export interface IUser {
     approved: boolean
 }
 
+export interface IUserFromAuth {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    approved: boolean
+}
+
 export interface ISignUpProps {
     firstName: string,
     lastName: string,
@@ -50,7 +60,7 @@ export interface ISignInProps {
 }
 
 export interface IInitialAuthState {
-    [key: string]: string | boolean | null | IUser
+    [key: string]: string | boolean | null | IUserFromAuth
 
     bearer: string
     isLogin: boolean
@@ -61,7 +71,7 @@ export interface IInitialAuthState {
     status: "idle" | "loading" | "success" | "failed"
     error: string
     isNewUser: boolean
-    loginUser: IUser
+    loginUser: IUserFromAuth
 }
 
 /**CasesSlice types and interfaces**/
@@ -99,6 +109,7 @@ export interface IInitialCasesState {
     date: string
     officer: string
     description: string
+    resolution: string
     oneCase: ICaseState | ""
     allCases: Array<ICaseState>,
     editCase: ICaseState
@@ -152,7 +163,54 @@ export interface IReportInProps {
     report: ICaseState
 }
 
-export interface IOfficerInProps {
+export interface IOfficerItemProps {
+    isOnlyCard: boolean
     officer: IOfficerState
+    loggedInUserId: string
+    isLoggedInUserApproved: boolean
+}
+
+interface IFormCommonProps {
+    label: string
+    name: string
+    required: boolean
+    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
+    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
+}
+
+export interface IFormTextareaProps extends IFormCommonProps {
+    value: string | boolean | ICaseState | ICaseState[] | null | undefined
+}
+
+export interface IFormOfficersListProps extends IFormCommonProps {
+    value: string
+}
+
+export interface IFormInputProps extends IFormCommonProps {
+    type: string
+    checked?: boolean
+    value?: string | null
+}
+
+export interface IFormSelectProps extends IFormCommonProps {
+    value: string
+}
+
+export interface IFormStateSelect extends IFormCommonProps {
+    value: string
+}
+
+export interface IMyButtonProps {
+    callback?: (event: React.MouseEvent<HTMLButtonElement>) => void
+    children?: React.ReactNode
+}
+
+export interface IListItemProps {
+    label: string
+    value: string | boolean | null
+}
+
+export interface ISendMessageModalProps {
+    action: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }>
 }
 

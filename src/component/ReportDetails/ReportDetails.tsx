@@ -1,6 +1,7 @@
 import React from "react"
 import Report from "./Report/Report"
 import {NavLink} from "react-router-dom"
+import MyButton from "../MyButton/MyButton";
 import styles from "./reportDetails.module.scss"
 import ReportEdit from "./ReportEdit/ReportEdit"
 import {setCaseEditMode} from "../../Redux/appSlice"
@@ -16,12 +17,14 @@ const ReportDetails: React.FC = () => {
 
     return (
         <div className={styles.wrapper}>
-            {
-                !isCaseEdit && <NavLink className={styles.back_button} to={"/reports-list"}>Назад</NavLink>
-            }
-            {
-                !isCaseEdit && <button onClick={() => dispatch(setCaseEditMode(true))}>Редактировать</button>
-            }
+            <div className={styles.button_block}>
+                {
+                    !isCaseEdit && <NavLink className={styles.back_button} to={"/reports-list"}>Назад</NavLink>
+                }
+                {
+                    !isCaseEdit && <MyButton callback={() => dispatch(setCaseEditMode(true))}>Редактировать</MyButton>
+                }
+            </div>
             {
                 isCaseEdit
                     ? <ReportEdit report={report}/>

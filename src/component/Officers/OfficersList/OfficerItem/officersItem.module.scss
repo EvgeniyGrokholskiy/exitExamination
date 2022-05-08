@@ -10,3 +10,8 @@
   transform: scale(1.01);
   box-shadow: 3px 3px 3px black;
 }
+
+.withOutHover:hover {
+  transform: none;
+  box-shadow: none;
+}

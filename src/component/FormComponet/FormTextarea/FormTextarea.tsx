@@ -1,16 +1,8 @@
 import React from "react"
+import {useAppDispatch} from "../../../Redux/hooks"
+import {IFormTextareaProps} from "../../../types/types"
 import styles from "../FormInput/formInput.module.scss"
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
-import {useAppDispatch} from "../../../Redux/hooks";
 
-interface IFormTextareaProps {
-    label: string
-    name: string
-    required: boolean
-    value: string
-    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
-    action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }>
-}
 
 const FormTextarea: React.FC<IFormTextareaProps> = ({label, name, required, value, callback, action}) => {
 
@@ -18,7 +10,7 @@ const FormTextarea: React.FC<IFormTextareaProps> = ({label, name, required, valu
 
     return (
         <label className={styles.label}>{label}
-            <textarea className={styles.input} name={name} value={value ? value : ""}
+            <textarea className={styles.input} name={name} value={value ? value.toString() : ""}
                       required={required}
                       onChange={callback ? callback : (e) => {
                           const fieldName = e.target.name

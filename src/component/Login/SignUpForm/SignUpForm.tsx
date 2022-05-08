@@ -1,5 +1,6 @@
 import React, {FormEvent} from "react"
 import styles from "./signUpForm.module.scss"
+import MyButton from "../../MyButton/MyButton";
 import {showLogin} from "../../../Redux/appSlice"
 import {getAuthData} from "../../../Redux/selectors"
 import FormInput from "../../FormComponet/FormInput/FormInput"
@@ -34,7 +35,7 @@ const SignUpForm: React.FC = () => {
                        value={password}
                        action={changeAuthValue}
             />
-            <button>Зарегистрироваться</button>
+            <MyButton>Зарегистрироваться</MyButton>
             {
                 error && <p className={styles.error_title}>{error}</p>
             }

@@ -9,6 +9,7 @@ import {deleteCase, getAllCases} from "../../Redux/casesSlice"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import {getAllOfficers, getCasesArray, getLoadingStatus} from "../../Redux/selectors"
 
+
 const ReportCardList = () => {
 
     const dispatch = useAppDispatch()
@@ -39,7 +40,7 @@ const ReportCardList = () => {
                                             officer={getOfficerName(officersArray, item.officer)}
                                             description={item.description}
                                             resolution={item.resolution} handleLinkToDetails={() => {
-                            window.location.assign(`/reports-list/${item._id}`)
+                            window.location.assign(`/exitExamination/reports-list/${item._id}`)
                         }}
                                             handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
                                                 event.stopPropagation()

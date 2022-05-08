@@ -16,7 +16,7 @@ const initialState: IInitialAuthState = {
     error: "",
     isNewUser: false,
     loginUser: {
-        _id: "",
+        id: "",
         firstName: "",
         lastName: "",
         email: "",
@@ -62,7 +62,7 @@ export const authSlice = createSlice({
             state.status = "loading"
             state.error = ""
         })
-        builder.addCase(signIn.fulfilled, (state: IInitialAuthState, action: PayloadAction<any>) => {
+        builder.addCase(signIn.fulfilled, (state: IInitialAuthState, action) => {
             state.email = ""
             state.password = ""
             state.isLogin = true
@@ -79,7 +79,7 @@ export const authSlice = createSlice({
         builder.addCase(tokenVerification.pending, (state: IInitialAuthState) => {
             state.status = "loading"
         })
-        builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action: PayloadAction<any>) => {
+        builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action) => {
             state.status = "success"
             state.bearer = action.payload.data?.token
             state.loginUser = action.payload.data.user

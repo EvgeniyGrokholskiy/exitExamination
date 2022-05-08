@@ -4,7 +4,7 @@ import {ICaseState, IInitialAppState, IInitialAuthState, IInitialCasesState} fro
 
 /************************AppSlice Selector***********************************/
 export const getAppData = (state: RootState): IInitialAppState => state.app
-export const getIsCaseEdit = (state:RootState):boolean => state.app.isCaseEdit
+export const getIsCaseEdit = (state: RootState): boolean => state.app.isCaseEdit
 export const getIsShowLogin = (state: RootState): boolean => state.app.isShowLogin
 export const getIsOfficerEdit = (state: RootState): boolean => state.app.isOfficerEdit
 
@@ -12,9 +12,13 @@ export const getIsOfficerEdit = (state: RootState): boolean => state.app.isOffic
 export const getBearer = (state: RootState): string => state.auth.bearer
 export const getAuthData = (state: RootState): IInitialAuthState => state.auth
 export const getAuthIsLogin = (state: RootState): boolean => state.auth.isLogin
+export const getLoggedInUserId = (state: RootState): string => state.auth.loginUser.id
+export const getIsLoggedInUserApproved = (state: RootState): any => state.auth.loginUser.approved
+
 
 /**********************CaseSlice selectors**********************************/
 export const getCase = (state: RootState): IInitialCasesState => state.cases
+export const getIsCreated = (state: RootState): boolean => state.cases.isCreated
 export const getEdinCase = (state: RootState): ICaseState => state.cases.editCase
 export const getLoadingStatus = (state: RootState): boolean => state.cases.isLoading
 export const getCasesArray = (state: RootState): Array<ICaseState> => state.cases.allCases

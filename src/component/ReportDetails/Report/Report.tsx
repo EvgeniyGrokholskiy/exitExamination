@@ -63,7 +63,7 @@ const Report: React.FC<IReportInProps> = ({report}) => {
                 </tr>
                 <tr>
                     <td className={styles.table_item}>Дата кражи</td>
-                    <td className={styles.table_item}>{`${date?.slice(0,10)} $date?.slice(11,19)}`}</td>
+                    <td className={styles.table_item}>{`${date?.slice(0,10)} ${date?.slice(11,19)}`}</td>
                 </tr>
                 <tr>
                     <td className={styles.table_item}>Ответственный сотрудник</td>

@@ -1,10 +1,7 @@
 import React from "react"
 import styles from "./listItem.module.scss"
+import {IListItemProps} from "../../types/types"
 
-interface IListItemProps {
-    label: string
-    value: string | boolean | null
-}
 
 const ListItem: React.FC<IListItemProps> = ({label, value}) => {
 

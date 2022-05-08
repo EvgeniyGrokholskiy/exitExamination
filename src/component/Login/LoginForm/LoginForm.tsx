@@ -1,6 +1,7 @@
 import React, {FormEvent} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./loginForm.module.scss"
+import MyButton from "../../MyButton/MyButton";
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import {changeAuthValue, signIn} from "../../../Redux/authSlice"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
@@ -30,7 +31,7 @@ const LoginForm: React.FC = () => {
                        value={password}
                        action={changeAuthValue}
             />
-            <button>Войти</button>
+            <MyButton>Войти</MyButton>
             {
                 error && <h2 className={styles.error}>{error}</h2>
             }
