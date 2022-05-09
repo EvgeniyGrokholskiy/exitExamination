@@ -2,21 +2,19 @@ import React from "react"
 import MyLink from "../../../MyLink/MyLink"
 import styles from "./officersItem.module.scss"
 import MyButton from "../../../MyButton/MyButton"
+import {useAppDispatch} from "../../../../Redux/hooks"
 import ListItem from "../../../ListComponents/ListItem"
 import {IOfficerItemProps} from "../../../../types/types"
-import {getIsOfficerEdit} from "../../../../Redux/selectors"
-import {deleteOfficer} from "../../../../Redux/officersSllice"
 import {setOfficerEditMode} from "../../../../Redux/appSlice"
-import {useAppDispatch, useAppSelector} from "../../../../Redux/hooks"
+import {deleteOfficer} from "../../../../Redux/officersSllice"
 
 
 const OfficerItem: React.FC<IOfficerItemProps> = ({officer, loggedInUserId, isLoggedInUserApproved}) => {
 
     const dispatch = useAppDispatch()
-    const isOfficerEdit = useAppSelector(getIsOfficerEdit)
     const {_id, email, firstName, lastName, approved} = officer
 
-    const conditionalRender = !isOfficerEdit && _id !== loggedInUserId && isLoggedInUserApproved
+    const conditionalRender = _id !== loggedInUserId && isLoggedInUserApproved
 
 
     return (

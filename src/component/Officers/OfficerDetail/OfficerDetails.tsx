@@ -1,5 +1,6 @@
 import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
+import MyLink from "../../MyLink/MyLink"
 import {useParams} from "react-router-dom"
 import styles from "./officerDetails.module.scss"
 import OfficersEdit from "../OfficersEdit/OfficersEdit"
@@ -19,18 +20,22 @@ const OfficerDetails = () => {
     }, [idFromURL, dispatch])
 
     return (
-        <div className={styles.wrapper}>
-            {
-                isLoading && <Loader/>
-            }
-            {
-                !isLoading &&
+        <>
+            <h1>Редактировать данные сотрудника</h1>
+            <div className={styles.wrapper}>
+                {
+                    isLoading && <Loader/>
+                }
+                {
+                    !isLoading &&
 
-                <div className={styles.buttonBlock}>
-                    <OfficersEdit/>
-                </div>
-            }
-        </div>
+                    <div className={styles.buttonBlock}>
+                        <OfficersEdit/>
+                    </div>
+                }
+            </div>
+            <MyLink link={"/employees-list"}>Назад</MyLink>
+        </>
     )
 }
 

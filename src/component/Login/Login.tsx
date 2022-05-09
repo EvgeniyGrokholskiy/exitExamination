@@ -21,22 +21,27 @@ const Login: React.FC = () => {
     }
 
     return (
-        <div className={stales.wrapper}>
-            <div className={`${isShowLogin && stales.tab_login__active} ${stales.tab_login}`}
-                 onClick={tabToggle}>{"Авторизация"}
-            </div>
-            <div className={`${!isShowLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
-                 onClick={tabToggle}>{"Регистрация"}
-            </div>
-            <div className={stales.formContainer}>
+        <>
+            {
+                isShowLogin ? <h1>Страница авторизации</h1> : <h1>Страница регистрации</h1>
+            }
+            <div className={stales.wrapper}>
+                <div className={`${isShowLogin && stales.tab_login__active} ${stales.tab_login}`}
+                     onClick={tabToggle}>{"Авторизация"}
+                </div>
+                <div className={`${!isShowLogin && stales.tab_signIn__active} ${stales.tab_signIn}`}
+                     onClick={tabToggle}>{"Регистрация"}
+                </div>
+                <div className={stales.formContainer}>
+                    {
+                        isShowLogin ? <LoginForm/> : <SignUpForm/>
+                    }
+                </div>
                 {
-                    isShowLogin ? <LoginForm/> : <SignUpForm/>
+                    isLogin && <Navigate to={"/"}/>
                 }
             </div>
-            {
-                isLogin && <Navigate to={"/"}/>
-            }
-        </div>
+        </>
     )
 }
 
