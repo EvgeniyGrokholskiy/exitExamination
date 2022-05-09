@@ -1,0 +1,22 @@
+.link {
+  background-color: blue;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  line-height: 35px;
+  padding: 0 25px;
+  height: 35px;
+  text-decoration: none;
+  transition: all;
+
+  &:hover {
+    box-shadow: 1px 1px 1px black;
+    transform: scale(1.005);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: none;
+  }
+}

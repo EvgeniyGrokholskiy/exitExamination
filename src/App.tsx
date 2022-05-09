@@ -14,6 +14,7 @@ import ReportFormWrapper from "./component/ReportForms/ReportFormWrapper";
 import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
 import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
+import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer";
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
                     <Route path={"/reports-list/*"} element={<ReportDetailsContainer/>}/>
                     <Route path={"/employees-list"} element={<OfficersList/>}/>
                     <Route path={"/employees-list/*"} element={<OfficerDetails/>}/>
+                    <Route path={"/employees-new/"} element={<CreateNewOfficer/>}/>
                     <Route path={"*"} element={<Page404/>}/>
                 </Routes>
             </main>

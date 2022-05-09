@@ -1,13 +1,13 @@
 import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
+import {NavLink} from "react-router-dom"
 import {ICaseState} from "../../types/types"
-import {getOfficerName} from "../Helpers/Helpers"
 import styles from "./reportCardList.module.scss"
 import ReportsCard from "./ReportListItem/ReportsCard"
-import {getAllOfficersArray} from "../../Redux/oficersSllice"
+import {getAllOfficersArray} from "../../Redux/officersSllice"
 import {deleteCase, getAllCases} from "../../Redux/casesSlice"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
-import {getAllOfficers, getCasesArray, getLoadingStatus} from "../../Redux/selectors"
+import {getCasesArray, getIsLoggedInUserApproved, getLoadingStatus} from "../../Redux/selectors"
 
 
 const ReportCardList = () => {
@@ -15,7 +15,7 @@ const ReportCardList = () => {
     const dispatch = useAppDispatch()
     const casesArray = useAppSelector(getCasesArray)
     const isLoading = useAppSelector(getLoadingStatus)
-    const officersArray = useAppSelector(getAllOfficers)
+    const isLoggedUserApproved = useAppSelector(getIsLoggedInUserApproved)
 
     useEffect(() => {
         dispatch(getAllCases(""))
@@ -31,22 +31,16 @@ const ReportCardList = () => {
                 }
                 {
                     casesArray.map((item: ICaseState) => {
-                        return <ReportsCard key={item._id}
-                                            status={item.status}
-                                            licenseNumber={item.licenseNumber}
-                                            ownerFullName={item.ownerFullName}
-                                            type={item.type} createdAt={item.createdAt}
-                                            updatedAt={item.updatedAt} color={item.color} date={item.date}
-                                            officer={getOfficerName(officersArray, item.officer)}
-                                            description={item.description}
-                                            resolution={item.resolution} handleLinkToDetails={() => {
-                            window.location.assign(`/exitExamination/reports-list/${item._id}`)
-                        }}
-                                            handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
-                                                event.stopPropagation()
-                                                dispatch(deleteCase(item._id))
-                                            }}
-                        />
+                        return <NavLink className={styles.link_to_card} to={`/reports-list/${item._id}`}><ReportsCard key={item._id} oneCase={item}
+                                                                                      isLoggedUserApproved={isLoggedUserApproved}
+                                                                                      handleLinkToDetails={() => {
+                                                                                          //window.location.assign(`/exitExamination/reports-list/${item._id}`)
+                                                                                      }}
+                                                                                      handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                                                                          event.stopPropagation()
+                                                                                          dispatch(deleteCase(item._id))
+                                                                                      }}
+                        /></NavLink>
                     })
                 }
             </div>

@@ -1,5 +1,12 @@
 import axios, {AxiosInstance} from "axios"
-import {ICaseState, IOfficerState, responseWithData, responseWithOfficersArray, UserData} from "../types/types"
+import {
+    ICaseState,
+    INewOfficer,
+    IOfficerState,
+    responseWithData,
+    responseWithOfficersArray,
+    UserData
+} from "../types/types"
 
 const instance: AxiosInstance = axios.create({
     baseURL: "https://sf-final-project.herokuapp.com/api/"
@@ -25,20 +32,19 @@ export const localStorageApi = {
 }
 
 export const authApi = {
-    signUp(firstName: string, lastName: string, email: string, password: string) {
+    signUp(firstName: string, lastName: string, email: string, password: string, clientId: string | undefined) {
         return instance.post<responseWithData<void>>("auth/sign_up", {
             firstName,
             lastName,
             email,
             password,
-            clientId: clientId,
+            clientId,
         })
     },
     signIn(email: string, password: string) {
         return instance.post<responseWithData<UserData>>("auth/sign_in", {
             email,
             password,
-            clientId: clientId,
         })
     },
     tokenVerification(bearer:string){
@@ -58,7 +64,7 @@ export const casesApi = {
             description,
         })
     },
-    createAuthorise(bearer: string, licenseNumber: string, ownerFullName: string, type: string, color: string, officer: string, date: string, description: string, resolution: string) {
+    createAuthorise(bearer: string, licenseNumber: string, ownerFullName: string, type: string, color: string, officer: string, date: string, description: string) {
         return instance.post<responseWithData<ICaseState>>("cases/", {
             licenseNumber,
             ownerFullName,
@@ -67,7 +73,6 @@ export const casesApi = {
             officer,
             date,
             description,
-            resolution
         }, {headers: {Authorization: `Bearer ${bearer}`}})
     },
     editCase(bearer: string, id: string, editedCase: ICaseState) {
@@ -88,7 +93,7 @@ export const officerApi = {
     createOfficer(bearer: string, newOfficer:IOfficerState){
         return instance.post<responseWithData<IOfficerState>>("officers", newOfficer, {headers: {Authorization: `Bearer ${bearer}`}})
     },
-    editOfficer(bearer: string, id: string, officer: IOfficerState) {
+    editOfficer(bearer: string, id: string, officer: INewOfficer) {
         return instance.put<responseWithData<IOfficerState>>(`officers/${id}`, officer, {headers: {Authorization: `Bearer ${bearer}`}})
     },
     deleteOfficer(bearer: string, id: string) {

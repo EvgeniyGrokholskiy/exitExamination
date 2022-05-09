@@ -4,7 +4,6 @@
   cursor: pointer;
   padding: 25px;
   transition: all 0.2s ease-in;
-  width: 49%;
 }
 
 .wrapper:hover {
@@ -20,9 +19,6 @@
 }
 
 @media screen and (max-width: 1100px) {
-  .wrapper {
-    width: 100%;
-  }
   .label {
     width: 25em;
   }

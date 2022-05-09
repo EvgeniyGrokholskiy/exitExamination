@@ -3,15 +3,23 @@
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
-  transition: all 0.2s ease-in;
+  //transition: all 0.2s ease-in;
 }
 
-.wrapper:hover {
+/*.wrapper:hover {
   transform: scale(1.01);
   box-shadow: 3px 3px 3px black;
 }
 
 .withOutHover:hover {
+  cursor: auto;
   transform: none;
   box-shadow: none;
+}*/
+
+.buttonsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
 }

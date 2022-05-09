@@ -3,7 +3,7 @@ import {combineReducers} from "redux"
 import {authReducer} from "./authSlice"
 import {casesReducer} from "./casesSlice"
 import {configureStore} from "@reduxjs/toolkit"
-import {officersReducer} from "./oficersSllice"
+import {officersReducer} from "./officersSllice"
 
 
 const RootReducer = combineReducers({

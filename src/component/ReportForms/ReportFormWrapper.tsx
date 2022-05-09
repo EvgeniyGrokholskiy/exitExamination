@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 import {changeCaseValue} from "../../Redux/casesSlice"
-import {getAllOfficersArray} from "../../Redux/oficersSllice"
+import {getAllOfficersArray} from "../../Redux/officersSllice"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import ReportFormPublic from "./ReportFormPublic/ReportFormPublic"
 import {getAuthIsLogin, getIsCreated} from "../../Redux/selectors"
@@ -29,7 +29,6 @@ const ReportFormWrapper = () => {
             {
                 isLogin ? <ReportFormForLoggedInOfficer/> : <ReportFormPublic/>
             }
-
         </>
     )
 }

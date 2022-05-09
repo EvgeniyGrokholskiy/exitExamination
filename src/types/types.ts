@@ -52,6 +52,7 @@ export interface ISignUpProps {
     lastName: string,
     email: string,
     password: string
+    clientId: string | undefined
 }
 
 export interface ISignInProps {
@@ -60,9 +61,10 @@ export interface ISignInProps {
 }
 
 export interface IInitialAuthState {
-    [key: string]: string | boolean | null | IUserFromAuth
+    [key: string]: string | boolean | null | IUserFromAuth | undefined
 
     bearer: string
+    clientId: string | undefined
     isLogin: boolean
     firstName: string
     lastName: string
@@ -122,6 +124,18 @@ export interface IOfficerState {
 
     _id: string
     email: string
+    password: string
+    firstName: string | null
+    lastName: string | null
+    clientId: string
+    approved: boolean
+}
+
+export interface INewOfficer {
+    [key: string]: string | boolean | null
+
+    _id: string
+    email: string
     firstName: string | null
     lastName: string | null
     clientId: string
@@ -129,12 +143,12 @@ export interface IOfficerState {
 }
 
 export interface IInitialOfficersState {
-    [key: string]: string | boolean | null | Array<IOfficerState> | IOfficerState
+    [key: string]: string | boolean | null | Array<IOfficerState> | IOfficerState | INewOfficer
 
     isLoading: boolean
     error: string
     newOfficer: IOfficerState
-    oneOfficer: IOfficerState
+    oneOfficer: INewOfficer
     officersArray: Array<IOfficerState>
 }
 
@@ -144,17 +158,8 @@ export class RejectWithValue<T, U> {
 /****Component props****/
 
 export interface IReportsCardProps {
-    status: string
-    licenseNumber: string
-    ownerFullName: string
-    type: string
-    createdAt: string | null
-    updatedAt: string | null
-    color: string
-    date: string
-    officer: string
-    description: string
-    resolution: string
+    oneCase: ICaseState
+    isLoggedUserApproved: boolean
     handleLinkToDetails: () => void
     handleDeleteCase: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
@@ -164,7 +169,6 @@ export interface IReportInProps {
 }
 
 export interface IOfficerItemProps {
-    isOnlyCard: boolean
     officer: IOfficerState
     loggedInUserId: string
     isLoggedInUserApproved: boolean
@@ -200,9 +204,17 @@ export interface IFormStateSelect extends IFormCommonProps {
     value: string
 }
 
-export interface IMyButtonProps {
-    callback?: (event: React.MouseEvent<HTMLButtonElement>) => void
+export interface IMyButtonsCommonProps {
     children?: React.ReactNode
+}
+
+export interface IMyButtonProps extends IMyButtonsCommonProps {
+    callback?: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+export interface IMyNavLinkProps extends IMyButtonsCommonProps {
+    link: string
+    callback?: (event: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 export interface IListItemProps {

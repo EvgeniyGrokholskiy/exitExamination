@@ -3,14 +3,15 @@ import React, {useEffect} from "react"
 import {useParams} from "react-router-dom"
 import ReportDetails from "./ReportDetails"
 import {getAllCases} from "../../Redux/casesSlice"
-import {getLoadingStatus} from "../../Redux/selectors"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
+import {getIsCaseEdit, getLoadingStatus} from "../../Redux/selectors"
 
 
 const ReportDetailsContainer: React.FC = () => {
 
     const dispatch = useAppDispatch()
     const idFromUrl = useParams()["*"]
+    const isCaseEdit = useAppSelector(getIsCaseEdit)
     const isLoading = useAppSelector(getLoadingStatus)
 
     useEffect(() => {
@@ -22,7 +23,9 @@ const ReportDetailsContainer: React.FC = () => {
             {
                 isLoading && <Loader/>
             }
-            <h2>Детали отчета</h2>
+            {
+                isCaseEdit ? <h2>Редактирование отчета</h2> : <h2>Детали отчета</h2>
+            }
             <ReportDetails/>
         </div>
     )

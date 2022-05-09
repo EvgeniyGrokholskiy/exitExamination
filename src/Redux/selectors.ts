@@ -13,6 +13,7 @@ export const getBearer = (state: RootState): string => state.auth.bearer
 export const getAuthData = (state: RootState): IInitialAuthState => state.auth
 export const getAuthIsLogin = (state: RootState): boolean => state.auth.isLogin
 export const getLoggedInUserId = (state: RootState): string => state.auth.loginUser.id
+export const getLoggedUserEmail = (state: RootState): string => state.auth.loginUser.email
 export const getIsLoggedInUserApproved = (state: RootState): any => state.auth.loginUser.approved
 
 
@@ -25,5 +26,6 @@ export const getCasesArray = (state: RootState): Array<ICaseState> => state.case
 
 /*******************OfficersSlice selectors*******************************/
 export const getOfficer = (state: RootState) => state.officers.oneOfficer
+export const getNewOfficer = (state: RootState) => state.officers.newOfficer
 export const getAllOfficers = (state: RootState) => state.officers.officersArray
 export const getOfficerIsLoading = (state: RootState) => state.officers.isLoading

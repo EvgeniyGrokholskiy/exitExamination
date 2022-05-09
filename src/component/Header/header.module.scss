@@ -1,6 +1,7 @@
 .wrapper {
   background-color: gray;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
@@ -41,7 +42,15 @@
 }
 
 .auth_block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.email {
+  margin-right: 30px;
 }
 
 .logout_button {

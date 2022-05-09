@@ -1,5 +1,6 @@
 .label {
   display: block;
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -8,4 +9,8 @@
   margin-top: 15px;
   height: 35px;
   width: 100%;
+}
+
+.checkBox {
+  display: flex;
 }

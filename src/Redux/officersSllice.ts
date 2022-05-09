@@ -11,6 +11,7 @@ const initialOfficersState: IInitialOfficersState = {
     newOfficer: {
         _id: "",
         email: "",
+        password: "",
         firstName: null,
         lastName: null,
         clientId: "",
@@ -36,6 +37,9 @@ export const officersSlice = createSlice({
         },
         changeOneOfficerValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
             state.oneOfficer[action.payload.fieldName] = action.payload.value
+        },
+        changeNewOfficerValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
+            state.newOfficer[action.payload.fieldName] = action.payload.value
         }
     },
     extraReducers: (builder => {
@@ -104,14 +108,17 @@ export const officersSlice = createSlice({
     })
 })
 
-export const createOfficer = createAsyncThunk< "" | Promise<responseWithData<IOfficerState> | RejectWithValue<string, string>> | null, IOfficerState, { state: RootState }>("officer/createOfficer", (officer: IOfficerState, {
+export const createOfficer = createAsyncThunk<"" | Promise<responseWithData<IOfficerState> | RejectWithValue<string, string>> | null, void, { state: RootState }>("officer/createOfficer", (_, {
     getState,
     rejectWithValue
 }) => {
     const newOfficer = getState().officers.newOfficer
     const bearer = localStorageApi.getBearer()
     return bearer && officerApi.createOfficer(bearer, newOfficer)
-        .then((response) => response.data)
+        .then((response) => {
+            window.location.assign("/exitExamination/employees-list")
+            return response.data
+        })
         .catch((error) => rejectWithValue(error.response.data))
 })
 
@@ -128,6 +135,7 @@ export const updateOfficer = createAsyncThunk<"" | Promise<responseWithData<IOff
         .then((response) => {
             dispatch(setOfficerEditMode(false))
             dispatch(getAllOfficersArray())
+            window.location.assign("/exitExamination/employees-list")
             return response.data
         })
         .catch((error) => rejectWithValue(error.response.data))
@@ -165,5 +173,5 @@ export const getOneOfficer = createAsyncThunk<"" | Promise<responseWithData<IOff
 })
 
 
-export const {changeOfficersValue, changeOneOfficerValue} = officersSlice.actions
+export const {changeOfficersValue, changeOneOfficerValue, changeNewOfficerValue} = officersSlice.actions
 export const officersReducer = officersSlice.reducer

@@ -5,8 +5,6 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {ICaseState, IInitialCasesState, RejectWithValue, responseWithData} from "../types/types"
 
 
-const CLIENT_ID = process.env.CLIENT_ID
-
 const initialState: IInitialCasesState = {
     isLoading: false,
     isCreated: false,
@@ -15,7 +13,7 @@ const initialState: IInitialCasesState = {
     licenseNumber: "",
     ownerFullName: "",
     type: "general",
-    clientId: CLIENT_ID,
+    clientId: "",
     color: "",
     date: "",
     officer: "",
@@ -29,7 +27,7 @@ const initialState: IInitialCasesState = {
         licenseNumber: "",
         type: "general",
         ownerFullName: "",
-        clientId: CLIENT_ID,
+        clientId: "",
         createdAt: "",
         updatedAt: "",
         color: "",
@@ -142,8 +140,8 @@ export const createAuthorisedCase = createAsyncThunk<responseWithData<ICaseState
     rejectWithValue
 }) => {
     const bearer = getState().auth.bearer
-    const {licenseNumber,ownerFullName, type, color, officer, date, description, resolution} = getState().cases
-    return casesApi.createAuthorise(bearer, licenseNumber, ownerFullName, type, color, officer,date, description, resolution)
+    const {licenseNumber,ownerFullName, type, color, officer, date, description} = getState().cases
+    return casesApi.createAuthorise(bearer, licenseNumber, ownerFullName, type, color, officer,date, description)
         .then((response) => response.data)
         .catch((error) => rejectWithValue(error.response.data))
 
@@ -152,7 +150,6 @@ export const createAuthorisedCase = createAsyncThunk<responseWithData<ICaseState
 export const getAllCases = createAsyncThunk<"" | Promise<RejectWithValue<unknown, unknown> | responseWithData<ICaseState[]>> | null, string, { state: RootState }>("cases/getAllCases", (id, {
     dispatch,
     rejectWithValue,
-    fulfillWithValue
 }) => {
     const bearer = localStorage.getItem("bearer")
     return bearer && casesApi.getAllCases(bearer)

@@ -2,7 +2,7 @@ import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./officersList.module.scss"
 import OfficerItem from "./OfficerItem/OfficerItem"
-import {getAllOfficersArray} from "../../../Redux/oficersSllice"
+import {getAllOfficersArray} from "../../../Redux/officersSllice"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import {
     getAllOfficers,
@@ -29,22 +29,21 @@ const OfficersList = () => {
             {
                 isLoading && <Loader/>
             }
-            <div className={styles.wrapper}>
-                {
-                    isLoggedInUserApproved && officersArray.map((officer) => <OfficerItem key={officer._id}
-                                                                                          officer={officer}
-                                                                                          loggedInUserId={loggedInUserId}
-                                                                                          isOnlyCard={false}
-                                                                                          isLoggedInUserApproved={isLoggedInUserApproved}/>)
-                }
-                {
-                    !isLoggedInUserApproved && officersArray.map((officer) => <OfficerItem key={officer._id}
-                                                                                           isOnlyCard={true}
-                                                                                           officer={officer}
-                                                                                           loggedInUserId={loggedInUserId}
-                                                                                           isLoggedInUserApproved={isLoggedInUserApproved}/>)
-                }
-            </div>
+            <h1>{"Список сотрудников"}</h1>
+            {
+                !isLoading &&
+
+                <div className={styles.wrapper}>
+
+                    {
+                        officersArray.map((officer) => <OfficerItem key={officer._id}
+                                                                    officer={officer}
+                                                                    loggedInUserId={loggedInUserId}
+                                                                    isLoggedInUserApproved={isLoggedInUserApproved}/>)
+                    }
+                </div>
+            }
+
         </>
     )
 }

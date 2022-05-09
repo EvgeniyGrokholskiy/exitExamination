@@ -21,7 +21,6 @@ const ReportFormForLoggedInOfficer = () => {
         date,
         officer,
         description,
-        resolution
     } = useAppSelector(getCase)
 
     const dispatch = useAppDispatch()
@@ -38,11 +37,11 @@ const ReportFormForLoggedInOfficer = () => {
                 <FormInput label={"Номер лицензии*:"} type={"text"} name={"licenseNumber"} required={true}
                            value={licenseNumber}
                            action={changeCaseValue}/>
-                <FormSelect label={"Тип велосипеда*:"} name={"type"} required={true} value={type}
-                            action={changeCaseValue}/>
                 <FormInput label={"ФИО арендатора*:"} type={"text"} name={"ownerFullName"} required={true}
                            value={ownerFullName}
                            action={changeCaseValue}/>
+                <FormSelect label={"Тип велосипеда*:"} name={"type"} required={true} value={type}
+                            action={changeCaseValue}/>
                 <FormInput label={"Цвет велосипеда:"} type={"text"} name={"color"} required={false} value={color}
                            action={changeCaseValue}/>
                 <FormInput label={"Дата кражи:"} type={"date"} name={"date"} required={false}
@@ -50,11 +49,8 @@ const ReportFormForLoggedInOfficer = () => {
                            action={changeCaseValue}/>
                 <FormOfficersList label={"Ответственный сотрудник:"} name={"officer"} value={officer} required={false}
                                   action={changeCaseValue}/>
-                <FormTextarea label={"Дополнительный комментарий:"} name={"description"} required={false}
+                <FormTextarea label={"Дополнительная информация:"} name={"description"} required={false}
                               value={description}
-                              action={changeCaseValue}/>
-                <FormTextarea label={"Завершающий комментарий:"} name={"resolution"} required={false}
-                              value={resolution}
                               action={changeCaseValue}/>
                 <MyButton>Отправить</MyButton>
                 {

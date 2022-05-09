@@ -44,7 +44,7 @@ const ReportFormPublic: React.FC = () => {
                 <FormInput label={"Дата происшествия:"} type={"date"} name={"date"} required={false}
                            value={date}
                            action={changeCaseValue}/>
-                <FormTextarea label={"Описание происшествия:"} name={"description"} required={false}
+                <FormTextarea label={"Дополнительная информация:"} name={"description"} required={false}
                               value={description}
                               action={changeCaseValue}/>
                 <MyButton>Отправить сообщение</MyButton>

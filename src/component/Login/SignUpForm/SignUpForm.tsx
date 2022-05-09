@@ -11,14 +11,22 @@ import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 const SignUpForm: React.FC = () => {
 
     const dispatch = useAppDispatch()
-    const {firstName, lastName, email, password, error} = useAppSelector(getAuthData)
+    const {firstName, lastName, email, password, error, clientId} = useAppSelector(getAuthData)
 
     return (
         <form className={styles.form_wrapper} onSubmit={(event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
-            dispatch(signUp({firstName, lastName, email, password}))
+            dispatch(signUp({firstName, lastName, email, password,clientId}))
             dispatch(showLogin(true))
         }}>
+            <FormInput label={"Почта*:"} type={"email"} name={"email"} required={true}
+                       value={email}
+                       action={changeAuthValue}
+            />
+            <FormInput label={"Пароль*:"} type={"password"} name={"password"} required={true}
+                       value={password}
+                       action={changeAuthValue}
+            />
             <FormInput label={"Имя:"} type={"text"} name={"firstName"} required={false}
                        value={firstName}
                        action={changeAuthValue}
@@ -27,14 +35,11 @@ const SignUpForm: React.FC = () => {
                        value={lastName}
                        action={changeAuthValue}
             />
-            <FormInput label={"Почта:"} type={"email"} name={"email"} required={true}
-                       value={email}
+            <FormInput label={"Client ID*:"} type={"text"} name={"clientId"} required={true}
+                       value={clientId}
                        action={changeAuthValue}
             />
-            <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
-                       value={password}
-                       action={changeAuthValue}
-            />
+
             <MyButton>Зарегистрироваться</MyButton>
             {
                 error && <p className={styles.error_title}>{error}</p>

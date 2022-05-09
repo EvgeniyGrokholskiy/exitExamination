@@ -7,6 +7,7 @@ import {IInitialAuthState, ISignInProps, ISignUpProps, responseWithData, UserDat
 
 const initialState: IInitialAuthState = {
     bearer: "",
+    clientId: "d98c4028-aa32-4106-9804-27f373e9f774",
     isLogin: false,
     firstName: "",
     lastName: "",
@@ -94,8 +95,8 @@ export const authSlice = createSlice({
 
 export const signUp = createAsyncThunk<responseWithData<void>, ISignUpProps, { state: RootState }>(
     "aunt/signUp",
-    ({firstName, lastName, email, password}: ISignUpProps, {dispatch, rejectWithValue}) => {
-        return authApi.signUp(firstName, lastName, email, password)
+    ({firstName, lastName, email, password, clientId}: ISignUpProps, {dispatch, rejectWithValue}) => {
+        return authApi.signUp(firstName, lastName, email, password, clientId)
             .then((response) => {
                 dispatch(showLogin(true))
                 return response.data
