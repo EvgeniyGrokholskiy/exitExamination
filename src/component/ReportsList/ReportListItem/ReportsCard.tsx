@@ -8,7 +8,6 @@ import {getStatusTranslate} from "../../Helpers/Helpers"
 const ReportsCard: React.FC<IReportsCardProps> = ({
                                                       oneCase,
                                                       isLoggedUserApproved,
-                                                      handleLinkToDetails,
                                                       handleDeleteCase
                                                   }) => {
 
@@ -21,8 +20,7 @@ const ReportsCard: React.FC<IReportsCardProps> = ({
     } = oneCase
 
     return (
-
-        <div className={styles.wrapper} onClick={handleLinkToDetails}>
+        <div className={styles.wrapper}>
             <p className={styles.text_block}><span
                 className={styles.label}>{`Статус сообщения:`}</span>{` ${getStatusTranslate(status)}`}</p>
             <p className={styles.text_block}><span

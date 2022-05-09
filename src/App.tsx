@@ -15,6 +15,7 @@ import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
 import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
 import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer";
+import ErrorMessage from "./component/ErrorMessage/Error.Message";
 
 
 function App() {
@@ -50,6 +51,7 @@ function App() {
 
     return (
         <div className="App">
+            <ErrorMessage/>
             <header>
                 <Header/>
             </header>

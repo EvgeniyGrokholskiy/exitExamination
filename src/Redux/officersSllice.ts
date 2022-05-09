@@ -8,6 +8,7 @@ import {IInitialOfficersState, IOfficerState, RejectWithValue, responseWithData}
 const initialOfficersState: IInitialOfficersState = {
     isLoading: false,
     error: "",
+    createNewOfficerError: "",
     newOfficer: {
         _id: "",
         email: "",
@@ -39,6 +40,7 @@ export const officersSlice = createSlice({
             state.oneOfficer[action.payload.fieldName] = action.payload.value
         },
         changeNewOfficerValue(state: IInitialOfficersState, action: PayloadAction<{ fieldName: string, value: string | boolean | null }>) {
+            state.createNewOfficerError = ""
             state.newOfficer[action.payload.fieldName] = action.payload.value
         }
     },
@@ -52,7 +54,7 @@ export const officersSlice = createSlice({
         })
         builder.addCase(createOfficer.rejected, (state:IInitialOfficersState, action:PayloadAction<any>)=>{
             state.isLoading = false
-            state.error = action.payload.message
+            state.createNewOfficerError = action.payload.message
         })
         builder.addCase(updateOfficer.pending, (state: IInitialOfficersState) => {
             state.error = ""
@@ -135,7 +137,6 @@ export const updateOfficer = createAsyncThunk<"" | Promise<responseWithData<IOff
         .then((response) => {
             dispatch(setOfficerEditMode(false))
             dispatch(getAllOfficersArray())
-            window.location.assign("/exitExamination/employees-list")
             return response.data
         })
         .catch((error) => rejectWithValue(error.response.data))

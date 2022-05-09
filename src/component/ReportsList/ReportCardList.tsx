@@ -31,15 +31,12 @@ const ReportCardList = () => {
                 }
                 {
                     casesArray.map((item: ICaseState) => {
-                        return <NavLink className={styles.link_to_card} to={`/reports-list/${item._id}`}><ReportsCard key={item._id} oneCase={item}
-                                                                                      isLoggedUserApproved={isLoggedUserApproved}
-                                                                                      handleLinkToDetails={() => {
-                                                                                          //window.location.assign(`/exitExamination/reports-list/${item._id}`)
-                                                                                      }}
-                                                                                      handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
-                                                                                          event.stopPropagation()
-                                                                                          dispatch(deleteCase(item._id))
-                                                                                      }}
+                        return <NavLink className={styles.link_to_card} to={`/reports-list/${item._id}`}><ReportsCard
+                            key={item._id} oneCase={item}
+                            isLoggedUserApproved={isLoggedUserApproved}
+                            handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                dispatch(deleteCase(item._id))
+                            }}
                         /></NavLink>
                     })
                 }

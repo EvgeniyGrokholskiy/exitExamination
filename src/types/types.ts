@@ -147,6 +147,7 @@ export interface IInitialOfficersState {
 
     isLoading: boolean
     error: string
+    createNewOfficerError: string
     newOfficer: IOfficerState
     oneOfficer: INewOfficer
     officersArray: Array<IOfficerState>
@@ -160,7 +161,6 @@ export class RejectWithValue<T, U> {
 export interface IReportsCardProps {
     oneCase: ICaseState
     isLoggedUserApproved: boolean
-    handleLinkToDetails: () => void
     handleDeleteCase: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 

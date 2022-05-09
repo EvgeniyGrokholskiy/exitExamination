@@ -88,6 +88,17 @@ const casesSlice = createSlice({
             state.isLoading = false
             state.error = action.payload.message
         })
+        builder.addCase(saveEditedCase.pending, (state: IInitialCasesState) => {
+            state.isLoading = true
+            state.error = ""
+        })
+        builder.addCase(saveEditedCase.fulfilled, (state: IInitialCasesState) => {
+            state.isLoading = false
+        })
+        builder.addCase(saveEditedCase.rejected, (state: IInitialCasesState, action: PayloadAction<any>) => {
+            state.isLoading = false
+            state.error = action.payload.message
+        })
         builder.addCase(getAllCases.pending, (state: IInitialCasesState) => {
             state.isLoading = true
             state.error = ""
@@ -98,6 +109,7 @@ const casesSlice = createSlice({
 
         })
         builder.addCase(getAllCases.rejected, (state: IInitialCasesState, action: PayloadAction<any>) => {
+            state.isLoading = false
             state.error = action.payload.message
         })
         builder.addCase(getOneCase.pending, (state: IInitialCasesState, action: PayloadAction<any>) => {

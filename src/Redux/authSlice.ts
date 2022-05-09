@@ -87,7 +87,7 @@ export const authSlice = createSlice({
         })
         builder.addCase(tokenVerification.rejected, (state: IInitialAuthState, action: PayloadAction<any>) => {
             state.status = "failed"
-            console.log(action.payload.message)
+            state.error = action.payload.message
         })
     }
 })

@@ -1,7 +1,7 @@
 import React from "react"
 import MyButton from "../../MyButton/MyButton"
 import styles from "./createNewOfficer.module.scss"
-import {getNewOfficer} from "../../../Redux/selectors"
+import {getCreateNewOfficerError, getNewOfficer} from "../../../Redux/selectors"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import {changeNewOfficerValue, createOfficer} from "../../../Redux/officersSllice"
@@ -10,6 +10,7 @@ import {changeNewOfficerValue, createOfficer} from "../../../Redux/officersSllic
 const CreateNewOfficer = () => {
 
     const dispatch = useAppDispatch()
+    const createNewOfficerError = useAppSelector(getCreateNewOfficerError)
     const {firstName, lastName, password, approved, email} = useAppSelector(getNewOfficer)
 
     return (
@@ -17,6 +18,7 @@ const CreateNewOfficer = () => {
             <h1>{"Создать нового сотрудника"}</h1>
             <form onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
                 event.preventDefault()
+                dispatch(createOfficer())
             }}>
                 <FormInput label={"Имя"} type={"text"} name={"firstName"} required={false} value={firstName}
                            action={changeNewOfficerValue}/>
@@ -28,7 +30,10 @@ const CreateNewOfficer = () => {
                            action={changeNewOfficerValue}/>
                 <FormInput label={"Доверенный сотрудник"} type={"checkbox"} name={"approved"} required={false}
                            checked={approved} action={changeNewOfficerValue}/>
-                <MyButton callback={() => dispatch(createOfficer())}>{"Создать"}</MyButton>
+                {
+                    createNewOfficerError && <h2 className={styles.error_message}>{createNewOfficerError}</h2>
+                }
+                <MyButton>{"Создать"}</MyButton>
             </form>
         </div>
     )

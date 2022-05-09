@@ -6,8 +6,8 @@ import Image404 from "../../assets/img/Page404.png"
 const page404 = () => {
     return (
         <div className={styles.wrapper}>
-            <img className={styles.image} src={Image404} alt={"Велосипед"} title={"УПС! Мы потерялись!"}/>
-            <NavLink className={styles.backButton} to={"/"}>{"Назад в безопасность!"}</NavLink>
+            <img className={styles.image} src={Image404} alt={"Велосипед"} title={"УПС! Нет такой страницы!"}/>
+            <NavLink className={styles.backButton} to={"/"}>{"Назад на главную страницу!"}</NavLink>
         </div>
     )
 }

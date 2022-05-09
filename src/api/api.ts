@@ -12,8 +12,6 @@ const instance: AxiosInstance = axios.create({
     baseURL: "https://sf-final-project.herokuapp.com/api/"
 })
 
-const clientId = process.env.CLIENT_ID
-
 type gotValueFromLS = string | null
 
 export const localStorageApi = {

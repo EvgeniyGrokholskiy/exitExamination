@@ -1,4 +1,5 @@
 import React, {useEffect} from "react"
+import Loader from "../../Loader/Loader"
 import styles from "./report.module.scss"
 import {IReportInProps} from "../../../types/types"
 import {getAllOfficers} from "../../../Redux/selectors"
@@ -32,9 +33,8 @@ const Report: React.FC<IReportInProps> = ({report}) => {
 
     if (report) {
         return (
-            <>
-                <table className={styles.table}>
-                    <tbody>
+            <table className={styles.table}>
+                <tbody>
                     <tr>
                         <td className={styles.table_item}>Дата создания сообщения</td>
                         <td className={styles.table_item}>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 19)}`}</td>
@@ -83,13 +83,12 @@ const Report: React.FC<IReportInProps> = ({report}) => {
                         <td className={styles.table_item}>Завершающий комментарий</td>
                         <td className={styles.table_item}>{resolution}</td>
                     </tr>
-                    </tbody>
-                </table>
-            </>
+                </tbody>
+            </table>
         )
     } else {
         return (
-            <h1>loading</h1>
+            <Loader/>
         )
     }
 }

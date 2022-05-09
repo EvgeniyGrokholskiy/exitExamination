@@ -1,11 +1,11 @@
 import React, {FormEvent} from "react"
 import {NavLink} from "react-router-dom"
 import MyButton from "../../MyButton/MyButton";
-import {getCase} from "../../../Redux/selectors"
 import {IReportInProps} from "../../../types/types"
+import {useAppDispatch} from "../../../Redux/hooks"
+import {setCaseEditMode} from "../../../Redux/appSlice"
 import FormInput from "../../FormComponet/FormInput/FormInput"
 import FormSelect from "../../FormComponet/FormSelect/FormSelect"
-import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import FormTextarea from "../../FormComponet/FormTextarea/FormTextarea"
 import {changeEditCaseValue, saveEditedCase} from "../../../Redux/casesSlice"
 import FormOfficersList from "../../FormComponet/FormOfficersList/FormOfficersList"
@@ -28,7 +28,6 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
     } = report
 
     const dispatch = useAppDispatch()
-    const {error} = useAppSelector(getCase)
 
     const isStatusDone = status === "done"
 
@@ -67,11 +66,9 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
                                   action={changeEditCaseValue}/>
                 }
                 <MyButton>Сохранить</MyButton>
-                {
-                    error && <h2 className={styles.error}>{error}</h2>
-                }
             </form>
-            <NavLink className={styles.cancel_button} to={"/reports-list"}>Отмена</NavLink>
+            <NavLink className={styles.cancel_button} to={"/reports-list"}
+                     onClick={() => dispatch(setCaseEditMode(false))}>Отмена</NavLink>
         </>
     )
 }
