@@ -2,7 +2,14 @@ import {RootState} from "./store"
 import {authApi} from "../api/api"
 import {showLogin} from "./appSlice"
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {IInitialAuthState, ISignInProps, ISignUpProps, responseWithData, UserData} from "../types/types"
+import {
+    IInitialAuthState,
+    ISignInProps,
+    ISignUpProps,
+    RejectWithValue,
+    responseWithData,
+    UserData
+} from "../types/types"
 
 
 const initialState: IInitialAuthState = {
@@ -80,7 +87,7 @@ export const authSlice = createSlice({
         builder.addCase(tokenVerification.pending, (state: IInitialAuthState) => {
             state.status = "loading"
         })
-        builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action) => {
+        builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action:PayloadAction<any>) => {
             state.status = "success"
             state.bearer = action.payload.data?.token
             state.loginUser = action.payload.data.user
@@ -122,7 +129,7 @@ export const signIn = createAsyncThunk<responseWithData<UserData>, ISignInProps,
     }
 )
 
-export const tokenVerification = createAsyncThunk<responseWithData<UserData>, void, { state: RootState }>("auth/tokenVerification", (_, {
+export const tokenVerification = createAsyncThunk<"" | Promise<RejectWithValue<unknown, unknown> | responseWithData<UserData>>, void, { state: RootState }>("auth/tokenVerification", (_, {
     getState,
     rejectWithValue
 }) => {
@@ -130,7 +137,8 @@ export const tokenVerification = createAsyncThunk<responseWithData<UserData>, vo
     return authApi.tokenVerification(bearer).then((response) => {
         return response.data
     }).catch((error) => {
-        return rejectWithValue(error.response.data)
+        const responseError = !bearer ? {message:""} : error.response.data
+        return rejectWithValue(responseError)
     })
 })
 

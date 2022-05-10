@@ -1,14 +1,12 @@
 .formWrapper {
   position: relative;
   border: 2px solid gray;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 25px;
   margin-bottom: 20px;
-}
-
-.extra_width {
   width: 100%;
 }
 

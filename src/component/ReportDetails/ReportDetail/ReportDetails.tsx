@@ -1,12 +1,12 @@
 import React from "react"
-import Report from "./Report/Report"
+import Report from "../Report/Report"
 import {NavLink} from "react-router-dom"
-import MyButton from "../MyButton/MyButton"
+import MyButton from "../../MyButton/MyButton"
 import styles from "./reportDetails.module.scss"
-import ReportEdit from "./ReportEdit/ReportEdit"
-import {setCaseEditMode} from "../../Redux/appSlice"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
-import {getEdinCase, getIsCaseEdit, getIsLoggedInUserApproved} from "../../Redux/selectors"
+import ReportEdit from "../ReportEdit/ReportEdit"
+import {setCaseEditMode} from "../../../Redux/appSlice"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import {getEdinCase, getIsCaseEdit, getIsLoggedInUserApproved} from "../../../Redux/selectors"
 
 
 const ReportDetails: React.FC = () => {

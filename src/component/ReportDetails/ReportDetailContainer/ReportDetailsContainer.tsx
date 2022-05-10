@@ -1,10 +1,11 @@
-import Loader from "../Loader/Loader"
 import React, {useEffect} from "react"
+import Loader from "../../Loader/Loader"
 import {useParams} from "react-router-dom"
-import ReportDetails from "./ReportDetails"
-import {getAllCases} from "../../Redux/casesSlice"
-import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
-import {getIsCaseEdit, getLoadingStatus} from "../../Redux/selectors"
+import {getAllCases} from "../../../Redux/casesSlice"
+import styles from "./ReportDetailContainer.module.scss"
+import ReportDetails from "../ReportDetail/ReportDetails"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
+import {getIsCaseEdit, getLoadingStatus} from "../../../Redux/selectors"
 
 
 const ReportDetailsContainer: React.FC = () => {
@@ -19,7 +20,7 @@ const ReportDetailsContainer: React.FC = () => {
     }, [dispatch, idFromUrl])
 
     return (
-        <div>
+        <div className={styles.wrapper}>
             {
                 isLoading && <Loader/>
             }

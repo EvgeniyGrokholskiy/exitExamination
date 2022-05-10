@@ -33,7 +33,7 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
 
     return (
         <>
-            <form className={`${styles.formWrapper} ${styles.extra_width}`}
+            <form className={styles.formWrapper}
                   onSubmit={((event: FormEvent<HTMLFormElement>) => {
                       event.preventDefault()
                       dispatch(saveEditedCase(report._id))

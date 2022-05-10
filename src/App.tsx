@@ -13,7 +13,7 @@ import OfficersList from "./component/Officers/OfficersList/OfficersList"
 import ReportFormWrapper from "./component/ReportForms/ReportFormWrapper";
 import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
 import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
-import ReportDetailsContainer from "./component/ReportDetails/ReportDetailsContainer"
+import ReportDetailsContainer from "./component/ReportDetails/ReportDetailContainer/ReportDetailsContainer"
 import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer";
 import ErrorMessage from "./component/ErrorMessage/Error.Message";
 
