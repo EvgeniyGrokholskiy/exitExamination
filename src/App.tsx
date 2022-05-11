@@ -16,6 +16,7 @@ import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailContainer/ReportDetailsContainer"
 import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer";
 import ErrorMessage from "./component/ErrorMessage/Error.Message";
+import Footer from "./component/Footer/Footer";
 
 
 function App() {
@@ -41,9 +42,9 @@ function App() {
         localStorageApi.setIsLogin(isLogin)
     }, [isLogin])
 
-    useEffect(()=>{
+    useEffect(() => {
         localStorageApi.setBearer(bearer)
-    },[bearer])
+    }, [bearer])
 
     useEffect(() => {
         dispatch(tokenVerification())
@@ -69,7 +70,7 @@ function App() {
                 </Routes>
             </main>
             <footer>
-
+                <Footer/>
             </footer>
         </div>
     )
