@@ -21,7 +21,7 @@ export const getAuthData = (state: RootState): IInitialAuthState => state.auth
 export const getAuthIsLogin = (state: RootState): boolean => state.auth.isLogin
 export const getLoggedInUserId = (state: RootState): string => state.auth.loginUser.id
 export const getLoggedUserEmail = (state: RootState): string => state.auth.loginUser.email
-export const getIsLoggedInUserApproved = (state: RootState): any => state.auth.loginUser.approved
+export const getIsLoggedInUserApproved = (state: RootState): boolean => state.auth.loginUser.approved
 
 /**********************CaseSlice selectors**********************************/
 export const getCase = (state: RootState): IInitialCasesState => state.cases

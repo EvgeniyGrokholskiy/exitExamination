@@ -46,6 +46,16 @@ export const authSlice = createSlice({
         },
         setNewUser(state: IInitialAuthState, action: PayloadAction<boolean>) {
             state.isNewUser = action.payload
+        },
+        logOut(state: IInitialAuthState) {
+            state.isLogin = false
+            state.bearer = ""
+            state.loginUser.id = ""
+            state.loginUser.firstName = ""
+            state.loginUser.lastName = ""
+            state.loginUser.email = ""
+            state.loginUser.password = ""
+            state.loginUser.approved = false
         }
     },
     extraReducers: (builder) => {
@@ -85,7 +95,7 @@ export const authSlice = createSlice({
         })
 
         builder.addCase(tokenVerification.pending, (state: IInitialAuthState) => {
-            state.status = "loading"
+            //state.status = "loading"
         })
         builder.addCase(tokenVerification.fulfilled, (state: IInitialAuthState, action:PayloadAction<any>) => {
             state.status = "success"
@@ -129,11 +139,14 @@ export const signIn = createAsyncThunk<responseWithData<UserData>, ISignInProps,
     }
 )
 
-export const tokenVerification = createAsyncThunk<"" | Promise<RejectWithValue<unknown, unknown> | responseWithData<UserData>>, void, { state: RootState }>("auth/tokenVerification", (_, {
+export const tokenVerification = createAsyncThunk<Promise<RejectWithValue<unknown, unknown> | responseWithData<UserData>> | undefined, void, { state: RootState }>("auth/tokenVerification", (_, {
     getState,
     rejectWithValue
 }) => {
     const bearer = getState().auth.bearer
+    if (!bearer){
+        return
+    }
     return authApi.tokenVerification(bearer).then((response) => {
         return response.data
     }).catch((error) => {
@@ -143,5 +156,5 @@ export const tokenVerification = createAsyncThunk<"" | Promise<RejectWithValue<u
 })
 
 
-export const {changeAuthValue, setIsLogin, setNewUser} = authSlice.actions
+export const {changeAuthValue, setIsLogin, setNewUser, logOut} = authSlice.actions
 export const authReducer = authSlice.reducer

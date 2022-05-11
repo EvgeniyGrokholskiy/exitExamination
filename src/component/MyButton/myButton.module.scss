@@ -3,14 +3,15 @@
   border: none;
   border-radius: 5px;
   color: white;
+  cursor: pointer;
   font-size: 16px;
   padding: 0 25px;
   height: 35px;
   transition: all;
 
   &:hover {
-    box-shadow: 1px 1px 1px black;
-    transform: scale(1.005);
+    box-shadow: 3px 3px 3px black;
+    transform: scale(1.05);
   }
 
   &:active {

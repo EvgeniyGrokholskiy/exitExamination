@@ -1,7 +1,7 @@
 import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
 import styles from "./officersList.module.scss"
-import OfficerItem from "./OfficerItem/OfficerItem"
+import OfficerItem from "../OfficerItem/OfficerItem"
 import {getAllOfficersArray} from "../../../Redux/officersSllice"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import {
@@ -10,6 +10,7 @@ import {
     getLoggedInUserId,
     getOfficerIsLoading
 } from "../../../Redux/selectors"
+import {NavLink} from "react-router-dom";
 
 
 const OfficersList = () => {
@@ -34,16 +35,17 @@ const OfficersList = () => {
                 !isLoading &&
 
                 <div className={styles.wrapper}>
-
                     {
-                        officersArray.map((officer) => <OfficerItem key={officer._id}
-                                                                    officer={officer}
-                                                                    loggedInUserId={loggedInUserId}
-                                                                    isLoggedInUserApproved={isLoggedInUserApproved}/>)
+                        officersArray.map((officer) => <NavLink className={styles.link_to_detail}
+                                                                to={`/employees-list/${officer._id}`}><OfficerItem
+                            key={officer._id}
+                            isNoHover={false}
+                            officer={officer}
+                            loggedInUserId={loggedInUserId}
+                            isLoggedInUserApproved={isLoggedInUserApproved}/></NavLink>)
                     }
                 </div>
             }
-
         </>
     )
 }

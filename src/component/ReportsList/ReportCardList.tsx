@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom"
 import {ICaseState} from "../../types/types"
 import styles from "./reportCardList.module.scss"
 import ReportsCard from "./ReportListItem/ReportsCard"
-import {getAllOfficersArray} from "../../Redux/officersSllice"
 import {deleteCase, getAllCases} from "../../Redux/casesSlice"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import {getCasesArray, getIsLoggedInUserApproved, getLoadingStatus} from "../../Redux/selectors"
@@ -19,7 +18,6 @@ const ReportCardList = () => {
 
     useEffect(() => {
         dispatch(getAllCases(""))
-        dispatch(getAllOfficersArray())
     }, [dispatch])
 
     return (

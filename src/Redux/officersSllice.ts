@@ -6,6 +6,7 @@ import {IInitialOfficersState, IOfficerState, RejectWithValue, responseWithData}
 
 
 const initialOfficersState: IInitialOfficersState = {
+    isEditMode: false,
     isLoading: false,
     error: "",
     createNewOfficerError: "",

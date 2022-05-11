@@ -1,9 +1,14 @@
 .wrapper {
-  border: 2px solid black;
+  border: 2px solid gray;
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
   padding: 25px;
   width: 100%;
+}
+
+.link_to_detail {
+  color: black;
+  text-decoration: none;
 }

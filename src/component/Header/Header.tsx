@@ -1,7 +1,8 @@
 import React from "react"
+import MyLink from "../MyLink/MyLink"
 import {NavLink} from "react-router-dom"
 import styles from "./header.module.scss"
-import {setIsLogin, setNewUser} from "../../Redux/authSlice"
+import {logOut, setNewUser} from "../../Redux/authSlice"
 import {useAppDispatch, useAppSelector} from "../../Redux/hooks"
 import {getAuthIsLogin, getLoggedUserEmail} from "../../Redux/selectors"
 
@@ -13,7 +14,7 @@ const Header: React.FC = () => {
     const loggedUserEmail = useAppSelector(getLoggedUserEmail)
 
     const logout = () => {
-        dispatch(setIsLogin(false))
+        dispatch(logOut())
         dispatch(setNewUser(false))
     }
 
@@ -61,7 +62,7 @@ const Header: React.FC = () => {
                 }
                 {
                     isLogin && <li className={styles.menu_item}>
-                        <NavLink className={styles.logout_button} to={"/"} onClick={logout}>LogOut</NavLink>
+                        <MyLink link={"/"} callback={logout}>LogOut</MyLink>
                     </li>
                 }
             </div>

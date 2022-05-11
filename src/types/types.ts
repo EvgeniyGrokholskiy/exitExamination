@@ -145,6 +145,7 @@ export interface INewOfficer {
 export interface IInitialOfficersState {
     [key: string]: string | boolean | null | Array<IOfficerState> | IOfficerState | INewOfficer
 
+    isEditMode: boolean
     isLoading: boolean
     error: string
     createNewOfficerError: string
@@ -169,7 +170,8 @@ export interface IReportInProps {
 }
 
 export interface IOfficerItemProps {
-    officer: IOfficerState
+    isNoHover: boolean
+    officer: INewOfficer
     loggedInUserId: string
     isLoggedInUserApproved: boolean
 }
