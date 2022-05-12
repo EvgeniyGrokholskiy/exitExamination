@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/exitExamination/static/css/main.0e277e23.css",
-    "main.js": "/exitExamination/static/js/main.0e94e8df.js",
+    "main.css": "/exitExamination/static/css/main.58df9d73.css",
+    "main.js": "/exitExamination/static/js/main.a8bee5f2.js",
     "static/media/loader.gif": "/exitExamination/static/media/loader.46872f70c2cf202fdaf2.gif",
     "static/media/Page404.png": "/exitExamination/static/media/Page404.21880690bd94035c0d7e.png",
     "static/media/bike_theft.jpg": "/exitExamination/static/media/bike_theft.cb976505a69c11ed1dff.jpg",
     "index.html": "/exitExamination/index.html",
-    "main.0e277e23.css.map": "/exitExamination/static/css/main.0e277e23.css.map",
-    "main.0e94e8df.js.map": "/exitExamination/static/js/main.0e94e8df.js.map"
+    "main.58df9d73.css.map": "/exitExamination/static/css/main.58df9d73.css.map",
+    "main.a8bee5f2.js.map": "/exitExamination/static/js/main.a8bee5f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e277e23.css",
-    "static/js/main.0e94e8df.js"
+    "static/css/main.58df9d73.css",
+    "static/js/main.a8bee5f2.js"
   ]
 }
