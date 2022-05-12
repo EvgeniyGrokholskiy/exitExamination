@@ -12,12 +12,15 @@ const ErrorMessage: React.FC = () => {
 
     const conditionalRender = casesFetchError || officerFetchError
 
+    const handlePageReload = () => window.location.reload()
+
     if (conditionalRender) {
         return (
             <div className={styles.wrapper}>
-                <h2 className={styles.text}>{casesFetchError && `CasesApiError: ${casesFetchError}`}<br/><br/>{officerFetchError && `OfficersApiError: ${officerFetchError}`}
+                <h2 className={styles.text}>
+                    {casesFetchError && `CasesApiError: ${casesFetchError}`}<br/><br/>{officerFetchError && `OfficersApiError: ${officerFetchError}`}
                 </h2>
-                <MyButton callback={() => window.location.reload()}>Попробовать еще раз!</MyButton>
+                <MyButton callback={handlePageReload}>Попробовать еще раз!</MyButton>
             </div>
         )
     } else {

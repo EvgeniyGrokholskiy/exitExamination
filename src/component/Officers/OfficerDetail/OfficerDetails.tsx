@@ -2,8 +2,13 @@ import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
 import MyLink from "../../MyLink/MyLink"
 import {useParams} from "react-router-dom"
+import MyButton from "../../MyButton/MyButton"
 import styles from "./officerDetails.module.scss"
+import OfficerItem from "../OfficerItem/OfficerItem"
 import OfficersEdit from "../OfficersEdit/OfficersEdit"
+import {setOfficerEditMode} from "../../../Redux/appSlice"
+import {getOneOfficer} from "../../../Redux/officersSllice"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import {
     getIsLoggedInUserApproved,
     getIsOfficerEdit,
@@ -11,14 +16,9 @@ import {
     getOfficer,
     getOfficerIsLoading
 } from "../../../Redux/selectors"
-import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
-import OfficerItem from "../OfficerItem/OfficerItem";
-import {getOneOfficer} from "../../../Redux/officersSllice";
-import {setOfficerEditMode} from "../../../Redux/appSlice";
-import MyButton from "../../MyButton/MyButton";
 
 
-const OfficerDetails = () => {
+const OfficerDetails:React.FC = () => {
 
     const dispatch = useAppDispatch()
     const idFromURL = useParams()["*"]
@@ -44,7 +44,7 @@ const OfficerDetails = () => {
                 {
                     isEditMode
                         ? <OfficersEdit/>
-                        : <OfficerItem isNoHover={true} officer={officer} loggedInUserId={loggedInUserId}
+                        : <OfficerItem isOnlyCard={true} officer={officer} loggedInUserId={loggedInUserId}
                                        isLoggedInUserApproved={isLoggedInUserApproved}/>
                 }
                 {

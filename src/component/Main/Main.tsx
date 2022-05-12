@@ -3,7 +3,7 @@ import styles from "./main.module.scss"
 import {NavLink} from "react-router-dom"
 import photo from "./../../assets/img/bike_theft.jpg"
 
-const Main = () => {
+const Main:React.FC = () => {
     return (
         <div>
             <h1 className={styles.header}>Сервис для сообщения о кражах велосипедах сданных в прокат.</h1>

@@ -7,21 +7,26 @@ import {IOfficerItemProps} from "../../../types/types"
 import {deleteOfficer} from "../../../Redux/officersSllice"
 
 
-const OfficerItem: React.FC<IOfficerItemProps> = ({officer, loggedInUserId, isLoggedInUserApproved, isNoHover}) => {
+const OfficerItem: React.FC<IOfficerItemProps> = ({officer, loggedInUserId, isLoggedInUserApproved, isOnlyCard}) => {
 
     const dispatch = useAppDispatch()
     const {_id, email, firstName, lastName, approved} = officer
 
     const conditionalRender = _id !== loggedInUserId && isLoggedInUserApproved
 
+    const handleOfficerDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault()
+        dispatch(deleteOfficer(_id))
+    }
 
     return (
-        <div className={`${styles.wrapper} ${isNoHover && styles.withOutHover}`} title={"Нажмите для просмотра подробностей"}>
+        <div className={`${styles.wrapper} ${isOnlyCard && styles.withOutHover}`}
+             title={"Нажмите для просмотра подробностей"}>
             {
-                isNoHover && <ListItem label={"ID:"} value={officer._id} />
+                isOnlyCard && <ListItem label={"ID:"} value={officer._id}/>
             }
             {
-                isNoHover && <ListItem label={"ClientID:"} value={officer.clientId} />
+                isOnlyCard && <ListItem label={"ClientID:"} value={officer.clientId}/>
             }
             <ListItem label={"Имя:"} value={firstName}/>
             <ListItem label={"Фамилия:"} value={lastName}/>
@@ -29,17 +34,11 @@ const OfficerItem: React.FC<IOfficerItemProps> = ({officer, loggedInUserId, isLo
             <ListItem label={"Доверенный сотрудник"} value={approved}/>
             <div className={styles.buttonsWrapper}>
                 {
-                    conditionalRender && !isNoHover &&
-                    <MyButton callback={(event: React.MouseEvent<HTMLButtonElement>) => {
-                        event.preventDefault()
-                        dispatch(deleteOfficer(_id))
-                    }}>Удалить
-                    </MyButton>
+                    conditionalRender && !isOnlyCard &&
+                    <MyButton callback={handleOfficerDelete}>Удалить</MyButton>
                 }
                 {
-                    <div className={styles.spacer}>
-
-                    </div>
+                    !isOnlyCard && !conditionalRender && <div className={styles.spacer}/>
                 }
             </div>
         </div>

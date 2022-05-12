@@ -1,8 +1,8 @@
 import React from "react"
 import styles from "./formOfficersList.module.scss"
 import {getAllOfficers} from "../../../Redux/selectors"
-import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 import { IFormOfficersListProps } from "../../../types/types"
+import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 
 
 const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, callback, action, required}) => {
@@ -11,13 +11,15 @@ const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name,
     const officersArray = useAppSelector(getAllOfficers)
     const approvedOfficers = officersArray.filter((officer) => officer.approved)
 
+    const handleChange = (event:React.ChangeEvent<HTMLSelectElement>) => {
+        const fieldName = name
+        const value = event.target.value ? event.target.value : null
+        action && dispatch(action({fieldName, value}))
+    }
+
     return (
         <label className={styles.label}>{label}
-            <select className={styles.select} required={required} value={value} onChange={callback ? callback : (event) => {
-                const fieldName = name
-                const value = event.target.value ? event.target.value : null
-                action && dispatch(action({fieldName, value}))
-            }}>
+            <select className={styles.select} required={required} value={value} onChange={callback ? callback : handleChange}>
                 <option value={undefined}>Выберите ответственного сотрудника</option>
                 {
                     approvedOfficers.map((officer) => {

@@ -13,12 +13,14 @@ const SignUpForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const {firstName, lastName, email, password, error, clientId} = useAppSelector(getAuthData)
 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        dispatch(signUp({firstName, lastName, email, password, clientId}))
+        dispatch(showLogin(true))
+    }
+
     return (
-        <form className={styles.form_wrapper} onSubmit={(event: FormEvent<HTMLFormElement>) => {
-            event.preventDefault()
-            dispatch(signUp({firstName, lastName, email, password,clientId}))
-            dispatch(showLogin(true))
-        }}>
+        <form className={styles.form_wrapper} onSubmit={handleSubmit}>
             <FormInput label={"Почта*:"} type={"email"} name={"email"} required={true}
                        value={email}
                        action={changeAuthValue}

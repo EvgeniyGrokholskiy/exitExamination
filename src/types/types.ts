@@ -170,7 +170,7 @@ export interface IReportInProps {
 }
 
 export interface IOfficerItemProps {
-    isNoHover: boolean
+    isOnlyCard: boolean
     officer: INewOfficer
     loggedInUserId: string
     isLoggedInUserApproved: boolean

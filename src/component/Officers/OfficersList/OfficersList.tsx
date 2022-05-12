@@ -1,5 +1,6 @@
 import React, {useEffect} from "react"
 import Loader from "../../Loader/Loader"
+import {NavLink} from "react-router-dom"
 import styles from "./officersList.module.scss"
 import OfficerItem from "../OfficerItem/OfficerItem"
 import {getAllOfficersArray} from "../../../Redux/officersSllice"
@@ -10,10 +11,9 @@ import {
     getLoggedInUserId,
     getOfficerIsLoading
 } from "../../../Redux/selectors"
-import {NavLink} from "react-router-dom";
 
 
-const OfficersList = () => {
+const OfficersList:React.FC = () => {
 
     const dispatch = useAppDispatch()
     const officersArray = useAppSelector(getAllOfficers)
@@ -39,7 +39,7 @@ const OfficersList = () => {
                         officersArray.map((officer) => <NavLink className={styles.link_to_detail}
                                                                 to={`/employees-list/${officer._id}`}><OfficerItem
                             key={officer._id}
-                            isNoHover={false}
+                            isOnlyCard={false}
                             officer={officer}
                             loggedInUserId={loggedInUserId}
                             isLoggedInUserApproved={isLoggedInUserApproved}/></NavLink>)

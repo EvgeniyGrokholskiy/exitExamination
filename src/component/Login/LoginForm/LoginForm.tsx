@@ -12,11 +12,13 @@ const LoginForm: React.FC = () => {
     const dispatch = useAppDispatch()
     const {error, status, email, password, isNewUser} = useAppSelector(state => state.auth)
 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        dispatch(signIn({email, password}))
+    }
+
     return (
-        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={(e: FormEvent<HTMLFormElement>) => {
-            e.preventDefault()
-            dispatch(signIn({email, password}))
-        }}>
+        <form name={"loginForm"} className={styles.form_wrapper} onSubmit={handleSubmit}>
             {
                 isNewUser && <h3>Успешно создан новый пользователь. <br/> Вы можете войти с новыми данными.</h3>
             }

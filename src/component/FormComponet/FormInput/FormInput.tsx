@@ -22,26 +22,24 @@ const FormInput: React.FC<IFormInputProps> = ({
 
     const conditionalValue: string = value ? value : ""
 
+    const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const fieldName = event.target.name
+        const value = event.target.value
+        dispatch(action({fieldName, value}))
+    }
+
     return (
         <label className={checked !== undefined ? `${styles.label} ${styles.checkBox}` : styles.label}>{label}
             {
                 checked === undefined &&
                 <input className={styles.input} type={type} checked={checked} name={name} value={conditionalValue}
                        required={required}
-                       onChange={callback ? callback : (e) => {
-                           const fieldName = e.target.name
-                           const value = e.target.value
-                           dispatch(action({fieldName, value}))
-                       }}/>
+                       onChange={callback ? callback : handleOnChange}/>
             }
             {
                 checked !== undefined && <input className={styles.input} type={type} checked={checked} name={name}
                                                 required={required}
-                                                onChange={callback ? callback : (e) => {
-                                                    const fieldName = e.target.name
-                                                    const value = e.target.checked
-                                                    dispatch(action({fieldName, value}))
-                                                }}/>
+                                                onChange={callback ? callback : handleOnChange}/>
             }
         </label>
     )

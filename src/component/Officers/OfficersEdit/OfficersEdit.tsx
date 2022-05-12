@@ -12,11 +12,13 @@ const OfficersEdit: React.FC = () => {
     const isOfficerEdit = useAppSelector(getIsOfficerEdit)
     const {_id, firstName, lastName, approved} = useAppSelector(getOfficer)
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        dispatch(updateOfficer(_id))
+    }
+
     return (
-        <form onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault()
-            dispatch(updateOfficer(_id))
-        }}>
+        <form onSubmit={handleSubmit}>
             {
                 !isOfficerEdit && <h3>Данные сохранены.</h3>
             }

@@ -1,13 +1,15 @@
 import React from "react"
-import {NavLink} from "react-router-dom"
+import MyLink from "../MyLink/MyLink"
 import styles from "./page404.module.scss"
 import Image404 from "../../assets/img/Page404.png"
 
 const page404 = () => {
+
     return (
         <div className={styles.wrapper}>
-            <img className={styles.image} src={Image404} alt={"Велосипед"} title={"УПС! Нет такой страницы!"}/>
-            <NavLink className={styles.backButton} to={"/"}>{"Назад на главную страницу!"}</NavLink>
+            <img className={styles.image} src={Image404} alt={"Сломанный велосипед"}
+                 title={"УПС! Нет такой страницы!"}/>
+            <MyLink link={"/"}>{"Назад на главную страницу!"}</MyLink>
         </div>
     )
 }

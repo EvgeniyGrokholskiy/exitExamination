@@ -28,12 +28,12 @@ const ReportCardList = () => {
                     isLoading && <Loader/>
                 }
                 {
-                    casesArray.map((item: ICaseState) => {
-                        return <NavLink className={styles.link_to_card} to={`/reports-list/${item._id}`}><ReportsCard
-                            key={item._id} oneCase={item}
+                    casesArray.map((caseItem: ICaseState) => {
+                        return <NavLink className={styles.link_to_card} to={`/reports-list/${caseItem._id}`}><ReportsCard
+                            key={caseItem._id} oneCase={caseItem}
                             isLoggedUserApproved={isLoggedUserApproved}
                             handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
-                                dispatch(deleteCase(item._id))
+                                dispatch(deleteCase(caseItem._id))
                             }}
                         /></NavLink>
                     })

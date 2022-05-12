@@ -1,4 +1,4 @@
-import {IOfficerState} from "../../types/types";
+import {IOfficerState} from "../../types/types"
 
 export const getOfficerName = (officesArray: Array<IOfficerState>, id: string) => {
     if (officesArray?.length !== 0) {

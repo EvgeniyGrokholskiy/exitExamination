@@ -13,7 +13,7 @@ const Header: React.FC = () => {
     const isLogin = useAppSelector(getAuthIsLogin)
     const loggedUserEmail = useAppSelector(getLoggedUserEmail)
 
-    const logout = () => {
+    const handleLogOut = () => {
         dispatch(logOut())
         dispatch(setNewUser(false))
     }
@@ -23,28 +23,35 @@ const Header: React.FC = () => {
             <ul className={styles.menu}>
                 <li className={styles.menu_item}>
                     <NavLink to={"/"}
-                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>{"Главная"}</NavLink>
+                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>Главная</NavLink>
                 </li>
                 <li className={styles.menu_item}>
                     <NavLink to={"/report"}
-                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>{"Сообщить о краже"}</NavLink>
+                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>Сообщить
+                        о краже</NavLink>
                 </li>
                 {
                     isLogin && <li className={styles.menu_item}>
                         <NavLink to={"/reports-list"}
-                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>{"Сообщения о кражах"}</NavLink>
+                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>
+                            Сообщения о кражах
+                        </NavLink>
                     </li>
                 }
                 {
                     isLogin && <li className={styles.menu_item}>
                         <NavLink to={"/employees-list"}
-                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>{"Список сотрудников"}</NavLink>
+                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>
+                            Список сотрудников
+                        </NavLink>
                     </li>
                 }
                 {
                     isLogin && <li className={styles.menu_item}>
                         <NavLink to={"/employees-new"}
-                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>{"Создать сотрудника"}</NavLink>
+                                 className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}>
+                            Создать сотрудника
+                        </NavLink>
                     </li>
                 }
 
@@ -54,16 +61,20 @@ const Header: React.FC = () => {
                     !isLogin && <li className={styles.menu_item}>
                         <NavLink
                             className={({isActive}) => isActive ? `${styles.link__active} ${styles.link}` : styles.link}
-                            to={"login"}>LogIn</NavLink>
+                            to={"login"}>
+                            LogIn
+                        </NavLink>
                     </li>
                 }
                 {
                     isLogin && <span className={styles.email}>{loggedUserEmail}</span>
                 }
                 {
-                    isLogin && <li className={styles.menu_item}>
-                        <MyLink link={"/"} callback={logout}>LogOut</MyLink>
-                    </li>
+                    isLogin && (
+                        <li className={styles.menu_item}>
+                            <MyLink link={"/"} callback={handleLogOut}>LogOut</MyLink>
+                        </li>
+                    )
                 }
             </div>
         </div>

@@ -1,10 +1,10 @@
 import React from "react"
 import {useAppDispatch} from "../../../Redux/hooks"
-import { IFormSelectProps } from "../../../types/types"
+import {IFormSelectProps} from "../../../types/types"
 import styles from "../FormInput/formInput.module.scss"
 
 
-const FormSelect: React.FC<IFormSelectProps> = ({
+const FormTypeSelect: React.FC<IFormSelectProps> = ({
                                                     label,
                                                     value,
                                                     name,
@@ -15,13 +15,16 @@ const FormSelect: React.FC<IFormSelectProps> = ({
 
     const dispatch = useAppDispatch()
 
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const fieldName = name
+        const value = event.target.value
+        action && dispatch(action({fieldName, value}))
+    }
+
     return (
         <label className={styles.label}>{label}
-            <select className={styles.input} value={value} required={required} onChange={callback ? callback : (e) => {
-                const fieldName = name
-                const value = e.target.value
-                action && dispatch(action({fieldName, value}))
-            }}>
+            <select className={styles.input} value={value} required={required}
+                    onChange={callback ? callback : handleChange}>
                 <option value={"sport"}>Sport</option>
                 <option value={"general"}>General</option>
             </select>
@@ -29,4 +32,4 @@ const FormSelect: React.FC<IFormSelectProps> = ({
     )
 }
 
-export default FormSelect
+export default FormTypeSelect

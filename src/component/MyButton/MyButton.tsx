@@ -3,7 +3,6 @@ import styles from "./myButton.module.scss"
 import { IMyButtonProps } from "../../types/types"
 
 
-
 const MyButton: React.FC<IMyButtonProps> = ({callback, children}) => {
 
     return (
