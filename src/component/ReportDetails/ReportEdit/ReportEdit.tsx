@@ -42,12 +42,12 @@ const ReportEdit: React.FC<IReportInProps> = ({report}) => {
             <form className={styles.formWrapper} onSubmit={handleSubmit}>
                 <FormStatesSelect label={"Статус сообщения:"} name={"status"} value={status}
                                   action={changeEditCaseValue} required={false}/>
-                <FormInput label={"Номер лицензии:"} type={"text"} name={"licenseNumber"} required={true}
+                <FormInput label={"Номер лицензии*:"} type={"text"} name={"licenseNumber"} required={true}
                            value={licenseNumber}
                            action={changeEditCaseValue}/>
-                <FormTypeSelect label={"Тип велосипеда:"} name={"type"} required={true} value={type}
+                <FormTypeSelect label={"Тип велосипеда*:"} name={"type"} required={true} value={type}
                                 action={changeEditCaseValue}/>
-                <FormInput label={"ФИО арендатора:"} type={"text"} name={"ownerFullName"} required={true}
+                <FormInput label={"ФИО арендатора*:"} type={"text"} name={"ownerFullName"} required={true}
                            value={ownerFullName}
                            action={changeEditCaseValue}/>
                 <FormInput label={"Цвет велосипеда:"} type={"text"} name={"color"} required={false} value={color}

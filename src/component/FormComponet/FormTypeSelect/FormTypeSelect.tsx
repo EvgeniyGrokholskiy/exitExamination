@@ -8,7 +8,6 @@ const FormTypeSelect: React.FC<IFormSelectProps> = ({
                                                     label,
                                                     value,
                                                     name,
-                                                    callback,
                                                     required,
                                                     action
                                                 }) => {
@@ -24,7 +23,7 @@ const FormTypeSelect: React.FC<IFormSelectProps> = ({
     return (
         <label className={styles.label}>{label}
             <select className={styles.input} value={value} required={required}
-                    onChange={callback ? callback : handleChange}>
+                    onChange={handleChange}>
                 <option value={"sport"}>Sport</option>
                 <option value={"general"}>General</option>
             </select>

@@ -25,6 +25,7 @@ const Login: React.FC = () => {
             {
                 isShowLogin ? <h1>Страница авторизации</h1> : <h1>Страница регистрации</h1>
             }
+            <p>Поля помеченные "*", являются обязательными к заполнению.</p>
             <div className={stales.wrapper}>
                 <div className={`${isShowLogin && stales.tab_login__active} ${stales.tab_login}`}
                      onClick={tabToggle}>{"Авторизация"}

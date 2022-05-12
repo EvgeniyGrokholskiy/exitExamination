@@ -13,7 +13,7 @@ import {
 } from "../../../Redux/selectors"
 
 
-const OfficersList:React.FC = () => {
+const OfficersList: React.FC = () => {
 
     const dispatch = useAppDispatch()
     const officersArray = useAppSelector(getAllOfficers)
@@ -36,13 +36,20 @@ const OfficersList:React.FC = () => {
 
                 <div className={styles.wrapper}>
                     {
-                        officersArray.map((officer) => <NavLink className={styles.link_to_detail}
-                                                                to={`/employees-list/${officer._id}`}><OfficerItem
-                            key={officer._id}
-                            isOnlyCard={false}
-                            officer={officer}
-                            loggedInUserId={loggedInUserId}
-                            isLoggedInUserApproved={isLoggedInUserApproved}/></NavLink>)
+                        officersArray.map((officer) => {
+                                return (
+                                    <NavLink className={styles.link_to_detail}
+                                             to={`/employees-list/${officer._id}`}>
+                                        <OfficerItem
+                                            key={officer._id}
+                                            isOnlyCard={false}
+                                            officer={officer}
+                                            loggedInUserId={loggedInUserId}
+                                            isLoggedInUserApproved={isLoggedInUserApproved}/>
+                                    </NavLink>
+                                )
+                            }
+                        )
                     }
                 </div>
             }

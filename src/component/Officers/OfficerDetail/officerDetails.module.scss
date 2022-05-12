@@ -23,27 +23,3 @@
   margin-top: 20px;
   width: 100%;
 }
-
-.back_button {
-  background-color: blue;
-  border-radius: 5px;
-  color: white;
-  display: block;
-  line-height: 35px;
-  text-decoration: none;
-  text-align: center;
-  transition: all;
-  height: 35px;
-  width: 100px;
-
-  &:hover {
-    box-shadow: 1px 1px 1px black;
-    transform: scale(1.005);
-  }
-
-  &:active {
-  }
-
-  transform: scale(0.95);
-  box-shadow: none;
-}

@@ -181,7 +181,6 @@ interface IFormCommonProps {
     name: string
     required: boolean
     action?: ActionCreatorWithPayload<{ fieldName: string, value: string | boolean | null }, string>
-    callback?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 export interface IFormTextareaProps extends IFormCommonProps {

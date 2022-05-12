@@ -27,6 +27,7 @@ const ReportDetailsContainer: React.FC = () => {
             {
                 isCaseEdit ? <h2>Редактирование отчета</h2> : <h2>Детали отчета</h2>
             }
+            <p>Поля помеченные "*", являются обязательными к заполнению.</p>
             <ReportDetails/>
         </div>
     )

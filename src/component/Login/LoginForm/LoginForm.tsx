@@ -25,11 +25,11 @@ const LoginForm: React.FC = () => {
             {
                 status === "loading" && <Loader/>
             }
-            <FormInput label={"Электронная почта:"} type={"email"} name={"email"} required={true}
+            <FormInput label={"Электронная почта*:"} type={"email"} name={"email"} required={true}
                        value={email}
                        action={changeAuthValue}
             />
-            <FormInput label={"Пароль:"} type={"password"} name={"password"} required={true}
+            <FormInput label={"Пароль*:"} type={"password"} name={"password"} required={true}
                        value={password}
                        action={changeAuthValue}
             />

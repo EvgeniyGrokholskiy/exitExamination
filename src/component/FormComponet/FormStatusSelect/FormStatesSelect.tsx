@@ -4,7 +4,7 @@ import {IFormStateSelect} from "../../../types/types"
 import styles from "../FormInput/formInput.module.scss"
 
 
-const FormStatesSelect: React.FC<IFormStateSelect> = ({label, value, name, callback, action}) => {
+const FormStatesSelect: React.FC<IFormStateSelect> = ({label, value, name, action}) => {
 
     const dispatch = useAppDispatch()
 
@@ -17,7 +17,7 @@ const FormStatesSelect: React.FC<IFormStateSelect> = ({label, value, name, callb
     return (
         <label className={styles.label}>{label}
             <select className={styles.input} value={value}
-                    onChange={callback ? callback : handleChange}>
+                    onChange={handleChange}>
                 <option value={"new"}>Новое</option>
                 <option value={"in_progress"}>В процессе</option>
                 <option value={"done"}>Закрыто</option>

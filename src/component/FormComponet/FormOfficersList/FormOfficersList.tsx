@@ -5,7 +5,7 @@ import { IFormOfficersListProps } from "../../../types/types"
 import {useAppDispatch, useAppSelector} from "../../../Redux/hooks"
 
 
-const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, callback, action, required}) => {
+const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name, action, required}) => {
 
     const dispatch = useAppDispatch()
     const officersArray = useAppSelector(getAllOfficers)
@@ -19,7 +19,7 @@ const FormOfficersList: React.FC<IFormOfficersListProps> = ({label, value, name,
 
     return (
         <label className={styles.label}>{label}
-            <select className={styles.select} required={required} value={value} onChange={callback ? callback : handleChange}>
+            <select className={styles.select} required={required} value={value} onChange={handleChange}>
                 <option value={undefined}>Выберите ответственного сотрудника</option>
                 {
                     approvedOfficers.map((officer) => {

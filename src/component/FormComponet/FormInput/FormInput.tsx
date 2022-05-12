@@ -11,7 +11,6 @@ const FormInput: React.FC<IFormInputProps> = ({
                                                   required,
                                                   checked,
                                                   value,
-                                                  callback,
                                                   action = ({fieldName, value}) => ({
                                                       type: "",
                                                       payload: {fieldName, value}
@@ -34,12 +33,12 @@ const FormInput: React.FC<IFormInputProps> = ({
                 checked === undefined &&
                 <input className={styles.input} type={type} checked={checked} name={name} value={conditionalValue}
                        required={required}
-                       onChange={callback ? callback : handleOnChange}/>
+                       onChange={handleOnChange}/>
             }
             {
                 checked !== undefined && <input className={styles.input} type={type} checked={checked} name={name}
                                                 required={required}
-                                                onChange={callback ? callback : handleOnChange}/>
+                                                onChange={handleOnChange}/>
             }
         </label>
     )

@@ -4,7 +4,7 @@ import {IFormTextareaProps} from "../../../types/types"
 import styles from "../FormInput/formInput.module.scss"
 
 
-const FormTextarea: React.FC<IFormTextareaProps> = ({label, name, required, value, callback, action}) => {
+const FormTextarea: React.FC<IFormTextareaProps> = ({label, name, required, value, action}) => {
 
     const dispatch = useAppDispatch()
 
@@ -18,7 +18,7 @@ const FormTextarea: React.FC<IFormTextareaProps> = ({label, name, required, valu
         <label className={styles.label}>{label}
             <textarea className={styles.input} name={name} value={value ? value.toString() : ""}
                       required={required}
-                      onChange={callback ? callback : handleChange}/>
+                      onChange={handleChange}/>
         </label>
     )
 }

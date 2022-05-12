@@ -3,9 +3,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
 .image {
   height: auto;
-  width: 100%;
+  max-width: 50%;
+}
+
+.back_button_container {
+  display: block;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50% ,-50%);
 }
