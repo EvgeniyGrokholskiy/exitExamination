@@ -6,17 +6,17 @@ import Login from "./component/Login/Login"
 import Page404 from "./component/404/Page404"
 import Header from "./component/Header/Header"
 import {Route, Routes} from "react-router-dom"
+import Footer from "./component/Footer/Footer"
 import {getAuthIsLogin, getBearer} from "./Redux/selectors"
 import {useAppDispatch, useAppSelector} from "./Redux/hooks"
+import ErrorMessage from "./component/ErrorMessage/Error.Message"
 import ReportCardList from "./component/ReportsList/ReportCardList"
 import OfficersList from "./component/Officers/OfficersList/OfficersList"
 import ReportFormWrapper from "./component/ReportForms/ReportFormWrapper";
 import OfficerDetails from "./component/Officers/OfficerDetail/OfficerDetails"
 import {changeAuthValue, setIsLogin, tokenVerification} from "./Redux/authSlice"
+import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer"
 import ReportDetailsContainer from "./component/ReportDetails/ReportDetailContainer/ReportDetailsContainer"
-import CreateNewOfficer from "./component/Officers/CreateNewOfficer/CreateNewOfficer";
-import ErrorMessage from "./component/ErrorMessage/Error.Message";
-import Footer from "./component/Footer/Footer";
 
 
 function App() {
