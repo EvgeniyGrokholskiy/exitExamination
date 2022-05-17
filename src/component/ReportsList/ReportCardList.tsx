@@ -30,11 +30,12 @@ const ReportCardList = () => {
                 {
                     casesArray.map((caseItem: ICaseState) => {
                         return (
-                            <NavLink className={styles.link_to_card} to={`/reports-list/${caseItem._id}`}>
+                            <NavLink key={caseItem._id} className={styles.link_to_card} to={`/reports-list/${caseItem._id}`}>
                                 <ReportsCard
-                                    key={caseItem._id} oneCase={caseItem}
+                                    oneCase={caseItem}
                                     isLoggedUserApproved={isLoggedUserApproved}
                                     handleDeleteCase={(event: React.MouseEvent<HTMLButtonElement>) => {
+                                        event.preventDefault()
                                         dispatch(deleteCase(caseItem._id))
                                     }}
                                 />

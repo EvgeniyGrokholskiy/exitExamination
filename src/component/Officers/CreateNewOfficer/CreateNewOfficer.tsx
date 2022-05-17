@@ -30,7 +30,7 @@ const CreateNewOfficer = () => {
                                action={changeNewOfficerValue}/>
                     <FormInput label={"Email*:"} type={"email"} name={"email"} required={true} value={email}
                                action={changeNewOfficerValue}/>
-                    <FormInput label={"Password*:"} type={"text"} name={"password"} required={true} value={password}
+                    <FormInput label={"Password*:"} type={"password"} name={"password"} required={true} value={password}
                                action={changeNewOfficerValue}/>
                     <FormInput label={"Доверенный сотрудник:"} type={"checkbox"} name={"approved"} required={false}
                                checked={approved} action={changeNewOfficerValue}/>

@@ -30,7 +30,7 @@ const ReportsCard: React.FC<IReportsCardProps> = ({
                 className={styles.label}>{`ФИО пользователя (арендатора велосипеда):`}</span>{` ${ownerFullName}`}
             </p>
             <p className={styles.text_block}><span
-                className={styles.label}>{`Дата кражи:`}</span>{` ${date?.slice(0, 10)}`}</p>
+                className={styles.label}>{`Дата кражи:`}</span>{date ? ` ${date?.slice(0, 10)}` : "Дата не указана"}</p>
             {
                 isLoggedUserApproved && <MyButton callback={handleDeleteCase}>Удалить</MyButton>
             }

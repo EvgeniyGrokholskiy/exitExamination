@@ -31,25 +31,27 @@ const Report: React.FC<IReportInProps> = ({report}) => {
         dispatch(getAllOfficersArray())
     }, [dispatch])
 
+    const getPlaceholder = (value: string) => value ? value : "-"
+
     if (report) {
         return (
             <table className={styles.table}>
                 <tbody>
-                    <tr>
-                        <td className={styles.table_item}>Дата создания сообщения</td>
-                        <td className={styles.table_item}>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 19)}`}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.table_item}>Статус сообщения</td>
-                        <td className={styles.table_item}>{getStatusTranslate(status)}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.table_item}>Номер лицензии</td>
-                        <td className={styles.table_item}>{licenseNumber}</td>
-                    </tr>
-                    <tr>
-                        <td className={styles.table_item}>Тип велосипеда</td>
-                        <td className={styles.table_item}>{type}</td>
+                <tr>
+                    <td className={styles.table_item}>Дата создания сообщения</td>
+                    <td className={styles.table_item}>{`${createdAt?.slice(0, 10)} ${createdAt?.slice(11, 19)}`}</td>
+                </tr>
+                <tr>
+                    <td className={styles.table_item}>Статус сообщения</td>
+                    <td className={styles.table_item}>{getStatusTranslate(status)}</td>
+                </tr>
+                <tr>
+                    <td className={styles.table_item}>Номер лицензии</td>
+                    <td className={styles.table_item}>{licenseNumber}</td>
+                </tr>
+                <tr>
+                    <td className={styles.table_item}>Тип велосипеда</td>
+                    <td className={styles.table_item}>{type}</td>
                     </tr>
                     <tr>
                         <td className={styles.table_item}>ФИО пользователя (арендатора велосипеда)</td>
@@ -61,15 +63,15 @@ const Report: React.FC<IReportInProps> = ({report}) => {
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Дата последнего обновления сообщения</td>
-                        <td className={styles.table_item}>{`${updatedAt?.slice(0, 10)} ${updatedAt?.slice(11, 19)}`}</td>
+                        <td className={styles.table_item}>{updatedAt ? `${updatedAt?.slice(0, 10)} ${updatedAt?.slice(11, 19)}` : "-"}</td>
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Цвет велосипеда</td>
-                        <td className={styles.table_item}>{color}</td>
+                        <td className={styles.table_item}>{getPlaceholder(color)}</td>
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Дата кражи</td>
-                        <td className={styles.table_item}>{`${date?.slice(0, 10)} ${date?.slice(11, 19)}`}</td>
+                        <td className={styles.table_item}>{date ? `${date?.slice(0, 10)} ${date?.slice(11, 19)}` : "-"}</td>
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Ответственный сотрудник</td>
@@ -77,11 +79,11 @@ const Report: React.FC<IReportInProps> = ({report}) => {
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Дополнительный комментарий</td>
-                        <td className={styles.table_item}>{description}</td>
+                        <td className={styles.table_item}>{getPlaceholder(description)}</td>
                     </tr>
                     <tr>
                         <td className={styles.table_item}>Завершающий комментарий</td>
-                        <td className={styles.table_item}>{resolution}</td>
+                        <td className={styles.table_item}>{getPlaceholder(resolution)}</td>
                     </tr>
                 </tbody>
             </table>

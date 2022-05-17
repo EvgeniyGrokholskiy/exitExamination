@@ -32,6 +32,15 @@ const OfficerDetails:React.FC = () => {
         idFromURL && dispatch(getOneOfficer(idFromURL))
     }, [idFromURL, dispatch])
 
+    const handleBack = () => {
+        dispatch(setOfficerEditMode(false))
+    }
+
+    const handleCancel = () => {
+        idFromURL && dispatch(getOneOfficer(idFromURL))
+        dispatch(setOfficerEditMode(false))
+    }
+
     return (
         <div className={styles.outer_wrapper}>
             {
@@ -57,12 +66,12 @@ const OfficerDetails:React.FC = () => {
                             }}>Редактировать</MyButton>
                         }
                         <MyLink link={"/employees-list"}
-                                callback={() => dispatch(setOfficerEditMode(false))}>Назад</MyLink>
+                                callback={handleBack}>Назад</MyLink>
                     </div>
                 }
             </div>
             {
-                isEditMode && <MyButton callback={() => dispatch(setOfficerEditMode(false))}>Отмена</MyButton>
+                isEditMode && <MyButton callback={handleCancel}>Отмена</MyButton>
             }
         </div>
     )

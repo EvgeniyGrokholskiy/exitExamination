@@ -30,7 +30,7 @@ const OfficersList: React.FC = () => {
             {
                 isLoading && <Loader/>
             }
-            <h1>{"Список сотрудников"}</h1>
+            <h1>Список сотрудников</h1>
             {
                 !isLoading &&
 
@@ -38,10 +38,9 @@ const OfficersList: React.FC = () => {
                     {
                         officersArray.map((officer) => {
                                 return (
-                                    <NavLink className={styles.link_to_detail}
+                                    <NavLink key={officer._id} className={styles.link_to_detail}
                                              to={`/employees-list/${officer._id}`}>
                                         <OfficerItem
-                                            key={officer._id}
                                             isOnlyCard={false}
                                             officer={officer}
                                             loggedInUserId={loggedInUserId}

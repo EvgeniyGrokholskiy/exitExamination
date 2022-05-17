@@ -5,7 +5,7 @@ import {IListItemProps} from "../../types/types"
 
 const ListItem: React.FC<IListItemProps> = ({label, value}) => {
 
-    const conditionalRender = (value: boolean | string | null) => {
+    const renderText = (value: boolean | string | null) => {
         if (typeof value === "boolean") {
             return value ? "Да" : "Нет"
         } else {
@@ -16,7 +16,7 @@ const ListItem: React.FC<IListItemProps> = ({label, value}) => {
     return (
         <div className={styles.wrapper}>
             <p className={styles.header}>{label}</p>
-            <p className={styles.text}>{conditionalRender(value)}</p>
+            <p className={styles.text}>{renderText(value)}</p>
         </div>
     )
 

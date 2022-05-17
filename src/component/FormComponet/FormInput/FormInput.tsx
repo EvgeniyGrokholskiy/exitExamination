@@ -23,7 +23,7 @@ const FormInput: React.FC<IFormInputProps> = ({
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const fieldName = event.target.name
-        const value = event.target.value
+        const value = checked !== undefined ? event.target.checked : event.target.value
         dispatch(action({fieldName, value}))
     }
 
